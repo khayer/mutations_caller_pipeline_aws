@@ -1,0 +1,8 @@
+# config_template.yml
+index_prefix: "/path/to/index_prefix/hg19"
+bwa: "bwa"
+samtools: "samtools"
+gatk: "/path/to/GenomeAnalysisTK.jar"
+annotation_file: "/path/to/annotation_file"
+index_fa: "/path/to/hg19_genome.fa"
+index_vcf: "/path/to/dbsnp_132.hg19.vcf"

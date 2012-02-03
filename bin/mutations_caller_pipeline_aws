@@ -1,0 +1,196 @@
+#!/usr/bin/env ruby
+require 'mutations_caller_pipeline, aws'
+require 'optparse'
+require 'rubygems'
+require 'yaml'
+
+usage =<<EOF
+_________________________________________________________________________________________________
+
+  #{$0}
+        -m mutant_r1.fq -n mutant_r2.fq
+        [-w wildtype_r1.fq -x wildtype_r2.fq]
+        -c config.yml -v raw_vcf_file
+        [-a account || -p project]
+_________________________________________________________________________________________________
+
+  #{$0} ...
+  ... is a tool to find mutations between the reference gene and a given test
+  population. To run this tool you must have bwa, samtools and GATK installed.
+  Also you should have the indices for bwa and GATK prepared.
+  NOTE: Only paired end reads are supported!
+
+                      +++  C L U S T E R  V E R S I O N  +++
+
+  config.yml should look like this:
+  # config.yml
+  index_prefix: "path/to/prefix"
+  annotation_file: "path/to/annotation_file"
+  bwa: "path/to/bwa"
+  samtools: "path/to/samtools"
+  gatk: "path/to/GenomeAnalysisTK.jar"
+_________________________________________________________________________________________________
+
+EOF
+
+options = { :mutant_r1 => nil,
+            :mutant_r2 => nil,
+            :wildtype_r1 => nil,
+            :wildtype_r2 => nil,
+            :index_prefix => nil,
+            :index_fa => nil,
+            :index_vcf => nil,
+            :annotation_file => nil,
+            :samtools => nil,
+            :gatk => nil,
+            :bwa => nil,
+            :vcf => nil,
+            :account => "",
+            :project => "",
+            :debug = 1,
+          }
+
+optparse = OptionParser.new do |opts|
+  opts.banner = usage
+
+  opts.on("-m", "--fwd_read_mutant DIR", :REQUIRED, String, "Path to fwd read of mutant") do |i|
+    options[:mutant_r1] = i
+  end
+
+  opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
+    options[:mutant_r2] = i
+  end
+
+  opts.on("-w", "--fwd_read_wildtype DIR", String, "Path to fwd read of wildtype, not mandatory") do |i|
+    options[:wildtype_r1] = i if i
+  end
+
+  opts.on("-x", "--rev_read_wildtype DIR", String, "Path to rev read of wildtype, not mandatory") do |i|
+    options[:wildtype_r2] = i if i
+  end
+
+  opts.on("-c", "--config DIR", String, "Set config file") do |path|
+    options.merge!(Hash[YAML::load(open(path)).map { |k, v| [k.to_sym, v] }])
+  end
+
+  opts.on("-v","--vcf [PATH]", "Output of pipeline") do |i|
+    options[:vcf] = i
+  end
+
+  opts.on("-a","--account [NAME]", "Option for qsub: -A [NAME]. Default: [none] " ) do |i|
+    options[:account] = " -A #{i}" if i
+  end
+
+  opts.on("-p","--project [NAME]", "Option for qsub: -P [NAME]. Default: [none] " ) do |i|
+    options[:project] = " -P #{i}" if i
+  end
+
+  opts.on("-d","--debug ", "Option to debug" ) do |i|
+    options[:debug] =  5 if i
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+
+begin
+  optparse.parse!
+  mandatory = [:mutant_r1, :mutant_r2, :index_prefix, :annotation_file, :bwa, :samtools, :gatk, :vcf, :index_vcf, :index_fa]
+  missing = mandatory.select{ |param| options[param].nil? }
+  if !missing.empty?
+    puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
+    puts optparse
+    exit
+  end
+rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+   puts $!.to_s
+   puts optparse
+   exit
+end
+
+# pipeline starts here
+
+# tmp files for output
+random = (rand*1000000).floor.to_s
+bam_file = "mutant_#{random}"
+job_prefix = "#{random}"
+log_file = "#{random}.log"
+target_intervals = "#{random}_target.intervals"
+realigned_bam = "#{random}_realigned.bam"
+recal_file = "#{random}_recal.csv"
+recal_bam = "#{random}_recal.bam"
+
+options[:account] = options[:project] if options[:account].empty?
+
+# BWA : First step mapping reads to reference
+BwaCaller.call_paired_end(options[:mutant_r1],
+                          options[:mutant_r2],
+                          bam_file,
+                          options[:index_prefix],
+                          log_file,
+                          options[:bwa],
+                          options[:samtools],
+                          job_prefix,
+                          options[:account],
+                          options[:debug])
+
+
+# Indexing
+bam_file = bam_file + ".bam"
+SamtoolsIndexing.call(bam_file,
+                      job_prefix,
+                      account,
+                      options[:debug])
+
+# Realigne
+GatkCaller.prepare_realigne(log_file,
+                            options[:gatk],
+                            bam_file,
+                            options[:index_fa],
+                            target_intervals,
+                            job_prefix,
+                            options[:account],
+                            options[:debug])
+
+GatkCaller.realigne(log_file,
+                    options[:gatk],
+                    bam_file,
+                    options[:index_fa],
+                    target_intervals,
+                    realigned_bam,
+                    job_prefix,
+                    options[:account],
+                    options[:debug])
+
+# Recalibration
+GatkCaller.recalibrate_bam( log_file,
+                            options[:gatk],
+                            options[:index_fa],
+                            options[:index_vcf],
+                            realigned_bam,
+                            recal_file,
+                            job_prefix,
+                            options[:account],
+                            options[:debug] )
+
+GatkCaller.table_calibration(log_file,
+                             options[:gatk],
+                             options[:index_fa],
+                             realigned_bam,
+                             recal_bam,
+                             recal_file,
+                             job_prefix,
+                             options[:account],
+                             options[:debug])
+
+# GATK: finding mutations
+GatkCaller.call(log_file,
+                options[:gatk],
+                options[:index_fa],
+                recal_bam,
+                options[:vcf],
+                job_prefix,
+                options[:account],
+                options[:debug])
