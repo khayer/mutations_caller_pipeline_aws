@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'mutations_caller_pipeline, aws'
+require 'mutations_caller_pipeline_aws'
 require 'optparse'
 require 'rubygems'
 require 'yaml'
@@ -47,7 +47,7 @@ options = { :mutant_r1 => nil,
             :vcf => nil,
             :account => "",
             :project => "",
-            :debug = 1,
+            :debug => 1,
           }
 
 optparse = OptionParser.new do |opts|
@@ -121,12 +121,36 @@ target_intervals = "#{random}_target.intervals"
 realigned_bam = "#{random}_realigned.bam"
 recal_file = "#{random}_recal.csv"
 recal_bam = "#{random}_recal.bam"
+sai_file_fwd = "#{random}_fwd.sai"
+sai_file_rev = "#{random}_rev.sai"
 
 options[:account] = options[:project] if options[:account].empty?
+
+# BWA : ALN
+BwaCaller.call_aln(options[:mutant_r1],
+                   options[:index_prefix],
+                   sai_file_fwd,
+                   log_file,
+                   options[:bwa],
+                   job_prefix,
+                   options[:account],
+                   options[:debug])
+
+BwaCaller.call_aln(options[:mutant_r2],
+                   options[:index_prefix],
+                   sai_file_rev,
+                   log_file,
+                   options[:bwa],
+                   job_prefix,
+                   options[:account],
+                   options[:debug])
+
 
 # BWA : First step mapping reads to reference
 BwaCaller.call_paired_end(options[:mutant_r1],
                           options[:mutant_r2],
+                          sai_file_fwd,
+                          sai_file_rev,
                           bam_file,
                           options[:index_prefix],
                           log_file,
@@ -141,8 +165,9 @@ BwaCaller.call_paired_end(options[:mutant_r1],
 bam_file = bam_file + ".bam"
 SamtoolsIndexing.call(bam_file,
                       job_prefix,
-                      account,
-                      options[:debug])
+                      options[:account],
+                      options[:debug],
+                      log_file)
 
 # Realigne
 GatkCaller.prepare_realigne(log_file,

@@ -44,7 +44,7 @@ options = { :bam_file_sorted => nil,
             :vcf => nil,
             :account => "",
             :project => "",
-            :debug = 1,
+            :debug => 1,
           }
 
 optparse = OptionParser.new do |opts|
@@ -107,14 +107,16 @@ realigned_bam = "#{random}_realigned.bam"
 recal_file = "#{random}_recal.csv"
 recal_bam = "#{random}_recal.bam"
 
+
 options[:account] = options[:project] if options[:account].empty?
 
 
 # Indexing
 SamtoolsIndexing.call(bam_file,
                       job_prefix,
-                      account,
-                      options[:debug])
+                      options[:account],
+                      options[:debug],
+                      log_file)
 
 # Realigne
 GatkCaller.prepare_realigne(log_file,
