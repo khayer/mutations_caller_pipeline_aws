@@ -44,7 +44,7 @@ options = { :bam_file_sorted => nil,
             :vcf => nil,
             :account => "",
             :project => "",
-            :debug => 1,
+            :debug => 1
           }
 
 optparse = OptionParser.new do |opts|
@@ -109,6 +109,7 @@ recal_bam = "#{random}_recal.bam"
 
 
 options[:account] = options[:project] if options[:account].empty?
+
 
 
 # Indexing

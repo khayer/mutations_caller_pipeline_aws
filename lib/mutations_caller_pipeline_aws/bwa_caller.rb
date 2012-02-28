@@ -1,8 +1,9 @@
 class BwaCaller
 
   def self.call_paired_end(r1, r2, sai1, sai2,  out_file, index, log_file, bwa, samtools, job_prefix,account, debug)
-    cmd = "qsub -o #{log_file} -hold_jid bwa_aln_#{job_prefix} -V -cwd -b y -N bwa_#{job_prefix} -l h_vmem=9G -pe make 3  #{account}\
-           #{bwa} sampe -r '@RG\tID:foo\tSM:bar\tPL:Illumina' #{index} \
+    dummy = "\\\\\\"
+    cmd = "qsub -o #{log_file} -hold_jid bwa_aln_#{job_prefix} -V -cwd -b y -N bwa_#{job_prefix} -l h_vmem=6G -pe make 3  #{account}\
+           #{bwa} sampe -r '@RG#{dummy}tID:foo#{dummy}tSM:bar#{dummy}tPL:Illumina' #{index} \
           #{sai1} #{sai2}  #{r1} #{r2} \
           \\| #{samtools} view -Su - \\| #{samtools} sort - #{out_file}"
     puts cmd

@@ -20,7 +20,7 @@ ________________________________________________________________________________
   Also you should have the indices for bwa and GATK prepared.
   NOTE: Only paired end reads are supported!
 
-                      +++  C L U S T E R  V E R S I O N  +++
+                      +++  C L U S T E R  V E R S I O N - 0.0.12 +++
 
   config.yml should look like this:
   # config.yml
@@ -48,6 +48,8 @@ options = { :mutant_r1 => nil,
             :account => "",
             :project => "",
             :debug => 1,
+            :cluster => false,
+            :coverage => false
           }
 
 optparse = OptionParser.new do |opts|
@@ -89,6 +91,14 @@ optparse = OptionParser.new do |opts|
     options[:debug] =  5 if i
   end
 
+  opts.on("-p","--cluster ", "On compute cluster (none AWS)" ) do |i|
+    options[:cluster] =  true
+  end
+
+  opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
+    options[:coverage] =  true
+  end
+
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -125,6 +135,7 @@ sai_file_fwd = "#{random}_fwd.sai"
 sai_file_rev = "#{random}_rev.sai"
 
 options[:account] = options[:project] if options[:account].empty?
+options[:gatk] = "java -Xmx4g -jar #{options[:gatk]}" if options[:cluster]
 
 # BWA : ALN
 BwaCaller.call_aln(options[:mutant_r1],
@@ -219,3 +230,17 @@ GatkCaller.call(log_file,
                 job_prefix,
                 options[:account],
                 options[:debug])
+
+
+# GATK : coverage
+if options[:coverage]
+  outfile_prefix = options[:vcf].gsub(/.vcf/,"_coverage")
+  GatkCaller.coverage(
+    log_file,
+    options[:gatk],
+    options[:index_fa],
+    recal_bam,
+    job_prefix,
+    options[:account],
+    options[:debug])
+end
