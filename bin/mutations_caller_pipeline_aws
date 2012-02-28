@@ -92,11 +92,11 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on("-p","--cluster ", "On compute cluster (none AWS)" ) do |i|
-    options[:cluster] =  true
+    options[:cluster] =  true if i
   end
 
   opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
-    options[:coverage] =  true
+    options[:coverage] =  true if i
   end
 
   opts.on_tail("-h", "--help", "Show this message") do
@@ -240,6 +240,7 @@ if options[:coverage]
     options[:gatk],
     options[:index_fa],
     recal_bam,
+    outfile_prefix,
     job_prefix,
     options[:account],
     options[:debug])
