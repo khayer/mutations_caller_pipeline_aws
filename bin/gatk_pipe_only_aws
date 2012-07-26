@@ -11,6 +11,7 @@ ________________________________________________________________________________
         -b sorted_bam_file
         -c config.yml -v raw_vcf_file
         [-a account || -p project]
+        -s SampleSheet.csv
 
 _________________________________________________________________________________________________
 
@@ -44,7 +45,8 @@ options = { :bam_file_sorted => nil,
             :vcf => nil,
             :account => "",
             :project => "",
-            :debug => 1
+            :debug => 1,
+            :samplesheet => nil
           }
 
 optparse = OptionParser.new do |opts|
@@ -74,6 +76,10 @@ optparse = OptionParser.new do |opts|
     options[:debug] =  5 if i
   end
 
+  opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
+    options[:samplesheet] = i
+  end
+
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -82,7 +88,8 @@ end
 
 begin
   optparse.parse!
-  mandatory = [:bam_file_sorted, :index_prefix, :annotation_file, :bwa, :samtools, :gatk, :vcf, :index_vcf, :index_fa]
+  mandatory = [:samplesheet, :bam_file_sorted, :index_prefix, :annotation_file,
+    :bwa, :samtools, :gatk, :vcf, :index_vcf, :index_fa]
   missing = mandatory.select{ |param| options[param].nil? }
   if !missing.empty?
     puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
@@ -112,7 +119,7 @@ options[:account] = options[:project] if options[:account].empty?
 
 
 
-# Indexing
+# Indexing + Mark Duplicates
 SamtoolsIndexing.call(bam_file,
                       job_prefix,
                       options[:account],
