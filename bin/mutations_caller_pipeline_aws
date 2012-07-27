@@ -3,6 +3,7 @@ require 'mutations_caller_pipeline_aws'
 require 'optparse'
 require 'rubygems'
 require 'yaml'
+require 'csv'
 
 usage =<<EOF
 _________________________________________________________________________________________________
@@ -111,6 +112,11 @@ optparse = OptionParser.new do |opts|
     options[:dbsnp_file] = i
   end
 
+  opts.on("-b", "--sample_name Name", :REQUIRED, String, "Sample name / SampleID") do |i|
+    options[:sample_name] = i
+  end
+
+
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -120,7 +126,7 @@ end
 begin
   optparse.parse!
   mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :index_prefix,
-    :annotation_file, :bwa, :samtools, :gatk, :vcf, :index_vcf,
+    :annotation_file, :bwa, :samtools, :gatk, :vcf, :index_vcf, :sample_name,
     :index_fa]
   missing = mandatory.select{ |param| options[param].nil? }
   if !missing.empty?
@@ -146,7 +152,7 @@ def run(options)
   job_number = options[:job_number]
   bam_file = "aligned_#{job_number}.bam"
   bam_file_sorted = "sorted_#{job_number}.bam"
-  bam_file_sorted_dublicates = options[:output_dir]
+  bam_file_sorted_dublicates = options[:step_one_bam_file]
   dublicate_metrcis = "dublicate_#{job_number}.metrics"
   job_prefix = "#{job_number}"
   log_file = "#{job_number}.log"
@@ -158,7 +164,7 @@ def run(options)
 
   cmd = PicardCaller.rg_and_sorting(bam_file, bam_file_sorted, options[:picard_tools],
     options[:library], options[:index], options[:sample_name],
-    log_file, job_prefix, options[:account])
+    log_file, options[:id], options[:account])
 
   execute(cmd)
 
@@ -177,17 +183,32 @@ end
 
 # pipeline starts here
 
+# get information from sample sheet
+CSV.foreach(options[:samplesheet],{:headers => :first_row}) do |row|
+  if sample_name = row["SampleID"]
+    options[:index] = row["Index"]
+    lane = row["Lane"]
+    sample_project = row["SampleProject"]
+    options[:id] = "#{sample_project}_#{lane}"
+    options[:library] = row["FCID"]
+  end
+end
+
+
+
 
 
 # tmp files for output
 random = (rand*1000000).floor.to_s
+options[:sam_file] = "#{sample_name}_#{random}.sam"
+options[:step_one_bam_file] = "#{sample_name}_#{random}.bam"
 bam_file = "mutant_#{random}.bam"
 job_prefix = "#{random}"
 log_file = "#{random}.log"
 target_intervals = "#{random}_target.intervals"
 realigned_bam = "#{random}_realigned.bam"
 recal_file = "#{random}_recal.csv"
-recal_bam = "#{random}_recal.bam"
+recal_bam = "#{sample_name}.bam"
 sai_file_fwd = "#{random}_fwd.sai"
 sai_file_rev = "#{random}_rev.sai"
 
@@ -219,7 +240,7 @@ BwaCaller.call_paired_end(options[:mutant_r1],
                           options[:mutant_r2],
                           sai_file_fwd,
                           sai_file_rev,
-                          bam_file,
+                          options[:sam_file],
                           options[:index_prefix],
                           log_file,
                           options[:bwa],
@@ -241,7 +262,7 @@ run(options)
 # Realigne
 GatkCaller.prepare_realigne(log_file,
                             options[:gatk],
-                            bam_file,
+                            options[:step_one_bam_file],
                             options[:index_fa],
                             target_intervals,
                             job_prefix,
@@ -250,7 +271,7 @@ GatkCaller.prepare_realigne(log_file,
 
 GatkCaller.realigne(log_file,
                     options[:gatk],
-                    bam_file,
+                    options[:step_one_bam_file],
                     options[:index_fa],
                     target_intervals,
                     realigned_bam,
@@ -287,6 +308,7 @@ GatkCaller.call(log_file,
                 options[:vcf],
                 job_prefix,
                 options[:account],
+                options[:dbsnp_file],
                 options[:debug])
 
 
