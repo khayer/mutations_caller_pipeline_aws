@@ -1,7 +1,7 @@
 class GatkCaller
   # INDEX is normal genom.fa
   # Genotyper
-  def self.call(log_dir, gatk, index_fa, read_bam, read_vcf, job_prefix, account,dbsnp_file debug)
+  def self.call(log_dir, gatk, index_fa, read_bam, read_vcf, job_prefix, account,dbsnp_file, debug)
     cmd = "echo 'starting GATK for mutant at ' `date` >> #{log_dir}
       qsub -o #{log_dir} -V -cwd -b y -N genotyper_#{job_prefix} -l h_vmem=4.5G -hold_jid recalibration_#{job_prefix} #{account}\
       #{gatk} -l INFO -R #{index_fa} -T UnifiedGenotyper \
@@ -18,14 +18,14 @@ class GatkCaller
     cmd = "echo 'starting coverage GATK for mutant at ' `date` >> #{log_dir}
       qsub -o #{log_dir} -V -cwd -b y -N genotyper_#{job_prefix} -l h_vmem=4.5G -hold_jid recalibration_#{job_prefix} #{account}\
       #{gatk} -R #{index_fa} -T DepthOfCoverage \
-      -I #{read_bam} \
-      -o #{outfile_prefix} "
+      -I #{read_bam} --omitDepthOutputAtEachBase \
+      -o #{outfile_prefix} --omitIntervalStatistics --omitLocusTable"
     puts cmd
     system(cmd) if debug == 1
   end
 
   # Making recalibration table
-  def self.recalibrate_bam(log_dir ,gatk, index_vcf, read_bam, recal_file, job_prefix, account, dbsnp_file, debug )
+  def self.recalibrate_bam(log_dir ,gatk, index_fa, read_bam, recal_file, job_prefix, account, dbsnp_file, debug )
     cmd = "echo 'starting recalibration table ' `date` >> #{log_dir}
       qsub -o #{log_dir} -V -cwd -b y -N recalibration_table_#{job_prefix} -l h_vmem=4.5G  -hold_jid realignment_#{job_prefix} #{account} \
       #{gatk} -knownSites #{dbsnp_file} -I #{read_bam} \
@@ -52,6 +52,7 @@ class GatkCaller
   end
 
   # Preparation realignement
+
   def self.prepare_realigne(log_dir, gatk, read_bam, index_fa, target_intervals, job_prefix, account, dbsnp_file, debug)
     cmd = "echo 'preparing realignement at ' `date` >> #{log_dir}
       qsub -o #{log_dir} -V -cwd -b y -N prep_realignment_#{job_prefix} -l h_vmem=4.5G -hold_jid indexing_#{job_prefix} #{account}\

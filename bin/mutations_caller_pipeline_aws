@@ -96,7 +96,7 @@ optparse = OptionParser.new do |opts|
     options[:debug] =  5 if i
   end
 
-  opts.on("-p","--cluster ", "On compute cluster (none AWS)" ) do |i|
+  opts.on("-k","--cluster ", "On compute cluster (none AWS)" ) do |i|
     options[:cluster] =  true if i
   end
 
@@ -160,24 +160,40 @@ def run(options)
   cmd = PicardCaller.convert(options[:sam_file], bam_file, options[:picard_tools],
     log_file, job_prefix, options[:account])
 
-  execute(cmd)
+  if options[:debug] == 1
+    execute(cmd)
+  else
+    puts cmd
+  end
 
   cmd = PicardCaller.rg_and_sorting(bam_file, bam_file_sorted, options[:picard_tools],
     options[:library], options[:index], options[:sample_name],
-    log_file, options[:id], options[:account])
+    log_file, options[:id], job_prefix, options[:account])
 
-  execute(cmd)
+  if options[:debug] == 1
+    execute(cmd)
+  else
+    puts cmd
+  end
 
   cmd = PicardCaller.mark_dublicates(bam_file_sorted, bam_file_sorted_dublicates,
     dublicate_metrcis, options[:picard_tools], log_file, job_prefix,
     options[:account])
 
-  execute(cmd)
+  if options[:debug] == 1
+    execute(cmd)
+  else
+    puts cmd
+  end
 
   cmd = PicardCaller.build_index(bam_file_sorted_dublicates,
     options[:picard_tools], log_file, job_prefix, options[:account])
 
-  execute(cmd)
+  if options[:debug] == 1
+    execute(cmd)
+  else
+    puts cmd
+  end
 end
 
 
@@ -200,6 +216,7 @@ end
 
 # tmp files for output
 random = (rand*1000000).floor.to_s
+sample_name = options[:sample_name]
 options[:sam_file] = "#{sample_name}_#{random}.sam"
 options[:step_one_bam_file] = "#{sample_name}_#{random}.bam"
 bam_file = "mutant_#{random}.bam"
@@ -267,7 +284,9 @@ GatkCaller.prepare_realigne(log_file,
                             target_intervals,
                             job_prefix,
                             options[:account],
+                            options[:dbsnp_file],
                             options[:debug])
+
 
 GatkCaller.realigne(log_file,
                     options[:gatk],
@@ -283,11 +302,11 @@ GatkCaller.realigne(log_file,
 GatkCaller.recalibrate_bam( log_file,
                             options[:gatk],
                             options[:index_fa],
-                            options[:index_vcf],
                             realigned_bam,
                             recal_file,
                             job_prefix,
                             options[:account],
+                            options[:dbsnp_file],
                             options[:debug] )
 
 GatkCaller.table_calibration(log_file,

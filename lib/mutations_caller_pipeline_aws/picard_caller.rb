@@ -6,7 +6,7 @@ class PicardCaller
   end
 
   #rg_and_sorting = "java -jar -Xmx3g ~/Downloads/picard-tools-1.56/picard-tools-1.56/AddOrReplaceReadGroups.jar I=WT_aligned.bam O=WT_aligned_sorted_rg.bam SO=coordinate ID=15 LB=nina_library PL=Illumina PU=ATCATC SM=My_test VALIDATION_STRINGENCY=LENIENT"
-  def self.rg_and_sorting(bam_file, bam_file_sorted, picard_tools, library, index, sample_name, log_file, id, account)
+  def self.rg_and_sorting(bam_file, bam_file_sorted, picard_tools, library, index, sample_name, log_file, id, job_prefix, account)
     cmd = "qsub -o #{log_file} -V -cwd -b y -hold_jid convert_#{job_prefix} -N sort_#{job_prefix} -l h_vmem=4G #{account} \
       java -jar -Xmx3g #{picard_tools}/AddOrReplaceReadGroups.jar I=#{bam_file} O=#{bam_file_sorted} SO=coordinate ID=#{id} \
       LB=#{library} PL=Illumina PU=#{index} SM=#{sample_name} VALIDATION_STRINGENCY=LENIENT"
