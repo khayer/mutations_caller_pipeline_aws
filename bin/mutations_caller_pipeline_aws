@@ -221,6 +221,7 @@ options[:sam_file] = "#{sample_name}_#{random}.sam"
 options[:step_one_bam_file] = "#{sample_name}_#{random}.bam"
 bam_file = "mutant_#{random}.bam"
 job_prefix = "#{random}"
+options[:job_number] = job_prefix
 log_file = "#{random}.log"
 target_intervals = "#{random}_target.intervals"
 realigned_bam = "#{random}_realigned.bam"
