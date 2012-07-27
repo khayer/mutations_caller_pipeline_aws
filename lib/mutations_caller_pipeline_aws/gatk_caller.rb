@@ -55,7 +55,7 @@ class GatkCaller
 
   def self.prepare_realigne(log_dir, gatk, read_bam, index_fa, target_intervals, job_prefix, account, dbsnp_file, debug)
     cmd = "echo 'preparing realignement at ' `date` >> #{log_dir}
-      qsub -o #{log_dir} -V -cwd -b y -N prep_realignment_#{job_prefix} -l h_vmem=4.5G -hold_jid indexing_#{job_prefix} #{account}\
+      qsub -o #{log_dir} -V -cwd -b y -N prep_realignment_#{job_prefix} -l h_vmem=4.5G -hold_jid index_#{job_prefix} #{account}\
       #{gatk} \
       -I #{read_bam} --known #{dbsnp_file} \
       -R #{index_fa} \

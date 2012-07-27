@@ -1,7 +1,7 @@
 class PicardCaller
   #converter = "java -jar ~/Downloads/picard-tools-1.56/picard-tools-1.56/SamFormatConverter.jar I=WT_aligned_sorted_rg.bam O=tmp.sam VALIDATION_STRINGENCY=LENIENT"
   def self.convert(sam_file, bam_file, picard_tools, log_file, job_prefix, account)
-    cmd = "qsub -o #{log_file} -V -cwd -b y -hold_jid bwa_#{job_prefix} -N convert_#{job_prefix} -l h_vmem=2G #{account} \
+    cmd = "qsub -o #{log_file} -V -cwd -b y -hold_jid bwa_aln_#{job_prefix} -N convert_#{job_prefix} -l h_vmem=2G #{account} \
       java -jar #{picard_tools}/SamFormatConverter.jar I=#{sam_file} O=#{bam_file} VALIDATION_STRINGENCY=LENIENT"
   end
 
