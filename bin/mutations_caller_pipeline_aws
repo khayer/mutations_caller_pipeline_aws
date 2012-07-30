@@ -205,7 +205,7 @@ CSV.foreach(options[:samplesheet],{:headers => :first_row}) do |row|
     options[:index] = row["Index"]
     lane = row["Lane"]
     sample_project = row["SampleProject"]
-    options[:id] = "#{sample_project}_#{lane}"
+    options[:id] = "#{sample_project}_#{lane}_#{sample_name}"
     options[:library] = row["FCID"]
   end
 end
