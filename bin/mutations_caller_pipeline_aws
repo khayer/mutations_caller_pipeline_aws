@@ -231,7 +231,7 @@ sai_file_fwd = "#{random}_fwd.sai"
 sai_file_rev = "#{random}_rev.sai"
 
 options[:account] = options[:project] if options[:account].empty?
-options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
+#options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
 
 # BWA : ALN
 BwaCaller.call_aln(options[:mutant_r1],
