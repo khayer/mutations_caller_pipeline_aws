@@ -27,10 +27,8 @@ class GatkCaller
   def self.recalibrate_bam(log_dir ,gatk, index_fa, read_bam, recal_file, job_prefix, account, dbsnp_file, debug )
     cmd = "qsub -pe DJ 4 -o #{log_dir} -e recalibrate_errors_#{log_dir} -V -cwd -b y -N recalibration_table_#{job_prefix} -l h_vmem=6G  -hold_jid realignment_#{job_prefix} #{account} \
       java -Xmx6g -jar #{gatk} -knownSites #{dbsnp_file} -I #{read_bam} \
-      -R #{index_fa} -T CountCovariates -nt 4 \
-      -cov ReadGroupCovariate -cov QualityScoreCovariate -cov DinucCovariate \
-      -cov CycleCovariate \
-      -recalFile #{recal_file}"
+      -R #{index_fa} -T BaseRecalibrator -nt 4 \
+      -o #{recal_file}"
     puts cmd
     system(cmd) if debug == 1
   end
@@ -42,9 +40,9 @@ class GatkCaller
       java -Xmx6g -jar #{gatk} \
       -R #{index_fa} \
       -I #{read_bam} \
-      -T TableRecalibration \
+      -T PrintReads \
       -o #{recal_bam} \
-      -recalFile #{recal_file}"
+      -BQSR #{recal_file}"
     puts cmd
     system(cmd) if debug == 1
   end
