@@ -10,7 +10,6 @@ ________________________________________________________________________________
 
   #{$0}
         -m mutant_r1.fq -n mutant_r2.fq
-        [-w wildtype_r1.fq -x wildtype_r2.fq]
         -c config.yml -v raw_vcf_file
         [-a account || -p project]
         -s SampleSheet.csv
@@ -39,8 +38,6 @@ EOF
 
 options = { :mutant_r1 => nil,
             :mutant_r2 => nil,
-            :wildtype_r1 => nil,
-            :wildtype_r2 => nil,
             :index_prefix => nil,
             :index_fa => nil,
             :index_vcf => nil,
@@ -52,7 +49,6 @@ options = { :mutant_r1 => nil,
             :account => "",
             :project => "",
             :debug => 1,
-            :cluster => false,
             :coverage => false,
             :samplesheet => nil
           }
@@ -66,14 +62,6 @@ optparse = OptionParser.new do |opts|
 
   opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
     options[:mutant_r2] = i
-  end
-
-  opts.on("-w", "--fwd_read_wildtype DIR", String, "Path to fwd read of wildtype, not mandatory") do |i|
-    options[:wildtype_r1] = i if i
-  end
-
-  opts.on("-x", "--rev_read_wildtype DIR", String, "Path to rev read of wildtype, not mandatory") do |i|
-    options[:wildtype_r2] = i if i
   end
 
   opts.on("-c", "--config DIR", String, "Set config file") do |path|
@@ -96,10 +84,6 @@ optparse = OptionParser.new do |opts|
     options[:debug] =  5 if i
   end
 
-  opts.on("-k","--cluster ", "On compute cluster (none AWS)" ) do |i|
-    options[:cluster] =  true if i
-  end
-
   opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
     options[:coverage] =  true if i
   end
@@ -115,7 +99,6 @@ optparse = OptionParser.new do |opts|
   opts.on("-b", "--sample_name Name", :REQUIRED, String, "Sample name / SampleID") do |i|
     options[:sample_name] = i
   end
-
 
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
