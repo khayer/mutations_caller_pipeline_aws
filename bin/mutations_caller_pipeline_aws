@@ -4,6 +4,13 @@ require 'optparse'
 require 'rubygems'
 require 'yaml'
 require 'csv'
+=begin
+  * Name: Mutations Caller Pipeline (AWS)
+  * Pipeline combining bwa with GATK2
+  * Author: Katharina Hayer
+  * Date: 8/8/2012
+  * License: GNU General Public License (GPL-2.0)
+=end
 
 usage =<<EOF
 _________________________________________________________________________________________________
