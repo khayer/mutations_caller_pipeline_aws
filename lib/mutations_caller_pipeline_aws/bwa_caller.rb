@@ -10,8 +10,8 @@ class BwaCaller
   end
 
   def self.call_aln(read, index, out_file, log_file, bwa, job_prefix, account,debug)
-    cmd = "qsub -o #{log_file} -e #{log_file}_bwa_aln_errors -V -cwd -b y -N bwa_aln_#{job_prefix} -l h_vmem=4G #{account} \
-           #{bwa} aln -f #{out_file} #{index} #{read} "
+    cmd = "qsub -pe DJ 8 -o #{log_file} -e #{log_file}_bwa_aln_errors -V -cwd -b y -N bwa_aln_#{job_prefix} -l h_vmem=4G #{account} \
+           #{bwa} aln -t 8 -f #{out_file} #{index} #{read} "
     puts cmd
     system(cmd) if debug == 1
   end
