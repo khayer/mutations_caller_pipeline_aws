@@ -4,6 +4,27 @@ This pipeline was created to automate several steps in the first part of a seque
 
 Unfortunately this is only a first edition, which is fully functional but poorly tested and the pipeline can not restart itself if there happens to be any errors.
 
-= License
+== License
 
 This source code is licensed under the GNU General Public License (GPL-2.0) (http://opensource.org/licenses/gpl-2.0.php).
+
+== Install
+
+The easiest is probably to install it via RubyGems, where you can just type
+
+  % gem install mutataions_caller_pipeline_aws
+
+=== An alternative way ...
+
+... would be to clone the master branch in a desired directory:
+
+  % git clone git://github.com/khayer/mutations_caller_pipeline_aws.git
+
+To install the gem you will now need to type
+
+  % cd mutations_caller_pipeline_aws
+  % rake
+
+== Config File
+
+This file should be in the ruby .yml format.
