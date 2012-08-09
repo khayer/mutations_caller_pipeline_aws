@@ -33,7 +33,7 @@ ________________________________________________________________________________
 
   config.yml should look like this:
   # config.yml
-  index_prefix: "path/to/prefix"
+  bwa_prefix: "path/to/prefix"
   picard_tools: "path/to/picard_tools/"
   bwa: "path/to/bwa"
   samtools: "path/to/samtools"
@@ -42,20 +42,22 @@ ________________________________________________________________________________
 
 EOF
 
-options = {:mutant_r1 => nil, :mutant_r2 => nil, :index_prefix => nil,
-  :index_fa => nil, :index_vcf => nil, :samtools => nil, :gatk => nil,
-  :bwa => nil, :vcf => nil, :account => "", :project => "", :debug => 1,
-  :coverage => false, :samplesheet => nil}
+options = {:fastq_fwd => "", :fastq_rev => "", :bwa_prefix => nil,
+    :index_fa => nil, :index_vcf => nil, :samtools => nil, :gatk => nil,
+    :bwa => "", :vcf => nil, :account => "", :project => "", :debug => 1,
+    :coverage => false, :samplesheet => nil, :log_file => "",
+    :job_prefix => "", :debug => 1, :sai_fwd => "",
+    :sai_rev => "", , :sam_file => ""}
 
 optparse = OptionParser.new do |opts|
   opts.banner = usage
 
   opts.on("-m", "--fwd_read_mutant DIR", :REQUIRED, String, "Path to fwd read of mutant") do |i|
-    options[:mutant_r1] = i
+    options[:fastq_fwd] = i
   end
 
   opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
-    options[:mutant_r2] = i
+    options[:fastq_rev] = i
   end
 
   opts.on("-c", "--config DIR", String, "Set config file") do |path|

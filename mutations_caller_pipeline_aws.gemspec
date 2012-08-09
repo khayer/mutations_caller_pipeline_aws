@@ -15,4 +15,9 @@ Gem::Specification.new do |s|
   s.executables   << 'mutations_caller_pipeline_aws'
   s.executables   << 'gatk_pipe_only_aws'
   #s.require_paths =  ["lib"]
+
+
 end
+
+
+
