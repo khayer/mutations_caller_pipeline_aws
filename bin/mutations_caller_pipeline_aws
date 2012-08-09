@@ -34,8 +34,7 @@ ________________________________________________________________________________
 
   config.yml should look like this:
   # config.yml
-  index_prefix: "path/to/prefix"
-  annotation_file: "path/to/annotation_file"
+  bwa_prefix: "path/to/prefix"
   picard_tools: "path/to/picard_tools/"
   bwa: "path/to/bwa"
   samtools: "path/to/samtools"
@@ -132,9 +131,8 @@ end
 
 begin
   optparse.parse!
-  mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :index_prefix,
-    :annotation_file, :bwa, :samtools, :gatk, :vcf, :index_vcf, :sample_name,
-    :index_fa]
+  mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_prefix,
+    :bwa, :samtools, :gatk, :vcf, :index_vcf, :sample_name, :index_fa]
   missing = mandatory.select{ |param| options[param].nil? }
   if !missing.empty?
     puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
@@ -242,7 +240,7 @@ options[:account] = options[:project] if options[:account].empty?
 
 # BWA : ALN
 BwaCaller.call_aln(options[:mutant_r1],
-                   options[:index_prefix],
+                   options[:bwa_prefix],
                    sai_file_fwd,
                    log_file,
                    options[:bwa],
@@ -251,7 +249,7 @@ BwaCaller.call_aln(options[:mutant_r1],
                    options[:debug])
 
 BwaCaller.call_aln(options[:mutant_r2],
-                   options[:index_prefix],
+                   options[:bwa_prefix],
                    sai_file_rev,
                    log_file,
                    options[:bwa],
@@ -266,7 +264,7 @@ BwaCaller.call_paired_end(options[:mutant_r1],
                           sai_file_fwd,
                           sai_file_rev,
                           options[:sam_file],
-                          options[:index_prefix],
+                          options[:bwa_prefix],
                           log_file,
                           options[:bwa],
                           options[:samtools],
