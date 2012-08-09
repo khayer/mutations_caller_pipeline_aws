@@ -4,6 +4,13 @@ require 'optparse'
 require 'rubygems'
 require 'yaml'
 require 'csv'
+=begin
+  * Name: Mutations Caller Pipeline (AWS)
+  * Pipeline combining bwa with GATK2
+  * Author: Katharina Hayer
+  * Date: 8/8/2012
+  * License: GNU General Public License (GPL-2.0)
+=end
 
 usage =<<EOF
 _________________________________________________________________________________________________
@@ -22,7 +29,7 @@ ________________________________________________________________________________
   Also you should have the indices for bwa and GATK prepared.
   NOTE: Only paired end reads are supported!
 
-                      +++  C L U S T E R  V E R S I O N - 0.0.14 +++
+                      +++  C L U S T E R  V E R S I O N - 0.0.15 +++
 
   config.yml should look like this:
   # config.yml
@@ -136,9 +143,9 @@ def run(options)
   bam_file = "aligned_#{job_number}.bam"
   bam_file_sorted = "sorted_#{job_number}.bam"
   bam_file_sorted_dublicates = options[:step_one_bam_file]
-  dublicate_metrcis = "dublicate_#{job_number}.metrics"
+  dublicate_metrcis = "GATK_files/dublicate.metrics"
   job_prefix = "#{job_number}"
-  log_file = "#{job_number}.log"
+  log_file = "log/#{options[:sample_name]}.log"
 
   cmd = PicardCaller.convert(options[:sam_file], bam_file, options[:picard_tools],
     log_file, job_prefix, options[:account])
@@ -193,9 +200,9 @@ CSV.foreach(options[:samplesheet],{:headers => :first_row}) do |row|
   end
 end
 
-
-
-
+# Create Dir to not overcluster output folder
+Dir.mkdir("GATK_files") unless File.exists?("GATK_files")
+Dir.mkdir("log") unless File.exists?("log")
 
 # tmp files for output
 random = (rand*1000000).floor.to_s
@@ -205,16 +212,16 @@ options[:step_one_bam_file] = "#{sample_name}_#{random}.bam"
 bam_file = "mutant_#{random}.bam"
 job_prefix = "#{random}"
 options[:job_number] = job_prefix
-log_file = "#{random}.log"
-target_intervals = "#{random}_target.intervals"
+log_file = "log/#{sample_name}.log"
+target_intervals = "GATK_files/target.intervals"
 realigned_bam = "#{random}_realigned.bam"
-recal_file = "#{random}_recal.csv"
+recal_file = "GATK_files/recal.grp"
 recal_bam = "#{sample_name}.bam"
 sai_file_fwd = "#{random}_fwd.sai"
 sai_file_rev = "#{random}_rev.sai"
 
 options[:account] = options[:project] if options[:account].empty?
-options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
+#options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
 
 # BWA : ALN
 BwaCaller.call_aln(options[:mutant_r1],

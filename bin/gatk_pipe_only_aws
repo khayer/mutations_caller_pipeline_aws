@@ -4,6 +4,13 @@ require 'optparse'
 require 'rubygems'
 require 'yaml'
 
+###
+#   NOT FUNTIONAL ANYMORE
+###
+
+
+
+
 usage =<<EOF
 _________________________________________________________________________________________________
 
