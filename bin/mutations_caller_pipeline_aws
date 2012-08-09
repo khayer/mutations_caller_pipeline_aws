@@ -47,7 +47,7 @@ options = {:fastq_fwd => "", :fastq_rev => "", :bwa_prefix => nil,
     :bwa => "", :vcf => nil, :account => "", :project => "", :debug => 1,
     :coverage => false, :samplesheet => nil, :log_file => "",
     :job_prefix => "", :debug => 1, :sai_fwd => "",
-    :sai_rev => "", , :sam_file => ""}
+    :sai_rev => "", :sam_file => ""}
 
 optparse = OptionParser.new do |opts|
   opts.banner = usage

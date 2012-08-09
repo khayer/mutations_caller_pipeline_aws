@@ -30,7 +30,7 @@ class BwaCaller < Caller
   def call_aln(fastq_file, sai_file)
     cmd = "qsub -pe DJ 8 -o #{@log_file} -e #{@log_file}_bwa_aln_errors \
      -V -cwd -b y -N bwa_aln_#{@job_prefix} -l h_vmem=4G #{@account} \
-     #{@bwa} aln -t 8 -f #{sai_file} #{@index} #{fastq_file} "
+     #{@bwa} aln -t 8 -f #{sai_file} #{@index} #{fastq_file}"
   end
 
 end
