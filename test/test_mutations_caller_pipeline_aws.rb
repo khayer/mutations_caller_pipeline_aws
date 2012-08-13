@@ -1,13 +1,11 @@
 require 'test/unit'
 require 'mutations_caller_pipeline_aws'
 require 'rubygems'
-#require 'minitest/autorun'
 require 'redgreen'
 
 class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
   def setup
-    @options = {:mutant_r1 => nil, :mutant_r2 => nil, :index_prefix => nil,
-    :index_fa => "HG19.fa", :index_vcf => nil, :samtools => nil, :gatk => "GATK",
+    @options = {:index_fa => "HG19.fa", :index_vcf => nil, :samtools => nil,
     :bwa => "BWA", :vcf => nil, :account => "", :project => "", :debug => 1,
     :coverage => false, :samplesheet => nil, :log_file => "log_file",
     :job_prefix => "12345", :debug => 1, :sai_fwd => "sai_fwd",
@@ -19,7 +17,8 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     :dublicate_metrics => "dublicate.metrics", :bwa_prefix => "HG19",
     :dbsnp_file => "dbsnp.vcf", :realigned_bam => "realigned.bam",
     :recal_grp => "recal_data.grp", :final_bam => "final.bam",
-    :coverage_prefix => "coverage", :target_intervals => "target.intervals"
+    :coverage_prefix => "coverage", :target_intervals => "target.intervals",
+    :gatk => "GATK"
   }
   end
 
@@ -63,8 +62,16 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     assert_equal("qsub -o log_file -e log_file_coverage_errors -V -cwd -b y      -N coverage_12345 -l h_vmem=7G -hold_jid recal_12345       java -Xmx6g -jar GATK -R HG19.fa -T DepthOfCoverage      -I final.bam --omitDepthOutputAtEachBase -o coverage      --omitIntervalStatistics --omitLocusTable",k)
   end
 
-  def test_create_location_file
+  def test_structurer
+    l = Structurer.new()
+    l.structure_paths()
+    assert(File.exist?("log"))
+    assert(File.exist?("GATK_files"))
+  end
 
+  def teardown
+    Dir.delete("GATK_files") if File.exists?("GATK_files")
+    Dir.delete("log") if File.exists?("log")
   end
 
 end

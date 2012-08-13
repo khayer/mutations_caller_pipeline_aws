@@ -10,7 +10,6 @@ require 'mutations_caller_pipeline_aws'
 require 'optparse'
 require 'rubygems'
 require 'yaml'
-require 'csv'
 
 usage =<<EOF
 _________________________________________________________________________________________________
