@@ -7,7 +7,7 @@ require 'redgreen'
 class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
   def setup
     @options = {:mutant_r1 => nil, :mutant_r2 => nil, :index_prefix => nil,
-    :index_fa => nil, :index_vcf => nil, :samtools => nil, :gatk => nil,
+    :index_fa => "HG19.fa", :index_vcf => nil, :samtools => nil, :gatk => "GATK",
     :bwa => "BWA", :vcf => nil, :account => "", :project => "", :debug => 1,
     :coverage => false, :samplesheet => nil, :log_file => "log_file",
     :job_prefix => "12345", :debug => 1, :sai_fwd => "sai_fwd",
@@ -15,8 +15,11 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     :fastq_rev => "fastq_rev", :sam_file => "sam", :bam_file => "XY.bam",
     :bam_file_sorted => "XY_sorted.bam", :index => "ATGATC",
     :bam_file_sorted_dublicates => "XY_dubli.bam", :library => "Nugen",
-    :picard_tools => "PICARD", :sample_name => "XY",
-    :dublicate_metrics => "dublicate.metrics", :bwa_prefix => "HG19"
+    :picard_tools => "PICARD", :sample_name => "XY", :vcf => "file.vcf",
+    :dublicate_metrics => "dublicate.metrics", :bwa_prefix => "HG19",
+    :dbsnp_file => "dbsnp.vcf", :realigned_bam => "realigned.bam",
+    :recal_grp => "recal_data.grp", :final_bam => "final.bam",
+    :coverage_prefix => "coverage", :target_intervals => "target.intervals"
   }
   end
 
@@ -45,7 +48,19 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
   end
 
   def test_gatk_caller
-
+    l = GatkCaller.new(@options)
+    k = l.prepare_realign()
+    assert_equal("qsub -pe DJ 6 -o log_file -e log_file_prep_realign_errors      -V -cwd -b y -N prep_realignment_12345 -l h_vmem=6G -hold_jid      index_12345  java -Xmx6g -jar GATK -nt 6      -I XY_dubli.bam --known dbsnp.vcf -R HG19.fa      -T RealignerTargetCreator -o target.intervals",k)
+    k = l.realign()
+    assert_equal("qsub -o log_file -e log_file_realign_errors -V -cwd -b y      -N realignment_12345 -l h_vmem=7G -hold_jid      prep_realignment_12345  java -Xmx6g -jar GATK      -I XY_dubli.bam -R HG19.fa -T IndelRealigner      -targetIntervals target.intervals -o realigned.bam",k)
+    k = l.prep_recalibration()
+    assert_equal("qsub -pe DJ 6 -o log_file -e log_file_prep_recal_errors -V      -cwd -b y -N prep_recal_12345 -l h_vmem=6G -hold_jid      realignment_12345  java -Xmx6g -jar GATK      -knownSites dbsnp.vcf -I realigned.bam -R HG19.fa -T      BaseRecalibrator -nt 6 -o recal_data.grp",k)
+    k = l.recalibration()
+    assert_equal("qsub -V -o log_file -e log_file_recal_errors -cwd -b y      -N recal_12345 -l h_vmem=7G -hold_jid prep_recal_12345       java -Xmx6g -jar GATK -R HG19.fa -I realigned.bam      -T PrintReads -o final.bam -BQSR recal_data.grp",k)
+    k = l.genotyper()
+    assert_equal("qsub -pe DJ 6 -o log_file -e log_file_genotyper_errors -V      -cwd -b y -N genotyper_12345 -l h_vmem=2G      -hold_jid recal_12345  java -Xmx6g -jar      GATK -l INFO -R HG19.fa -T UnifiedGenotyper -I final.bam      --dbsnp dbsnp.vcf -o file.vcf -nt 6 --max_alternate_alleles 8      --genotype_likelihoods_model BOTH",k)
+    k = l.coverage()
+    assert_equal("qsub -o log_file -e log_file_coverage_errors -V -cwd -b y      -N coverage_12345 -l h_vmem=7G -hold_jid recal_12345       java -Xmx6g -jar GATK -R HG19.fa -T DepthOfCoverage      -I final.bam --omitDepthOutputAtEachBase -o coverage      --omitIntervalStatistics --omitLocusTable",k)
   end
 
   def test_create_location_file

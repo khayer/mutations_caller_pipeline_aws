@@ -12,7 +12,6 @@ class Caller
     @log_file = options[:log_file]
     @job_prefix = options[:job_prefix]
     @account = options[:account]
-    @debug = options[:debug]
   end
 
 end
