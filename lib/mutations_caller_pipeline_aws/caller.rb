@@ -1,6 +1,6 @@
 =begin
-  * Name: BwaCaller, part of Mutations Caller Pipeline (AWS)
-  * Pipeline combining bwa with GATK2
+  * Name: Caller, part of Mutations Caller Pipeline (AWS)
+  * Superclass of Callers
   * Author: Katharina Hayer
   * Date: 8/9/2012
   * License: GNU General Public License (GPL-2.0)
