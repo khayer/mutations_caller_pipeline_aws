@@ -2,7 +2,7 @@
   * Name: PicardCaller, part of Mutations Caller Pipeline (AWS)
   * Template to call PicardTools
   * Author: Katharina Hayer
-  * Date: 8/9/2012
+  * Date: 8/13/2012
   * License: GNU General Public License (GPL-2.0)
 =end
 
