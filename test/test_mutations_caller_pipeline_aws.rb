@@ -64,14 +64,18 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
 
   def test_structurer
     l = Structurer.new()
+    assert_raise( RuntimeError) {l.organize_options(@options)}
     l.structure_paths()
-    assert(File.exist?("log"))
+    assert(File.exist?("logs"))
     assert(File.exist?("GATK_files"))
+    options = l.organize_options(@options)
+    assert_equal(".tmp/XY.sam",options[:sam_file])
   end
 
   def teardown
     Dir.delete("GATK_files") if File.exists?("GATK_files")
-    Dir.delete("log") if File.exists?("log")
+    Dir.delete("logs") if File.exists?("logs")
+    Dir.delete(".tmp") if File.exists?(".tmp")
   end
 
 end

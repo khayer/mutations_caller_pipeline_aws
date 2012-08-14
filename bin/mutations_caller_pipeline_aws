@@ -15,7 +15,7 @@ usage =<<EOF
 _________________________________________________________________________________________________
 
   #{$0}
-        -m mutant_r1.fq -n mutant_r2.fq
+        -m fwd.fq -n rev.fq
         -c config.yml -v raw_vcf_file
         [-a account || -p project]
         -s SampleSheet.csv

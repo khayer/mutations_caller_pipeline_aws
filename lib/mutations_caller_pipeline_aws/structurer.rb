@@ -9,19 +9,20 @@ require 'csv'
 
 class Structurer
 
-  def organize_options(options)
-    # returns modified options
-    options
-  end
-
   def structure_paths()
     # Create Dir to not overcluster output folder
     Dir.mkdir("GATK_files") unless File.exists?("GATK_files")
-    Dir.mkdir("log") unless File.exists?("log")
-    # should make paths for
-    # - logs
-    # - gatk output files
-    # - tmp files
+    Dir.mkdir("logs") unless File.exists?("logs")
+    Dir.mkdir(".tmp") unless File.exists?(".tmp")
+  end
+
+  def organize_options(options)
+    # returns modified options
+    raise "Output folder(s) are missing" unless File.exists?(".tmp") &&
+      File.exists?("logs") && File.exists?("GATK_files")
+    options[:job_prefix] = (rand*1000000).floor.to_s
+    options[:sam_file] = ".tmp/#{options[:sample_name]}.sam"
+    options
   end
 
 end
