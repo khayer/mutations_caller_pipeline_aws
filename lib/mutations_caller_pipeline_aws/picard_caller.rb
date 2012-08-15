@@ -36,7 +36,7 @@ class PicardCaller < Caller
      #{@account} java -Xmx6g -jar  #{@picard_tools}/AddOrReplaceReadGroups.jar \
      I=#{@bam_file} O=#{@bam_file_sorted} SO=coordinate ID=#{@sample_id} \
      LB=#{@library} PL=Illumina PU=#{@index} SM=#{@sample_name} \
-     VALIDATION_STRINGENCY=LENIENT"
+     VALIDATION_STRINGENCY=LENIENT MAX_RECORDS_IN_RAM=1500000"
   end
 
   #mark_dublicates = "java -jar ~/Downloads/picard-tools-1.56/picard-tools-1.56/MarkDuplicates.jar I=WT_aligned_sorted_rg.bam O=marked_dublicates.bam M=dublicate.metrcis AS=true VALIDATION_STRINGENCY=LENIENT"
