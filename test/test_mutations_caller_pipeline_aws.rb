@@ -7,7 +7,7 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
   def setup
     @data_path = "test/fixtures/"
     @options = {:index_fa => "HG19.fa", :bwa => "BWA",
-    :coverage => false, :log_file => "log_file",
+    :coverage => "false", :log_file => "log_file",
     :job_prefix => "12345", :debug => 1, :sai_fwd => "sai_fwd",
     :sai_rev => "sai_rev", :fastq_fwd => "fastq_fwd", :sample_id => "1234",
     :fastq_rev => "fastq_rev", :sam_file => "sam", :bam_file => "XY.bam",
@@ -18,7 +18,7 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     :dbsnp_file => "dbsnp.vcf", :realigned_bam => "realigned.bam",
     :recal_grp => "recal_data.grp", :final_bam => "final.bam",
     :coverage_prefix => "coverage", :target_intervals => "target.intervals",
-    :account => "-A kyle", :project => "", :debug => 1,
+    :account => "-A kyle", :project => "nina", :debug => 1,
     :gatk => "GATK", :samplesheet => "#{@data_path}/SampleSheet_12345.csv"
   }
   end
@@ -71,6 +71,11 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     assert(File.exist?("GATK_files"))
     l.organize_options(@options)
     assert_equal(".tmp/XY.sam",@options[:sam_file])
+    assert_raise( RuntimeError ) {l.load_options(@options)}
+    l.save_options(@options)
+    @options = Hash.new()
+    @options = l.load_options(@options)
+    assert_equal(".tmp/XY.sam",@options[:sam_file])
   end
 
   def test_structurer_and_caller
@@ -110,6 +115,7 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     Dir.delete("GATK_files") if File.exists?("GATK_files")
     Dir.delete("log") if File.exists?("log")
     Dir.delete(".tmp") if File.exists?(".tmp")
+    File.delete(".options.yml") if File.exists?(".options.yml")
   end
 
 end

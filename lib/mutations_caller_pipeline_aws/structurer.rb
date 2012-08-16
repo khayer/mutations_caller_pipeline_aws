@@ -6,6 +6,7 @@
   * License: GNU General Public License (GPL-2.0)
 =end
 require 'csv'
+require "yaml"
 
 class Structurer
 
@@ -43,6 +44,18 @@ class Structurer
     options[:coverage_prefix] = "#{options[:sample_name]}_coverage"
     options[:final_bam] = "#{options[:sample_name]}.bam"
     options[:vcf] = "#{options[:sample_name]}.vcf"
+  end
+
+  def save_options(options)
+    options_file = File.open(".options.yml",'w')
+    options_file.puts options.to_yaml
+    options_file.close
+  end
+
+  def load_options(options)
+    raise "No options to load!" unless File.exists?(".options.yml")
+    path = ".options"
+    options = YAML.load_file("/Users/hayer/github/mutations_caller_pipeline_aws/.options.yml")
   end
 
   private
