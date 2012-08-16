@@ -12,22 +12,37 @@ class Structurer
   def structure_paths()
     # Create Dir to not overcluster output folder
     Dir.mkdir("GATK_files") unless File.exists?("GATK_files")
-    Dir.mkdir("logs") unless File.exists?("logs")
+    Dir.mkdir("log") unless File.exists?("log")
     Dir.mkdir(".tmp") unless File.exists?(".tmp")
   end
 
   def organize_options(options)
     # returns modified options
     raise "Output folder(s) are missing" unless File.exists?(".tmp") &&
-      File.exists?("logs") && File.exists?("GATK_files")
+      File.exists?("log") && File.exists?("GATK_files")
     options = read_sample_sheet(options)
-    options[:job_prefix] = (rand*1000000).floor.to_s
-    options[:sai_fwd] = ".tmp/fwd.sai"
-    options[:sai_fwd] = ".tmp/rev.sai"
+    options[:job_prefix] || (rand*1000000).floor.to_s
+    # log file
+    options[:log_file] = "log/#{options[:sample_name]}.log"
 
+    # TMP files
+    options[:sai_fwd] = ".tmp/fwd.sai"
+    options[:sai_rev] = ".tmp/rev.sai"
     options[:sam_file] = ".tmp/#{options[:sample_name]}.sam"
+    options[:bam_file] = ".tmp/raw.bam"
+    options[:bam_file_sorted] = ".tmp/sorted.bam"
+    options[:bam_file_sorted_dublicates] = ".tmp/sorted_dublicates.bam"
+    options[:realigned_bam] = ".tmp/realigned.bam"
+
+    # GATK output
+    options[:recal_grp] = "GATK_files/recal_data.grp"
+    options[:target_intervals] = "GATK_files/target.intervals"
+    options[:dublicate_metrics] = "GATK_files/dublicate.metrics"
+
+    # Final output files
+    options[:coverage_prefix] = "#{options[:sample_name]}_coverage"
+    options[:final_bam] = "#{options[:sample_name]}.bam"
     options[:vcf] = "#{options[:sample_name]}.vcf"
-    options
   end
 
   private
@@ -38,7 +53,7 @@ class Structurer
         options[:index] = row["Index"]
         lane = row["Lane"]
         sample_project = row["SampleProject"]
-        options[:id] = "#{sample_project}_#{lane}_#{sample_name}"
+        options[:sample_id] = "#{sample_project}_#{lane}_#{sample_name}"
         options[:library] = row["FCID"]
       end
     end

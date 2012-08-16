@@ -27,7 +27,7 @@ class GatkCaller < Caller
   def prepare_realign()
     cmd = "qsub -pe DJ 6 -o #{@log_file} -e #{@log_file}_prep_realign_errors \
      -V -cwd -b y -N prep_realignment_#{@job_prefix} -l h_vmem=6G -hold_jid \
-     index_#{@job_prefix} #{@account} java -Xmx6g -jar #{@gatk} -nt 6 \
+     index_#{@job_prefix} #{@account} java -jar #{@gatk} -nt 6 \
      -I #{@bam_file_sorted_dublicates} --known #{@dbsnp_file} -R #{@index_fa} \
      -T RealignerTargetCreator -o #{@target_intervals}"
   end
@@ -37,7 +37,7 @@ class GatkCaller < Caller
   def realign()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_realign_errors -V -cwd -b y \
      -N realignment_#{@job_prefix} -l h_vmem=7G -hold_jid \
-     prep_realignment_#{@job_prefix} #{@account} java -Xmx6g -jar #{@gatk} \
+     prep_realignment_#{@job_prefix} #{@account} java -jar #{@gatk} \
      -I #{@bam_file_sorted_dublicates} -R #{@index_fa} -T IndelRealigner \
      -targetIntervals #{@target_intervals} -o #{@realigned_bam}"
   end
@@ -46,7 +46,7 @@ class GatkCaller < Caller
   def prep_recalibration()
     cmd = "qsub -pe DJ 6 -o #{@log_file} -e #{@log_file}_prep_recal_errors -V \
      -cwd -b y -N prep_recal_#{@job_prefix} -l h_vmem=6G -hold_jid \
-     realignment_#{@job_prefix} #{@account} java -Xmx6g -jar #{@gatk} \
+     realignment_#{@job_prefix} #{@account} java -jar #{@gatk} \
      -knownSites #{@dbsnp_file} -I #{@realigned_bam} -R #{@index_fa} -T \
      BaseRecalibrator -nt 6 -o #{@recal_grp}"
   end
@@ -56,7 +56,7 @@ class GatkCaller < Caller
   def recalibration()
     cmd = "qsub -V -o #{@log_file} -e #{@log_file}_recal_errors -cwd -b y \
      -N recal_#{@job_prefix} -l h_vmem=7G -hold_jid prep_recal_#{@job_prefix} \
-     #{@account} java -Xmx6g -jar #{@gatk} -R #{@index_fa} -I #{@realigned_bam} \
+     #{@account} java -jar #{@gatk} -R #{@index_fa} -I #{@realigned_bam} \
      -T PrintReads -o #{@final_bam} -BQSR #{@recal_grp}"
   end
 
@@ -64,7 +64,7 @@ class GatkCaller < Caller
   def genotyper()
     cmd = "qsub -pe DJ 6 -o #{@log_file} -e #{@log_file}_genotyper_errors -V \
      -cwd -b y -N genotyper_#{@job_prefix} -l h_vmem=2G \
-     -hold_jid recal_#{@job_prefix} #{@account} java -Xmx6g -jar \
+     -hold_jid recal_#{@job_prefix} #{@account} java -jar \
      #{@gatk} -l INFO -R #{@index_fa} -T UnifiedGenotyper -I #{@final_bam} \
      --dbsnp #{@dbsnp_file} -o #{@vcf} -nt 6 --max_alternate_alleles 8 \
      --genotype_likelihoods_model BOTH"
@@ -76,9 +76,9 @@ class GatkCaller < Caller
   def coverage()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_coverage_errors -V -cwd -b y \
      -N coverage_#{@job_prefix} -l h_vmem=7G -hold_jid recal_#{@job_prefix} \
-     #{@account} java -Xmx6g -jar #{@gatk} -R #{@index_fa} -T DepthOfCoverage \
-     -I #{@final_bam} --omitDepthOutputAtEachBase -o #{@coverage_prefix} \
-     --omitIntervalStatistics --omitLocusTable"
+     #{@account} java -jar #{@gatk} -R #{@index_fa} -T DepthOfCoverage \
+     -I #{@final_bam} -o #{@coverage_prefix} \
+     --omitIntervalStatistics --omitLocusTable --omitDepthOutputAtEachBase"
   end
 
 end

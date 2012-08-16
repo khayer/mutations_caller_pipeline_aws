@@ -25,7 +25,7 @@ class PicardCaller < Caller
   def sam_to_bam()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_sam_to_bam_errors -V -cwd -b y \
      -hold_jid bwa_#{@job_prefix} -N sam_to_bam_#{@job_prefix} -l h_vmem=7G \
-     #{@account} java -Xmx3g -jar  #{@picard_tools}/SamFormatConverter.jar \
+     #{@account} java -jar  #{@picard_tools}/SamFormatConverter.jar \
      I=#{@sam_file} O=#{@bam_file} VALIDATION_STRINGENCY=LENIENT"
   end
 
@@ -33,7 +33,7 @@ class PicardCaller < Caller
   def rg_and_sorting()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_rg_sorting_errors -V -cwd -b y \
      -hold_jid sam_to_bam_#{@job_prefix} -N sort_#{@job_prefix} -l h_vmem=7G \
-     #{@account} java -Xmx6g -jar  #{@picard_tools}/AddOrReplaceReadGroups.jar \
+     #{@account} java -jar  #{@picard_tools}/AddOrReplaceReadGroups.jar \
      I=#{@bam_file} O=#{@bam_file_sorted} SO=coordinate ID=#{@sample_id} \
      LB=#{@library} PL=Illumina PU=#{@index} SM=#{@sample_name} \
      VALIDATION_STRINGENCY=LENIENT MAX_RECORDS_IN_RAM=1500000"
@@ -43,7 +43,7 @@ class PicardCaller < Caller
   def mark_dublicates()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_duplicates_errors -V -cwd -b y \
      -hold_jid sort_#{@job_prefix} -N dublicates_#{@job_prefix} -l h_vmem=7G \
-     #{@account} java -Xmx3g -jar #{@picard_tools}/MarkDuplicates.jar \
+     #{@account} java -jar #{@picard_tools}/MarkDuplicates.jar \
      I=#{@bam_file_sorted} O=#{@bam_file_sorted_dublicates} \
      M=#{@dublicate_metrics} AS=true VALIDATION_STRINGENCY=LENIENT"
   end
@@ -52,7 +52,7 @@ class PicardCaller < Caller
   def build_index()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_index_errors -V -cwd -b y \
      -hold_jid dublicates_#{@job_prefix} -N index_#{@job_prefix} -l h_vmem=7G \
-     #{@account} java -Xmx3g -jar #{@picard_tools}/BuildBamIndex.jar \
+     #{@account} java -jar #{@picard_tools}/BuildBamIndex.jar \
      I=#{@bam_file_sorted_dublicates} VALIDATION_STRINGENCY=LENIENT"
   end
 

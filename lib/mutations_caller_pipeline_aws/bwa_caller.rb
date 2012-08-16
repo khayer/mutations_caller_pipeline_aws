@@ -22,9 +22,8 @@ class BwaCaller < Caller
   def call_sampe()
     cmd = "qsub -o #{@log_file} -e #{@log_file}_bwa_sampe_errors -hold_jid \
      bwa_aln_#{@job_prefix} -V -cwd -b y -N bwa_#{@job_prefix} -l h_vmem=6G \
-     -pe make 3  #{@account} \
-     #{@bwa} sampe #{@bwa_prefix} #{@sai_fwd} #{@sai_rev} #{@fastq_fwd} #{@fastq_rev} \
-     -f #{@sam_file}"
+     #{@account} #{@bwa} sampe -f #{@sam_file} #{@bwa_prefix} #{@sai_fwd} \
+     #{@sai_rev} #{@fastq_fwd} #{@fastq_rev}"
   end
 
   def call_aln(fastq_file, sai_file)
