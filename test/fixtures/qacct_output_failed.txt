@@ -1,0 +1,43 @@
+==============================================================
+qname        interactive.q
+hostname     node-r19-u36.local
+group        hts_up
+owner        hts
+project      NONE
+department   hts_up
+jobname      fq.D18FTACXX
+jobnumber    815573
+taskid       undefined
+account      sge
+priority     0
+qsub_time    Sun Aug 12 19:45:57 2012
+start_time   Mon Aug 13 10:23:09 2012
+end_time     Mon Aug 13 14:27:47 2012
+granted_pe   DJ
+slots        6
+failed       100 : assumedly after job
+exit_status  137
+ru_wallclock 14678
+ru_utime     5.066
+ru_stime     1.046
+ru_maxrss    19192
+ru_ixrss     0
+ru_ismrss    0
+ru_idrss     0
+ru_isrss     0
+ru_minflt    261419
+ru_majflt    26
+ru_nswap     0
+ru_inblock   0
+ru_oublock   0
+ru_msgsnd    0
+ru_msgrcv    0
+ru_nsignals  0
+ru_nvcsw     9767
+ru_nivcsw    2066
+cpu          41198.350
+mem          737.104
+io           757.137
+iow          0.000
+maxvmem      218.660M
+arid         undefined

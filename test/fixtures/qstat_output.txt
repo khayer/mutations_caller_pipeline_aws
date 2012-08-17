@@ -11,7 +11,7 @@ job-ID  prior   name       user         state submit/start at     queue         
  816622 0.28079 recalibrat hts          r     08/16/2012 23:45:22 pe.q@node-r19-u34.local            4
  816636 0.28073 recalibrat hts          r     08/17/2012 00:20:00 interactive.q@node-r19-u36.loc     4
  816656 0.28052 recalibrat hts          r     08/17/2012 00:20:00 pe.q@node-r2-u29.local             4
- 816665 0.28034 recalibrat hts          r     08/16/2012 12:57:03 pe.q@node-r7-u27-p17-o6.local      4
+ 816665 0.28034 recalibrat hts          e     08/16/2012 12:57:03 pe.q@node-r7-u27-p17-o6.local      4
  817225 0.26515 rum_runner hts          r     08/16/2012 12:19:24 pe.q@node-r4-u34-p16-o2.local      1
  817227 0.26515 P51510.Sam hts          r     08/17/2012 01:57:15 pe.q@node-r2-u23.local             1 8
  817227 0.26515 P51510.Sam hts          r     08/17/2012 02:09:15 pe.q@node-r4-u34-p16-o2.local      1 9

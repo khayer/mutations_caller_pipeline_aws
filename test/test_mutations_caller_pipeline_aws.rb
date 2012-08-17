@@ -117,7 +117,18 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     l.add_job_number("817225")
     k = l.to_s
     assert_equal("Current job_numbers are 817225",k)
-    l.parse_qstat(contents)
+    l.add_job_number("12345","54321","816665")
+    k = l.parse_qstat(contents)
+    assert_equal(["12345","54321","816665"],k)
+    contents = IO.read("#{@data_path}/qacct_output.txt")
+    k = l.parse_qacct(contents)
+    assert !k
+    contents = IO.read("#{@data_path}/qacct_output_failed.txt")
+    k = l.parse_qacct(contents)
+    assert k
+    l.delete_job_number("12345")
+    k = l.to_s
+    assert_equal("Current job_numbers are 817225,54321,816665",k)
   end
 
   def teardown
