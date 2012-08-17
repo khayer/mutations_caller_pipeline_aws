@@ -111,6 +111,15 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     assert_equal("qsub -o log/XY.log -e log/XY.log_coverage_errors -V -cwd -b y      -N coverage_12345 -l h_vmem=7G -hold_jid recal_12345      -A kyle java -jar GATK -R HG19.fa -T DepthOfCoverage      -I XY.bam -o XY_coverage      --omitIntervalStatistics --omitLocusTable --omitDepthOutputAtEachBase",k)
   end
 
+  def test_sge
+    contents = IO.read("#{@data_path}/qstat_output.txt")
+    l = SGE.new()
+    l.add_job_number("817225")
+    k = l.to_s
+    assert_equal("Current job_numbers are 817225",k)
+    l.parse_qstat(contents)
+  end
+
   def teardown
     Dir.delete("GATK_files") if File.exists?("GATK_files")
     Dir.delete("log") if File.exists?("log")

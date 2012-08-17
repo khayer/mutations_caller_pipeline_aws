@@ -6,6 +6,7 @@
   * License: GNU General Public License (GPL-2.0)
 =end
 require 'mutations_caller_pipeline_aws/structurer'
+require 'mutations_caller_pipeline_aws/sge'
 require 'mutations_caller_pipeline_aws/caller'
 require 'mutations_caller_pipeline_aws/bwa_caller'
 require 'mutations_caller_pipeline_aws/gatk_caller'
