@@ -11,6 +11,7 @@ require 'mutations_caller_pipeline_aws/caller'
 require 'mutations_caller_pipeline_aws/bwa_caller'
 require 'mutations_caller_pipeline_aws/gatk_caller'
 require 'mutations_caller_pipeline_aws/picard_caller'
+require 'mutations_caller_pipeline_aws/runner'
 
 class MutationsCallerPipelineAws
   def self.hi
