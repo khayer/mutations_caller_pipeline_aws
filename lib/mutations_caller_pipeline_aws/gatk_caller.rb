@@ -1,79 +1,84 @@
-class GatkCaller
-  # INDEX is normal genom.fa
+=begin
+  * Name: GATKCaller, part of Mutations Caller Pipeline (AWS)
+  * Template to call GATK
+  * Author: Katharina Hayer
+  * Date: 8/13/2012
+  * License: GNU General Public License (GPL-2.0)
+=end
+
+class GatkCaller < Caller
+
+  def initialize(options)
+    super(options)
+    @gatk = options[:gatk]
+    # INDEX is normal genom.fa
+    @index_fa = options[:index_fa]
+    @bam_file_sorted_dublicates = options[:bam_file_sorted_dublicates]
+    @dbsnp_file = options[:dbsnp_file]
+    @target_intervals = options[:target_intervals]
+    @realigned_bam = options[:realigned_bam]
+    @recal_grp = options[:recal_grp]
+    @final_bam = options[:final_bam]
+    @vcf = options[:vcf]
+    @coverage_prefix = options[:coverage_prefix]
+  end
+
+  # Preparation realignement
+  def prepare_realign()
+    cmd = "qsub -pe DJ 6 -o #{@log_file} -e #{@log_file}_prep_realign_errors \
+     -V -cwd -b y -N prep_realignment_#{@job_prefix} -l h_vmem=6G -hold_jid \
+     index_#{@job_prefix} #{@account} java -jar #{@gatk} -nt 6 \
+     -I #{@bam_file_sorted_dublicates} --known #{@dbsnp_file} -R #{@index_fa} \
+     -T RealignerTargetCreator -o #{@target_intervals}"
+  end
+
+  # Realignment
+  # parallel not possible yet (1.6-13-g91f02df)
+  def realign()
+    cmd = "qsub -o #{@log_file} -e #{@log_file}_realign_errors -V -cwd -b y \
+     -N realignment_#{@job_prefix} -l h_vmem=7G -hold_jid \
+     prep_realignment_#{@job_prefix} #{@account} java -jar #{@gatk} \
+     -I #{@bam_file_sorted_dublicates} -R #{@index_fa} -T IndelRealigner \
+     -targetIntervals #{@target_intervals} -o #{@realigned_bam}"
+  end
+
+  # Preparing of recalibration; outfile: -o recal_data.grp
+  def prep_recalibration()
+    cmd = "qsub -pe DJ 6 -o #{@log_file} -e #{@log_file}_prep_recal_errors -V \
+     -cwd -b y -N prep_recal_#{@job_prefix} -l h_vmem=6G -hold_jid \
+     realignment_#{@job_prefix} #{@account} java -jar #{@gatk} \
+     -knownSites #{@dbsnp_file} -I #{@realigned_bam} -R #{@index_fa} -T \
+     BaseRecalibrator -nt 6 -o #{@recal_grp}"
+  end
+
+  # Actual recalibration
+  # parallel not possible yet (1.6-13-g91f02df)
+  def recalibration()
+    cmd = "qsub -V -o #{@log_file} -e #{@log_file}_recal_errors -cwd -b y \
+     -N recal_#{@job_prefix} -l h_vmem=7G -hold_jid prep_recal_#{@job_prefix} \
+     #{@account} java -jar #{@gatk} -R #{@index_fa} -I #{@realigned_bam} \
+     -T PrintReads -o #{@final_bam} -BQSR #{@recal_grp}"
+  end
+
   # Genotyper
-  def self.call(log_dir, gatk, index_fa, read_bam, read_vcf, job_prefix, account,dbsnp_file, debug)
-    cmd = "qsub -pe DJ 4 -o #{log_dir} -e errors_#{log_dir} -V -cwd -b y -N genotyper_#{job_prefix} -l h_vmem=6G -hold_jid recalibration_#{job_prefix} #{account}\
-      #{gatk} -l INFO -R #{index_fa} -T UnifiedGenotyper \
-      -I #{read_bam} --dbsnp #{dbsnp_file} \
-      -o #{read_vcf} -nt 4 \
-      --genotype_likelihoods_model BOTH"
-    puts cmd
-    system(cmd) if debug == 1
+  def genotyper()
+    cmd = "qsub -pe DJ 6 -o #{@log_file} -e #{@log_file}_genotyper_errors -V \
+     -cwd -b y -N genotyper_#{@job_prefix} -l h_vmem=2G \
+     -hold_jid recal_#{@job_prefix} #{@account} java -jar \
+     #{@gatk} -l INFO -R #{@index_fa} -T UnifiedGenotyper -I #{@final_bam} \
+     --dbsnp #{@dbsnp_file} -o #{@vcf} -nt 6 --max_alternate_alleles 8 \
+     --genotype_likelihoods_model BOTH"
   end
 
   # INDEX is normal genom.fa
   # Coverage Summary
   # parallel not possible yet (1.6-13-g91f02df)
-  def self.coverage(log_dir, gatk, index_fa, read_bam, outfile_prefix, job_prefix, account, debug)
-    cmd = "qsub -o #{log_dir} -e errors_#{log_dir} -V -cwd -b y -N genotyper_#{job_prefix} -l h_vmem=9G -hold_jid recalibration_#{job_prefix} #{account}\
-      #{gatk} -R #{index_fa} -T DepthOfCoverage \
-      -I #{read_bam} --omitDepthOutputAtEachBase \
-      -o #{outfile_prefix} --omitIntervalStatistics --omitLocusTable"
-    puts cmd
-    system(cmd) if debug == 1
-  end
-
-  # Making recalibration table
-  def self.recalibrate_bam(log_dir ,gatk, index_fa, read_bam, recal_file, job_prefix, account, dbsnp_file, debug )
-    cmd = "qsub -pe DJ 4 -o #{log_dir} -e errors_#{log_dir} -V -cwd -b y -N recalibration_table_#{job_prefix} -l h_vmem=6G  -hold_jid realignment_#{job_prefix} #{account} \
-      #{gatk} -knownSites #{dbsnp_file} -I #{read_bam} \
-      -R #{index_fa} -T CountCovariates -nt 4 \
-      -cov ReadGroupCovariate -cov QualityScoreCovariate -cov DinucCovariate \
-      -cov CycleCovariate \
-      -recalFile #{recal_file}"
-    puts cmd
-    system(cmd) if debug == 1
-  end
-
-  # Using recalibration table
-  # parallel not possible yet (1.6-13-g91f02df)
-  def self.table_calibration(log_dir, gatk, index_fa, read_bam, recal_bam, recal_file, job_prefix, account, debug)
-    cmd = "qsub -V -o #{log_dir} -e errors_#{log_dir} -cwd -b y -N recalibration_#{job_prefix} -l h_vmem=9G -hold_jid recalibration_table_#{job_prefix} #{account} \
-      #{gatk} \
-      -R #{index_fa} \
-      -I #{read_bam} \
-      -T TableRecalibration \
-      -o #{recal_bam} \
-      -recalFile #{recal_file}"
-    puts cmd
-    system(cmd) if debug == 1
-  end
-
-  # Preparation realignement
-
-  def self.prepare_realigne(log_dir, gatk, read_bam, index_fa, target_intervals, job_prefix, account, dbsnp_file, debug)
-    cmd = "qsub -pe DJ 4 -o #{log_dir} -e errors_#{log_dir} -V -cwd -b y -N prep_realignment_#{job_prefix} -l h_vmem=6G -hold_jid index_#{job_prefix} #{account}\
-      #{gatk} -nt 4 \
-      -I #{read_bam} --known #{dbsnp_file} \
-      -R #{index_fa} \
-      -T RealignerTargetCreator \
-      -o #{target_intervals}"
-    puts cmd
-    system(cmd) if debug == 1
-  end
-
-  # Realignment
-  # parallel not possible yet (1.6-13-g91f02df)
-  def self.realigne(log_dir, gatk, read_bam, index_fa, target_intervals, realigned_bam, job_prefix, account, debug)
-    cmd = "qsub -o #{log_dir} -e errors_#{log_dir} -V -cwd -b y -N realignment_#{job_prefix} -l h_vmem=9G -hold_jid prep_realignment_#{job_prefix} #{account} \
-      #{gatk} \
-      -I #{read_bam} \
-      -R #{index_fa} \
-      -T IndelRealigner \
-      -targetIntervals #{target_intervals} \
-      -o #{realigned_bam}"
-    puts cmd
-    system(cmd) if debug == 1
+  def coverage()
+    cmd = "qsub -o #{@log_file} -e #{@log_file}_coverage_errors -V -cwd -b y \
+     -N coverage_#{@job_prefix} -l h_vmem=7G -hold_jid recal_#{@job_prefix} \
+     #{@account} java -jar #{@gatk} -R #{@index_fa} -T DepthOfCoverage \
+     -I #{@final_bam} -o #{@coverage_prefix} \
+     --omitIntervalStatistics --omitLocusTable --omitDepthOutputAtEachBase"
   end
 
 end

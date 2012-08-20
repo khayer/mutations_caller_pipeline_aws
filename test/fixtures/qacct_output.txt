@@ -1,0 +1,43 @@
+==============================================================
+qname        pe.q
+hostname     node-r19-u35.local
+group        hts_up
+owner        hts
+project      NONE
+department   hts_up
+jobname      recalibration_table_923307
+jobnumber    807708
+taskid       undefined
+account      ganguly
+priority     0
+qsub_time    Fri Aug  3 19:33:27 2012
+start_time   Mon Aug  6 11:32:50 2012
+end_time     Wed Aug  8 00:48:59 2012
+granted_pe   DJ
+slots        4
+failed       0
+exit_status  0
+ru_wallclock 134169
+ru_utime     288304.369
+ru_stime     4532.100
+ru_maxrss    2869560
+ru_ixrss     0
+ru_ismrss    0
+ru_idrss     0
+ru_isrss     0
+ru_minflt    6475384
+ru_majflt    0
+ru_nswap     0
+ru_inblock   0
+ru_oublock   0
+ru_msgsnd    0
+ru_msgrcv    0
+ru_nsignals  0
+ru_nvcsw     548650306
+ru_nivcsw    4002263
+cpu          292836.469
+mem          696800.096
+io           37.955
+iow          0.000
+maxvmem      2.384G
+arid         undefined
