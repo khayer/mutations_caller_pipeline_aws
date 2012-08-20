@@ -55,7 +55,7 @@ class Structurer
   def load_options(options)
     raise "No options to load!" unless File.exists?(".options.yml")
     path = ".options"
-    options = YAML.load_file("/Users/hayer/github/mutations_caller_pipeline_aws/.options.yml")
+    options = YAML.load_file(".options.yml")
   end
 
   private

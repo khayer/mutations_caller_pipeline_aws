@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'mutations_caller_pipeline_aws'
-require 'rubygems'
+#require 'rubygems'
 require 'redgreen'
 
 class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
@@ -129,8 +129,6 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
     l.delete_job_number("12345")
     k = l.to_s
     assert_equal("Current job_numbers are 817225,54321,816665",k)
-    l = Runner.new(@options)
-    l.test
   end
 
   def teardown

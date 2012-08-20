@@ -8,6 +8,14 @@ Unfortunately this is only a first edition, which is fully functional but poorly
 
 This source code is licensed under the GNU General Public License (GPL-2.0) (http://opensource.org/licenses/gpl-2.0.php).
 
+== Prerequisites
+
+To run the tests with the beautiful redgreen output, you will need the mynyml-redgreen gem. 
+
+  % gem install mynyml-redgreen --source http://gemcutter.org
+
+If you do not care about this at all, you can just command `require 'redgreen'` out.
+
 == Install
 
 The easiest is probably to install it via RubyGems, where you can just type
