@@ -246,7 +246,7 @@ BwaCaller.call_aln(options[:mutant_r1],
                    options[:bwa],
                    job_prefix,
                    options[:account],
-                   options[:debug])
+                   options[:debug],"fwd")
 
 BwaCaller.call_aln(options[:mutant_r2],
                    options[:bwa_prefix],
@@ -255,7 +255,7 @@ BwaCaller.call_aln(options[:mutant_r2],
                    options[:bwa],
                    job_prefix,
                    options[:account],
-                   options[:debug])
+                   options[:debug],"rev")
 
 
 # BWA : First step mapping reads to reference
