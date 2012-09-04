@@ -14,9 +14,9 @@ class PicardCaller
 
 
   #mark_dublicates = "java -jar ~/Downloads/picard-tools-1.56/picard-tools-1.56/MarkDuplicates.jar I=WT_aligned_sorted_rg.bam O=marked_dublicates.bam M=dublicate.metrcis AS=true VALIDATION_STRINGENCY=LENIENT"
-  def self.mark_dublicates(bam_file_sorted, bam_file_sorted_dublicates, dublicate_metrcis, picard_tools, log_file, job_prefix, account)
-    cmd = "qsub -o #{log_file} -e #{log_file}_duplicates_errors -V -cwd -b y -hold_jid sort_#{job_prefix} -N dublicates_#{job_prefix} -l h_vmem=7G #{account} \
-      java -Xmx3g -jar #{picard_tools}/MarkDuplicates.jar I=#{bam_file_sorted} O=#{bam_file_sorted_dublicates} M=#{dublicate_metrcis} \
+  def self.mark_dublicates(bam_file_sorted, bam_file_sorted_dublicates, duplicate_metrcis, picard_tools, log_file, job_prefix, account)
+    cmd = "qsub -o #{log_file} -e #{log_file}_duplicates_errors -V -cwd -b y -hold_jid sort_#{job_prefix} -N duplicates_#{job_prefix} -l h_vmem=7G #{account} \
+      java -Xmx3g -jar #{picard_tools}/MarkDuplicates.jar I=#{bam_file_sorted} O=#{bam_file_sorted_dublicates} M=#{duplicate_metrcis} \
       AS=true VALIDATION_STRINGENCY=LENIENT"
   end
 
