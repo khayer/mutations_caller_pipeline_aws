@@ -30,7 +30,7 @@ ________________________________________________________________________________
   Also you should have the indices for bwa and GATK prepared.
   NOTE: Only paired end reads are supported!
 
-                      +++  C L U S T E R  V E R S I O N - 0.0.15 +++
+                      +++  C L U S T E R  V E R S I O N - 0.0.17 +++
 
   config.yml should look like this:
   # config.yml
@@ -157,8 +157,8 @@ def run(options)
   job_number = options[:job_number]
   bam_file = "aligned_#{job_number}.bam"
   bam_file_sorted = "sorted_#{job_number}.bam"
-  bam_file_sorted_dublicates = options[:step_one_bam_file]
-  dublicate_metrcis = "GATK_files/dublicate.metrics"
+  bam_file_sorted_duplicates = options[:step_one_bam_file]
+  duplicate_metrcis = "GATK_files/duplicates.metrics"
   job_prefix = "#{job_number}"
   log_file = "log/#{options[:sample_name]}.log"
 
@@ -181,8 +181,8 @@ def run(options)
     puts cmd
   end
 
-  cmd = PicardCaller.mark_dublicates(bam_file_sorted, bam_file_sorted_dublicates,
-    dublicate_metrcis, options[:picard_tools], log_file, job_prefix,
+  cmd = PicardCaller.mark_duplicates(bam_file_sorted, bam_file_sorted_duplicates,
+    duplicate_metrcis, options[:picard_tools], log_file, job_prefix,
     options[:account])
 
   if options[:debug] == 1
@@ -191,7 +191,7 @@ def run(options)
     puts cmd
   end
 
-  cmd = PicardCaller.build_index(bam_file_sorted_dublicates,
+  cmd = PicardCaller.build_index(bam_file_sorted_duplicates,
     options[:picard_tools], log_file, job_prefix, options[:account])
 
   if options[:debug] == 1
@@ -239,14 +239,6 @@ options[:account] = options[:project] if options[:account].empty?
 #options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
 
 # BWA : ALN
-puts options[:mutant_r1]
-puts                   options[:bwa_prefix]
-puts               sai_file_fwd
-puts                   log_file
-puts                 options[:bwa]
-puts               job_prefix
-puts                   options[:account]
-puts                   options[:debug]
 BwaCaller.call_aln(options[:mutant_r1],
                    options[:bwa_prefix],
                    sai_file_fwd,
