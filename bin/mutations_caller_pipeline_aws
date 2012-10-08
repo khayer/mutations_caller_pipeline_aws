@@ -239,6 +239,14 @@ options[:account] = options[:project] if options[:account].empty?
 #options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
 
 # BWA : ALN
+puts options[:mutant_r1]
+puts                   options[:bwa_prefix]
+puts               sai_file_fwd
+puts                   log_file
+puts                 options[:bwa]
+puts               job_prefix
+puts                   options[:account]
+puts                   options[:debug]
 BwaCaller.call_aln(options[:mutant_r1],
                    options[:bwa_prefix],
                    sai_file_fwd,
