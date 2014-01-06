@@ -1,18 +1,11 @@
 class BwaCaller
 
-  def self.call_paired_end(r1, r2, sai1, sai2,  sam_file, index, log_file, bwa, samtools, job_prefix,account, debug)
-    dummy = "\\\\\\"
-    cmd = "qsub -o #{log_file} -e #{log_file}_bwa_sampe_errors -hold_jid bwa_aln_#{job_prefix} -V -cwd -b y -N bwa_#{job_prefix} -l h_vmem=6G  #{account}\
-           #{bwa} sampe  #{index}   \
-          #{sai1} #{sai2}  #{r1} #{r2} -f #{sam_file}"
-    puts cmd
-    system('bash','-c', cmd) if debug == 1
-  end
-
-  def self.call_aln(read, index, out_file, log_file, bwa, job_prefix, account,debug,direction)
-    cmd = "qsub -pe DJ 8 -o #{log_file} -e #{log_file}_bwa_aln_errors_#{direction} -V -cwd -b y -N bwa_aln_#{job_prefix} -l h_vmem=4G #{account} \
-           #{bwa} aln -t 8 -f #{out_file} #{index} #{read} "
-    puts cmd
-    system(cmd) if debug == 1
+  def self.call_mem(options)
+    if options[:lsf]
+      cmd = "bsub -n #{options[:threads]} -o #{options[:log_file]}_bwa_mem_o.log -e #{options[:log_file]}_bwa_mem_e.log -q plus -J bwa_#{options[:job_number]} #{options[:bwa]} mem -t #{options[:threads]} #{options[:bwa_index]} #{options[:mutant_r1]} #{options[:mutant_r2]} \> #{options[:sam_file]}"
+    else
+      cmd = "qsub -pe DJ #{options[:threads]} -o #{options[:log_file]}_bwa_mem_o.log -e #{options[:log_file]}_bwa_mem_e.log -V -cwd -b y -N bwa_#{options[:job_number]} -l h_vmem=6G #{options[:bwa]} mem -t #{options[:threads]} #{options[:bwa_index]} #{options[:mutant_r1]} #{options[:mutant_r2]} \> #{options[:sam_file]}"
+    end
+    cmd
   end
 end

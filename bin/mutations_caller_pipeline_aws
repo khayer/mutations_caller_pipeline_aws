@@ -4,6 +4,7 @@ require 'optparse'
 require 'rubygems'
 require 'yaml'
 require 'csv'
+require 'logger'
 =begin
   * Name: Mutations Caller Pipeline (AWS)
   * Pipeline combining bwa with GATK2
@@ -12,7 +13,23 @@ require 'csv'
   * License: GNU General Public License (GPL-2.0)
 =end
 
-usage =<<EOF
+$logger = Logger.new(STDERR)
+
+# Initialize logger
+def setup_logger(loglevel)
+  case loglevel
+  when "debug"
+    $logger.level = Logger::DEBUG
+  when "warn"
+    $logger.level = Logger::WARN
+  when "info"
+    $logger.level = Logger::INFO
+  else
+    $logger.level = Logger::ERROR
+  end
+end
+
+$usage =<<EOF
 _________________________________________________________________________________________________
 
   #{$0}
@@ -30,11 +47,11 @@ ________________________________________________________________________________
   Also you should have the indices for bwa and GATK prepared.
   NOTE: Only paired end reads are supported!
 
-                      +++  C L U S T E R  V E R S I O N - 0.0.22 +++
+                      +++  C L U S T E R  V E R S I O N - 0.0.23 +++
 
   config.yml should look like this:
   # config.yml
-  bwa_prefix: "path/to/prefix"
+  bwa_index: "path/to/prefix"
   picard_tools: "path/to/picard_tools/"
   bwa: "path/to/bwa"
   samtools: "path/to/samtools"
@@ -43,310 +60,210 @@ ________________________________________________________________________________
 
 EOF
 
-options = { :mutant_r1 => nil,
-            :mutant_r2 => nil,
-            :wildtype_r1 => nil,
-            :wildtype_r2 => nil,
-            :index_prefix => nil,
-            :index_fa => nil,
-            :index_vcf => nil,
-            :annotation_file => nil,
-            :samtools => nil,
-            :gatk => nil,
-            :bwa => nil,
-            :vcf => nil,
-            :account => "",
-            :project => "",
-            :debug => 1,
-            :cluster => false,
-            :coverage => false,
-            :samplesheet => nil
-          }
+def setup_options(args)
+  options = {
+    :mutant_r1 => nil,
+    :mutant_r2 => nil,
+    :wildtype_r1 => nil,
+    :wildtype_r2 => nil,
+    :bwa_index => nil,
+    :index_fa => nil,
+    :index_vcf => nil,
+    :annotation_file => nil,
+    :samtools => nil,
+    :gatk => nil,
+    :bwa => nil,
+    :vcf => nil,
+    :account => "",
+    :project => "",
+    :debug => 1,
+    :cluster => false,
+    :coverage => false,
+    :samplesheet => nil,
+    :lsf => false,
+    :threads => 1
+  }
 
-optparse = OptionParser.new do |opts|
-  opts.banner = usage
+  optparse = OptionParser.new do |opts|
+    opts.banner = $usage
 
-  opts.on("-m", "--fwd_read_mutant DIR", :REQUIRED, String, "Path to fwd read of mutant") do |i|
-    options[:mutant_r1] = i
+    opts.on("-m", "--fwd_read_mutant DIR", :REQUIRED, String, "Path to fwd read of mutant") do |i|
+      options[:mutant_r1] = i
+    end
+
+    opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
+      options[:mutant_r2] = i
+    end
+
+    opts.on("-w", "--fwd_read_wildtype DIR", String, "Path to fwd read of wildtype, not mandatory") do |i|
+      options[:wildtype_r1] = i if i
+    end
+
+    opts.on("-x", "--rev_read_wildtype DIR", String, "Path to rev read of wildtype, not mandatory") do |i|
+      options[:wildtype_r2] = i if i
+    end
+
+    opts.on("-c", "--config DIR", String, "Set config file") do |path|
+      options.merge!(Hash[YAML::load(open(path)).map { |k, v| [k.to_sym, v] }])
+    end
+
+    opts.on("-v","--vcf [PATH]", "Output of pipeline") do |i|
+      options[:vcf] = i
+    end
+
+    opts.on("-a","--account [NAME]", "Option for qsub: -A [NAME]. Default: [none] " ) do |i|
+      options[:account] = " -A #{i}" if i
+    end
+
+    opts.on("-p","--project [NAME]", "Option for qsub: -P [NAME]. Default: [none] " ) do |i|
+      options[:project] = " -P #{i}" if i
+    end
+
+    opts.on("-d", "--debug", "Run in debug mode") do |v|
+      options[:log_level] = "debug"
+    end
+
+    opts.on("-k","--cluster ", "On compute cluster (none AWS)" ) do |i|
+      options[:cluster] =  true if i
+    end
+
+    opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
+      options[:coverage] =  true if i
+    end
+
+    opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
+      options[:samplesheet] = i
+    end
+
+    opts.on("-f", "--dbsnp_file DIR", :REQUIRED, String, "dbsnp.vcf") do |i|
+      options[:dbsnp_file] = i
+    end
+
+    opts.on("-t", "--threads INT", :REQUIRED, Integer, "Number of threads. DEFAULT: 1") do |i|
+      options[:threads] = i
+    end
+
+    opts.on("-b", "--sample_name Name", :REQUIRED, String, "Sample name / SampleID") do |i|
+      options[:sample_name] = i
+    end
+
+    opts.on("-l", "--lsf ", "LSF instead of SGE. DEFAULT: SGE") do |i|
+      options[:lsf] = true
+    end
+
+    opts.on_tail("-h", "--help", "Show this message") do
+      puts opts
+      exit
+    end
   end
 
-  opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
-    options[:mutant_r2] = i
+  begin
+    optparse.parse!(args)
+    mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_index,
+      :bwa, :samtools, :gatk, :vcf, :index_vcf, :sample_name, :index_fa]
+    missing = mandatory.select{ |param| options[param].nil? }
+    if !missing.empty?
+      puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
+      puts optparse
+      exit
+    end
+  rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+     puts $!.to_s
+     puts optparse
+     exit
   end
-
-  opts.on("-w", "--fwd_read_wildtype DIR", String, "Path to fwd read of wildtype, not mandatory") do |i|
-    options[:wildtype_r1] = i if i
-  end
-
-  opts.on("-x", "--rev_read_wildtype DIR", String, "Path to rev read of wildtype, not mandatory") do |i|
-    options[:wildtype_r2] = i if i
-  end
-
-  opts.on("-c", "--config DIR", String, "Set config file") do |path|
-    options.merge!(Hash[YAML::load(open(path)).map { |k, v| [k.to_sym, v] }])
-  end
-
-  opts.on("-v","--vcf [PATH]", "Output of pipeline") do |i|
-    options[:vcf] = i
-  end
-
-  opts.on("-a","--account [NAME]", "Option for qsub: -A [NAME]. Default: [none] " ) do |i|
-    options[:account] = " -A #{i}" if i
-  end
-
-  opts.on("-p","--project [NAME]", "Option for qsub: -P [NAME]. Default: [none] " ) do |i|
-    options[:project] = " -P #{i}" if i
-  end
-
-  opts.on("-d","--debug ", "Option to debug" ) do |i|
-    options[:debug] =  5 if i
-  end
-
-  opts.on("-k","--cluster ", "On compute cluster (none AWS)" ) do |i|
-    options[:cluster] =  true if i
-  end
-
-  opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
-    options[:coverage] =  true if i
-  end
-
-  opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
-    options[:samplesheet] = i
-  end
-
-  opts.on("-f", "--dbsnp_file DIR", :REQUIRED, String, "dbsnp.vcf") do |i|
-    options[:dbsnp_file] = i
-  end
-
-  opts.on("-b", "--sample_name Name", :REQUIRED, String, "Sample name / SampleID") do |i|
-    options[:sample_name] = i
-  end
-
-
-  opts.on_tail("-h", "--help", "Show this message") do
-    puts opts
-    exit
-  end
-end
-
-begin
-  optparse.parse!
-  mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_prefix,
-    :bwa, :samtools, :gatk, :vcf, :index_vcf, :sample_name, :index_fa]
-  missing = mandatory.select{ |param| options[param].nil? }
-  if !missing.empty?
-    puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
-    puts optparse
-    exit
-  end
-rescue OptionParser::InvalidOption, OptionParser::MissingArgument
-   puts $!.to_s
-   puts optparse
-   exit
+  options
 end
 
 # Methods
-def execute(cmd)
-  puts cmd
-  status = system(cmd)
-  raise cmd unless status
+def execute(cmd,options)
+  if options[:log_level] == "debug"
+    puts cmd
+  else
+    status = system(cmd)
+    raise cmd unless status
+  end
 end
 
-def run(options)
+def run(argv)
+  options = setup_options(argv)
+  setup_logger(options[:log_level])
+  $logger.debug(options)
+  $logger.debug(argv)
+  # pipeline starts here
+
+  # get information from sample sheet
+  CSV.foreach(options[:samplesheet],{:headers => :first_row}) do |row|
+    if options[:sample_name] == row["SampleID"]
+      options[:index] = row["Index"]
+      lane = row["Lane"]
+      sample_project = row["SampleProject"]
+      options[:id] = "#{sample_project}_#{lane}_#{sample_name}"
+      options[:library] = row["FCID"]
+    end
+  end
+
+  # Create Dir to not overcluster output folder
+  Dir.mkdir("GATK_files") unless File.exists?("GATK_files")
+  Dir.mkdir("log") unless File.exists?("log")
+
   # tmp files for output
-  job_number = options[:job_number]
-  bam_file = "aligned_#{job_number}.bam"
-  bam_file_sorted = "sorted_#{job_number}.bam"
-  bam_file_sorted_duplicates = options[:step_one_bam_file]
-  duplicate_metrcis = "GATK_files/duplicates.metrics"
-  job_prefix = "#{job_number}"
-  log_file = "log/#{options[:sample_name]}.log"
+  options[:job_number] = (rand*1000000).floor.to_s
+  options[:sam_file] = "#{options[:sample_name]}_#{options[:job_number]}.sam"
+  options[:step_one_bam_file] = "#{options[:sample_name]}_#{options[:job_number]}.bam"
+  options[:log_file] = "log/#{options[:sample_name]}"
+  options[:target_intervals] = "GATK_files/target.intervals"
+  options[:realigned_bam] = "#{options[:job_number]}_realigned.bam"
+  options[:recal_file] = "GATK_files/recal.grp"
+  options[:recal_bam] = "#{options[:sample_name]}.bam"
+  options[:bam_file] = "aligned_#{job_number}.bam"
+  options[:bam_file_sorted] = "sorted_#{job_number}.bam"
+  options[:duplicate_metrcis] = "GATK_files/duplicates.metrics"
+  options[:account] = options[:project] if options[:account].empty?
+  #options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
 
-  cmd = PicardCaller.convert(options[:sam_file], bam_file, options[:picard_tools],
-    log_file, job_prefix, options[:account])
+  # BWA : MEM
+  cmd = BwaCaller.call_mem(options)
+  execute(cmd,options)
 
-  if options[:debug] == 1
-    execute(cmd)
-  else
-    puts cmd
-  end
+  # Indexing + Marking Duplicates
+  cmd = PicardCaller.convert(options)
+  execute(cmd,options)
 
-  cmd = PicardCaller.rg_and_sorting(bam_file, bam_file_sorted, options[:picard_tools],
-    options[:library], options[:index], options[:sample_name],
-    log_file, options[:id], job_prefix, options[:account])
+  cmd = PicardCaller.rg_and_sorting(options)
+  execute(cmd,options)
 
-  if options[:debug] == 1
-    execute(cmd)
-  else
-    puts cmd
-  end
+  cmd = PicardCaller.mark_duplicates(options)
+  execute(cmd,options)
 
-  cmd = PicardCaller.mark_duplicates(bam_file_sorted, bam_file_sorted_duplicates,
-    duplicate_metrcis, options[:picard_tools], log_file, job_prefix,
-    options[:account])
+  cmd = PicardCaller.build_index(options)
+  execute(cmd,options)
 
-  if options[:debug] == 1
-    execute(cmd)
-  else
-    puts cmd
-  end
+  # Realigne
+  GatkCaller.prepare_realigne(options)
+  execute(cmd,options)
 
-  cmd = PicardCaller.build_index(bam_file_sorted_duplicates,
-    options[:picard_tools], log_file, job_prefix, options[:account])
+  GatkCaller.realigne(options)
+  execute(cmd,options)
 
-  if options[:debug] == 1
-    execute(cmd)
-  else
-    puts cmd
-  end
-end
+  # Recalibration
+  GatkCaller.recalibrate_bam(options)
+  execute(cmd,options)
 
+  GatkCaller.table_calibration(options)
+  execute(cmd,options)
 
-# pipeline starts here
+  # GATK: finding mutations
+  GatkCaller.call(options)
+  execute(cmd,options)
 
-# get information from sample sheet
-CSV.foreach(options[:samplesheet],{:headers => :first_row}) do |row|
-  if options[:sample_name] == row["SampleID"]
-    options[:index] = row["Index"]
-    lane = row["Lane"]
-    sample_project = row["SampleProject"]
-    options[:id] = "#{sample_project}_#{lane}_#{sample_name}"
-    options[:library] = row["FCID"]
+  # GATK : coverage
+  if options[:coverage]
+    options[:outfile_prefix] = options[:vcf].gsub(/.vcf/,"_coverage")
+    GatkCaller.coverage(options)
   end
 end
 
-# Create Dir to not overcluster output folder
-Dir.mkdir("GATK_files") unless File.exists?("GATK_files")
-Dir.mkdir("log") unless File.exists?("log")
-
-# tmp files for output
-random = (rand*1000000).floor.to_s
-sample_name = options[:sample_name]
-options[:sam_file] = "#{sample_name}_#{random}.sam"
-options[:step_one_bam_file] = "#{sample_name}_#{random}.bam"
-bam_file = "mutant_#{random}.bam"
-job_prefix = "#{random}"
-options[:job_number] = job_prefix
-log_file = "log/#{sample_name}.log"
-target_intervals = "GATK_files/target.intervals"
-realigned_bam = "#{random}_realigned.bam"
-recal_file = "GATK_files/recal.grp"
-recal_bam = "#{sample_name}.bam"
-sai_file_fwd = "#{random}_fwd.sai"
-sai_file_rev = "#{random}_rev.sai"
-
-options[:account] = options[:project] if options[:account].empty?
-#options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
-
-# BWA : ALN
-BwaCaller.call_aln(options[:mutant_r1],
-                   options[:bwa_prefix],
-                   sai_file_fwd,
-                   log_file,
-                   options[:bwa],
-                   job_prefix,
-                   options[:account],
-                   options[:debug],"fwd")
-
-BwaCaller.call_aln(options[:mutant_r2],
-                   options[:bwa_prefix],
-                   sai_file_rev,
-                   log_file,
-                   options[:bwa],
-                   job_prefix,
-                   options[:account],
-                   options[:debug],"rev")
-
-
-# BWA : First step mapping reads to reference
-BwaCaller.call_paired_end(options[:mutant_r1],
-                          options[:mutant_r2],
-                          sai_file_fwd,
-                          sai_file_rev,
-                          options[:sam_file],
-                          options[:bwa_prefix],
-                          log_file,
-                          options[:bwa],
-                          options[:samtools],
-                          job_prefix,
-                          options[:account],
-                          options[:debug])
-
-
-# Indexing + Marking Duplicates
-run(options)
-#bam_file = bam_file + ".bam"
-#SamtoolsIndexing.call(bam_file,
-#                      job_prefix,
-#                      options[:account],
-#                      options[:debug],
-#                      log_file)
-
-# Realigne
-GatkCaller.prepare_realigne(log_file,
-                            options[:gatk],
-                            options[:step_one_bam_file],
-                            options[:index_fa],
-                            target_intervals,
-                            job_prefix,
-                            options[:account],
-                            options[:dbsnp_file],
-                            options[:debug])
-
-
-GatkCaller.realigne(log_file,
-                    options[:gatk],
-                    options[:step_one_bam_file],
-                    options[:index_fa],
-                    target_intervals,
-                    realigned_bam,
-                    job_prefix,
-                    options[:account],
-                    options[:debug])
-
-# Recalibration
-GatkCaller.recalibrate_bam( log_file,
-                            options[:gatk],
-                            options[:index_fa],
-                            realigned_bam,
-                            recal_file,
-                            job_prefix,
-                            options[:account],
-                            options[:dbsnp_file],
-                            options[:debug] )
-
-GatkCaller.table_calibration(log_file,
-                             options[:gatk],
-                             options[:index_fa],
-                             realigned_bam,
-                             recal_bam,
-                             recal_file,
-                             job_prefix,
-                             options[:account],
-                             options[:debug])
-
-# GATK: finding mutations
-GatkCaller.call(log_file,
-                options[:gatk],
-                options[:index_fa],
-                recal_bam,
-                options[:vcf],
-                job_prefix,
-                options[:account],
-                options[:dbsnp_file],
-                options[:debug])
-
-
-# GATK : coverage
-if options[:coverage]
-  outfile_prefix = options[:vcf].gsub(/.vcf/,"_coverage")
-  GatkCaller.coverage(
-    log_file,
-    options[:gatk],
-    options[:index_fa],
-    recal_bam,
-    outfile_prefix,
-    job_prefix,
-    options[:account],
-    options[:debug])
+if __FILE__ == $0
+  run(ARGV)
 end

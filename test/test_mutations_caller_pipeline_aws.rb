@@ -2,16 +2,40 @@ require 'test/unit'
 require 'mutations_caller_pipeline_aws'
 
 class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
+  def setup
+    @options = {
+      :mutant_r1 => "r1.fq",
+      :mutant_r2 => "r2.fq",
+      :bwa_index => "bwa_index",
+      :index_fa => nil,
+      :index_vcf => nil,
+      :annotation_file => nil,
+      :samtools => nil,
+      :gatk => nil,
+      :bwa => "/path/to/bwa",
+      :vcf => nil,
+      :account => "",
+      :project => "",
+      :debug => 1,
+      :cluster => false,
+      :coverage => false,
+      :samplesheet => nil,
+      :lsf => true,
+      :job_number => 12345,
+      :log_file => "log_prefix",
+      :threads => 5,
+      :sam_file => "sam_file"
+    }
+  end
+
   def test_hi
     assert_equal  "Hello World!", MutationsCallerPipelineAws.hi
     #File.delete("haas")
   end
 
   def test_bwa_caller
-    #call_paired_end(r1, r2, sai1, sai2,  sam_file, index, log_file, bwa, samtools, job_prefix,account, debug)
-    k = BwaCaller.call_paired_end("r1", "r2","sai1", "sai2" , "out_file", "index", "haas", "bwa", "samtools", 837823789, "haer", 4)
-    #assert(k)
-    #assert(File.exist?("haas"))
+    k = BwaCaller.call_mem(@options)
+    assert_equal(k, "qsub -o log_prefix_bwa_mem_o.txt -e log_prefix_bwa_mem_e.txt -V -cwd -b y -N bwa_12345 -l h_vmem=6G /path/to/bwa mem -t 5 bwa_index r1.fq r2.fq \> sam_file")
   end
 
   def test_samtools_indexing
