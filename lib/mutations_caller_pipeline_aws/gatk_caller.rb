@@ -1,7 +1,27 @@
 class GatkCaller
+  # Preparation realignement
+  def self.prepare_realigne(options)
+    if options[:lsf]
+      cmd = "bsub -w \"done(index_#{options[:job_number]})\" -o #{options[:log_file]}_prep_real_o.log -e #{options[:log_file]}_index_e.log -q plus -J prep_real_#{options[:job_number]} java -Xmx5g -jar #{options[:picard_tools]}/BuildBamIndex.jar I=#{options[:bam_file_sorted_duplicates]} VALIDATION_STRINGENCY=LENIENT"
+    else
+      cmd = "qsub -pe DJ #{options[:threads]} -o #{options[:log_file]}_prep_real_o.log -e #{options[:log_file]}_prep_real_e.log -V -cwd -b y -hold_jid index_#{options[:job_number]} -N prep_real_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:picard_tools]}/BuildBamIndex.jar I=#{options[:bam_file_sorted_duplicates]} VALIDATION_STRINGENCY=LENIENT"
+    end
+    cmd
+    cmd = "qsub -pe DJ 4 -o #{log_dir} -e #{log_dir}_prep_realign_errors -V -cwd -b y -N prep_realignment_#{job_prefix} -l h_vmem=6G -hold_jid index_#{job_prefix} #{account}\
+      java -Xmx6g -jar #{gatk} -nt 4 \
+      -I #{read_bam} --known #{dbsnp_file} \
+      -R #{index_fa} \
+      -T RealignerTargetCreator \
+      -o #{target_intervals}"
+    puts cmd
+    system(cmd) if debug == 1
+  end
+
+
+
   # INDEX is normal genom.fa
   # Genotyper
-  def self.call(log_dir, gatk, index_fa, read_bam, read_vcf, job_prefix, account,dbsnp_file, debug)
+  def self.call(options)
     cmd = "qsub -pe DJ 4 -o #{log_dir} -e #{log_dir}_genotyper_errors -V -cwd -b y -N genotyper_#{job_prefix} -l h_vmem=6G -hold_jid recalibration_#{job_prefix} #{account}\
       java -Xmx6g -jar #{gatk} -l INFO -R #{index_fa} -T UnifiedGenotyper \
       -I #{read_bam} --dbsnp #{dbsnp_file} \
@@ -43,19 +63,6 @@ class GatkCaller
       -T PrintReads \
       -o #{recal_bam} \
       -BQSR #{recal_file}"
-    puts cmd
-    system(cmd) if debug == 1
-  end
-
-  # Preparation realignement
-
-  def self.prepare_realigne(log_dir, gatk, read_bam, index_fa, target_intervals, job_prefix, account, dbsnp_file, debug)
-    cmd = "qsub -pe DJ 4 -o #{log_dir} -e #{log_dir}_prep_realign_errors -V -cwd -b y -N prep_realignment_#{job_prefix} -l h_vmem=6G -hold_jid index_#{job_prefix} #{account}\
-      java -Xmx6g -jar #{gatk} -nt 4 \
-      -I #{read_bam} --known #{dbsnp_file} \
-      -R #{index_fa} \
-      -T RealignerTargetCreator \
-      -o #{target_intervals}"
     puts cmd
     system(cmd) if debug == 1
   end
