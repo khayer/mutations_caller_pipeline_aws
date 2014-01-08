@@ -23,9 +23,9 @@ class GatkCaller
   # Making recalibration table
   def self.recalibrate_bam(options)
     if options[:lsf]
-      cmd = "bsub -w \"done(real_#{options[:job_number]})\" -o #{options[:log_file]}_prep_recal_o.log -e #{options[:log_file]}_prep_recal_e.log -q max_mem30 -J prep_recal_#{options[:job_number]} java -Xmx25g -jar #{options[:gatk]} -I #{options[:realigned_bam]} -R #{options[:index_fa]} -T BaseRecalibrator -o #{options[:recal_qual]} --known #{options[:dbsnp_file]}"
+      cmd = "bsub -w \"done(real_#{options[:job_number]})\" -o #{options[:log_file]}_prep_recal_o.log -e #{options[:log_file]}_prep_recal_e.log -q max_mem30 -J prep_recal_#{options[:job_number]} java -Xmx25g -jar #{options[:gatk]} -I #{options[:realigned_bam]} -R #{options[:index_fa]} -T BaseRecalibrator -o #{options[:recal_qual]} -knownSites #{options[:dbsnp_file]}"
     else
-      cmd = "qsub -o #{options[:log_file]}_prep_recal_o.log -e #{options[:log_file]}_prep_recal_e.log -V -cwd -b y -hold_jid real_#{options[:job_number]} -N prep_recal_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:gatk]} -I #{options[:realigned_bam]} -R #{options[:index_fa]} -T BaseRecalibrator -o #{options[:recal_qual]} --known #{options[:dbsnp_file]}"
+      cmd = "qsub -o #{options[:log_file]}_prep_recal_o.log -e #{options[:log_file]}_prep_recal_e.log -V -cwd -b y -hold_jid real_#{options[:job_number]} -N prep_recal_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:gatk]} -I #{options[:realigned_bam]} -R #{options[:index_fa]} -T BaseRecalibrator -o #{options[:recal_qual]} -knownSites #{options[:dbsnp_file]}"
     end
     cmd
   end
