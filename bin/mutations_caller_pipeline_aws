@@ -116,11 +116,11 @@ def setup_options(args)
       options[:project] = " -P #{i}" if i
     end
 
-    opts.on("-o","--coverage ", "GATK Coverage summary" ) do
+    opts.on("-o","--coverage", "GATK Coverage summary" ) do
       options[:coverage] = true
     end
 
-    opts.on("-l", "--lsf ", "LSF instead of SGE. DEFAULT: SGE") do
+    opts.on("-l", "--lsf", "LSF instead of SGE. DEFAULT: SGE") do
       options[:lsf] = true
     end
 
