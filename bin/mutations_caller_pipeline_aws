@@ -116,8 +116,12 @@ def setup_options(args)
       options[:project] = " -P #{i}" if i
     end
 
-    opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
-      options[:coverage] =  true
+    opts.on("-o","--coverage ", "GATK Coverage summary" ) do
+      options[:coverage] = true
+    end
+
+    opts.on("-l", "--lsf ", "LSF instead of SGE. DEFAULT: SGE") do
+      options[:lsf] = true
     end
 
     opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
@@ -136,11 +140,8 @@ def setup_options(args)
       options[:sample_name] = i
     end
 
-    opts.on("-l", "--lsf ", "LSF instead of SGE. DEFAULT: SGE") do |i|
-      options[:lsf] = true
-    end
 
-    opts.on("-d", "--debug", "Run in debug mode") do |v|
+    opts.on("-d", "--debug", "Run in debug mode") do
       options[:log_level] = "debug"
     end
 
