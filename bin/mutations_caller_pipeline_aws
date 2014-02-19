@@ -117,7 +117,7 @@ def setup_options(args)
     end
 
     opts.on("-o","--coverage ", "GATK Coverage summary" ) do |i|
-      options[:coverage] =  true if i
+      options[:coverage] =  true
     end
 
     opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
@@ -207,10 +207,11 @@ def run(argv)
   options[:log_file] = "log/#{options[:sample_name]}"
   options[:target_intervals] = "GATK_files/target.intervals"
   options[:realigned_bam] = "#{options[:job_number]}_realigned.bam"
-  options[:recal_file] = "GATK_files/recal.grp"
+  options[:recal_qual] = "GATK_files/recal.grp"
   options[:recal_bam] = "#{options[:sample_name]}.bam"
   options[:bam_file] = "aligned_#{options[:job_number]}.bam"
   options[:bam_file_sorted] = "sorted_#{options[:job_number]}.bam"
+  options[:bam_file_sorted_duplicates] = "sorted_dupl_#{options[:job_number]}.bam"
   options[:duplicate_metrcis] = "GATK_files/duplicates.metrics"
   #options[:account] = options[:project] if options[:account].empty?
   #options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
