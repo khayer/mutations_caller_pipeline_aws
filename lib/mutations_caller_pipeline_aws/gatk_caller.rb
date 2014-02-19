@@ -11,7 +11,7 @@ class GatkCaller
 
   # Realignment
   # parallel not possible yet (1.6-13-g91f02df)
-  def self.realigne(log_dir, gatk, read_bam, index_fa, target_intervals, realigned_bam, job_prefix, account, debug)
+  def self.realigne(options)
     if options[:lsf]
       cmd = "bsub -w \"done(prep_real_#{options[:job_number]})\" -o #{options[:log_file]}_real_o.log -e #{options[:log_file]}_real_e.log -q max_mem30 -J real_#{options[:job_number]} java -Xmx25g -jar #{options[:gatk]} -I #{options[:bam_file_sorted_duplicates]} -R #{options[:index_fa]} -T IndelRealigner -targetIntervals #{options[:target_intervals]}.intervals -o #{options[:realigned_bam]}"
     else
