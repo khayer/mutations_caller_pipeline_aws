@@ -233,27 +233,28 @@ def run(argv)
   execute(cmd,options)
 
   # Realigne
-  GatkCaller.prepare_realigne(options)
+  cmd = GatkCaller.prepare_realigne(options)
   execute(cmd,options)
 
-  GatkCaller.realigne(options)
+  cmd = GatkCaller.realigne(options)
   execute(cmd,options)
 
   # Recalibration
-  GatkCaller.recalibrate_bam(options)
+  cmd = GatkCaller.recalibrate_bam(options)
   execute(cmd,options)
 
-  GatkCaller.table_calibration(options)
+  cmd = GatkCaller.table_calibration(options)
   execute(cmd,options)
 
   # GATK: finding mutations
-  GatkCaller.call(options)
+  cmd = GatkCaller.call(options)
   execute(cmd,options)
 
   # GATK : coverage
   if options[:coverage]
     options[:outfile_prefix] = options[:vcf].gsub(/.vcf/,"_coverage")
-    GatkCaller.coverage(options)
+    cmd = GatkCaller.coverage(options)
+    execute(cmd,options)
   end
 end
 
