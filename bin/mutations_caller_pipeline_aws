@@ -153,7 +153,7 @@ def setup_options(args)
   begin
     optparse.parse!(args)
     mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_index,
-      :bwa, :gatk, :vcf, :index_vcf, :sample_name, :index_fa]
+      :bwa, :gatk, :vcf, :sample_name, :index_fa]
     missing = mandatory.select{ |param| options[param].nil? }
     if !missing.empty?
       puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
@@ -191,7 +191,7 @@ def run(argv)
       options[:index] = row["Index"]
       lane = row["Lane"]
       sample_project = row["SampleProject"]
-      options[:id] = "#{sample_project}_#{lane}_#{sample_name}"
+      options[:id] = "#{sample_project}_#{lane}_#{options[:sample_name]}"
       options[:library] = row["FCID"]
     end
   end
