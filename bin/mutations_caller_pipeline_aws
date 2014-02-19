@@ -44,7 +44,7 @@ ________________________________________________________________________________
   Also you should have the indices for bwa and GATK prepared.
   NOTE: Only paired end reads are supported!
 
-                      +++  C L U S T E R  V E R S I O N - 0.0.23 +++
+                      +++  C L U S T E R  V E R S I O N - 0.0.24 +++
 
   config.yml should look like this:
   # config.yml
@@ -257,6 +257,6 @@ def run(argv)
   end
 end
 
-if __FILE__ == $0
-  run(ARGV)
-end
+#if __FILE__ == $0
+run(ARGV)
+#end
