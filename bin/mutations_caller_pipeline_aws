@@ -209,8 +209,8 @@ def run(argv)
   options[:realigned_bam] = "#{options[:job_number]}_realigned.bam"
   options[:recal_file] = "GATK_files/recal.grp"
   options[:recal_bam] = "#{options[:sample_name]}.bam"
-  options[:bam_file] = "aligned_#{job_number}.bam"
-  options[:bam_file_sorted] = "sorted_#{job_number}.bam"
+  options[:bam_file] = "aligned_#{options[:job_number]}.bam"
+  options[:bam_file_sorted] = "sorted_#{options[:job_number]}.bam"
   options[:duplicate_metrcis] = "GATK_files/duplicates.metrics"
   #options[:account] = options[:project] if options[:account].empty?
   #options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
