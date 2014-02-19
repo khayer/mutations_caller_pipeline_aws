@@ -57,9 +57,9 @@ class GatkCaller
   # parallel not possible yet (1.6-13-g91f02df)
   def self.coverage(options)
     if options[:lsf]
-      cmd = "bsub -w \"done(recal_#{options[:job_number]})\" -o #{options[:log_file]}_genotyper_o.log -e #{options[:log_file]}_genotyper_e.log -q plus -J genotyper_#{options[:job_number]} java -Xmx5g -jar #{options[:gatk]} -R #{options[:index_fa]} -T DepthOfCoverage -I #{options[:recal_bam]} -o #{options[:coverage_prefix]} --omitDepthOutputAtEachBase --omitIntervalStatistics --omitLocusTable"
+      cmd = "bsub -w \"done(recal_#{options[:job_number]})\" -o #{options[:log_file]}_coverage_o.log -e #{options[:log_file]}_coverage_e.log -q plus -J coverage_#{options[:job_number]} java -Xmx5g -jar #{options[:gatk]} -R #{options[:index_fa]} -T DepthOfCoverage -I #{options[:recal_bam]} -o #{options[:coverage_prefix]} --omitDepthOutputAtEachBase --omitIntervalStatistics --omitLocusTable"
     else
-      cmd = "qsub -o #{options[:log_file]}_genotyper_o.log -e #{options[:log_file]}_genotyper_e.log -V -cwd -b y -hold_jid recal_#{options[:job_number]} -N genotyper_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:gatk]} -R #{options[:index_fa]} -T DepthOfCoverage -I #{options[:recal_bam]} -o #{options[:coverage_prefix]} --omitDepthOutputAtEachBase --omitIntervalStatistics --omitLocusTable"
+      cmd = "qsub -o #{options[:log_file]}_coverage_o.log -e #{options[:log_file]}_coverage_e.log -V -cwd -b y -hold_jid recal_#{options[:job_number]} -N coverage_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:gatk]} -R #{options[:index_fa]} -T DepthOfCoverage -I #{options[:recal_bam]} -o #{options[:coverage_prefix]} --omitDepthOutputAtEachBase --omitIntervalStatistics --omitLocusTable"
     end
     cmd
   end
