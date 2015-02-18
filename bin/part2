@@ -1,0 +1,165 @@
+#!/usr/bin/env ruby
+require 'mutations_caller_pipeline_aws'
+require 'optparse'
+require 'rubygems'
+require 'yaml'
+require 'csv'
+require 'logger'
+=begin
+  * Name: Part2
+  * This script generates spreadsheets and homozygosity scores plots
+  * from a given file of raw vcf files.
+  * Author: Katharina Hayer
+  * Date: 2/1/2015
+  * License: GNU General Public License (GPL-2.0)
+=end
+
+$logger = Logger.new(STDERR)
+
+# Initialize logger
+def setup_logger(loglevel)
+  case loglevel
+  when "debug"
+    $logger.level = Logger::DEBUG
+  when "warn"
+    $logger.level = Logger::WARN
+  when "info"
+    $logger.level = Logger::INFO
+  else
+    $logger.level = Logger::ERROR
+  end
+end
+
+$usage =<<EOF
+_________________________________________________________________________________________________
+
+  #{$0} vcf_files.txt config.yml [OPTIONS]
+_________________________________________________________________________________________________
+
+  #{$0} ...
+  ... is a wrapper to take raw vcf files and produce homozygosity
+  plots and variant spreadsheets.
+
+                      +++ V E R S I O N - 0.0.3 +++
+
+  config.yml should look like this:
+  # config.yml
+  bwa_index: "path/to/prefix"
+  picard_tools: "path/to/picard_tools/"
+  bwa: "path/to/bwa"
+  samtools: "path/to/samtools"
+  gatk: "path/to/GenomeAnalysisTK.jar"
+_________________________________________________________________________________________________
+
+EOF
+
+def setup_options(args)
+  options = {
+    :gatk => nil,
+    :bwa => nil,
+    :vcf => nil,
+    :debug => 1,
+    :lsf => false,
+    :threads => 1
+  }
+  #:cluster => false,
+  #:samtools => nil,
+  #:wildtype_r1 => nil,
+  #:wildtype_r2 => nil,
+  #:account => "",
+  #:project => "",
+
+  optparse = OptionParser.new do |opts|
+    opts.banner = $usage
+
+    #opts.on("-m", "--fwd_read_mutant DIR", :REQUIRED, String, "Path to fwd read of mutant") do |i|
+    #  options[:mutant_r1] = i
+    #end
+#
+    #opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
+    #  options[:mutant_r2] = i
+    #end
+
+    #opts.on("-w", "--fwd_read_wildtype DIR", String, "Path to fwd read of wildtype, not mandatory") do |i|
+    #  options[:wildtype_r1] = i if i
+    #end
+#
+    #opts.on("-x", "--rev_read_wildtype DIR", String, "Path to rev read of wildtype, not mandatory") do |i|
+    #  options[:wildtype_r2] = i if i
+    #end
+
+    #opts.on("-v","--vcf [PATH]", "Output of pipeline") do |i|
+    #  options[:vcf] = i
+    #end
+#
+    #opts.on("-a","--account [NAME]", "Option for qsub: -A [NAME]. Default: [none] " ) do |i|
+    #  options[:account] = " -A #{i}" if i
+    #end
+#
+    #opts.on("-p","--project [NAME]", "Option for qsub: -P [NAME]. Default: [none] " ) do |i|
+    #  options[:project] = " -P #{i}" if i
+    #end
+#
+    #opts.on("-o","--coverage", "GATK Coverage summary" ) do
+    #  options[:coverage] = true
+    #end
+
+    opts.on("-l", "--lsf", "LSF instead of SGE. DEFAULT: SGE") do
+      options[:lsf] = true
+    end
+
+    #opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
+    #  options[:samplesheet] = i
+    #end
+#
+    #opts.on("-f", "--dbsnp_file DIR", :REQUIRED, String, "dbsnp.vcf") do |i|
+    #  options[:dbsnp_file] = i
+    #end
+
+    opts.on("-t", "--threads INT", :REQUIRED, Integer, "Number of threads. DEFAULT: 1") do |i|
+      options[:threads] = i
+    end
+
+    opts.on("-b", "--sample_name Name", :REQUIRED, String, "Sample name / SampleID") do |i|
+      options[:sample_name] = i
+    end
+
+
+    opts.on("-d", "--debug", "Run in debug mode") do
+      options[:log_level] = "debug"
+    end
+
+    opts.on_tail("-h", "--help", "Show this message") do
+      puts opts
+      exit
+    end
+  end
+
+  begin
+    optparse.parse!(args)
+    #mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_index,
+    #  :bwa, :gatk, :vcf, :sample_name, :index_fa]
+    #missing = mandatory.select{ |param| options[param].nil? }
+    #if !missing.empty?
+    #  puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
+    #  puts optparse
+    #  exit
+    #end
+  rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+     puts $!.to_s
+     puts optparse
+     exit
+  end
+  options
+end
+
+def run(argv)
+  options = setup_options(argv)
+  setup_logger(options[:log_level])
+  $logger.debug(options)
+  $logger.debug(argv)
+end
+
+if __FILE__ == $0
+  run(ARGV)
+end
