@@ -1,0 +1,151 @@
+#!/usr/bin/env ruby
+
+usage =<<EOF
+
+  #{$0} combined.vcf target_pos control,pos,ition,s current_chromosome
+ -----------------------------------------
+  Homozygosity Score is definied as:
+    total # of bases examined / total # bases on chromosome
+    in a 1MB window
+
+  control,pos,ition,s for Wik and TLF only!
+
+  format out:
+
+  position score
+  ...
+  500000 50
+  500001 50
+  500002 51
+  ...
+EOF
+
+# Functions:
+def snp_exist?(info)
+  !(info =~ /\.\/\./) && !(info =~ /0\/0/)
+end
+
+def snp_homo?(info)
+  (info =~ /1\/1/) || (info =~ /2\/2/) || (info =~ /3\/3/)
+end
+
+# _ Main _:
+if ARGV.length != 4
+  puts usage
+  exit
+end
+
+combined_vcf = ARGV[0]
+target_pos = ARGV[1].to_i + 8
+control_positions = ARGV[2].split(",").map {|ele| ele.to_i + 8}
+current_chromosome = ARGV[3]
+
+window_size = 660000
+window_first = 0
+window_second = -window_size/2
+
+
+all_snps_first_window = 0
+all_snps_second_window = 0
+homozygous_snps_first_window = 0
+homozygous_snps_second_window = 0
+dummy = false
+positions = Array.new
+homozygous = Array.new
+total_bases_examined = 0
+
+chr_lengths = Hash.new()
+
+File.open(combined_vcf).each do |line|
+  if line =~ /ID=chr/
+    leng = line.split("=")[-1].split(">")[0].to_i
+    chr = line.split("=")[-2].split(",")[0]
+    chr_lengths[chr] = leng
+  end
+
+  next if line =~ /^#/  # getting rid of header lines
+  line.chomp!
+
+  line = line.split("\t")
+  target_info = line[target_pos]
+  next if target_info =~ /\.\/\./ # If target_info = "./." we move on
+  #next unless snp_homo?(target_info)
+  target_info = target_info.split(":")
+  next unless target_info[2].to_f > 5.0
+  target_genotype = target_info[0]
+
+  all_genotypes = Array.new()
+  all_read_numbers = Array.new(8,0)
+  coverage = 0
+  all_pos = [control_positions].flatten
+  #all_pos = [control_positions , target_pos].flatten
+  #puts line
+  all_pos.each do |current_sample_number|
+    unless line[current_sample_number] =~ /\.\/\./
+      next unless line[current_sample_number].split(":")[2].to_f > 5.0
+      all_genotypes << line[current_sample_number].split(":")[0]
+      line[current_sample_number].split(":")[1].split(",").each_with_index do |number, index|
+        all_read_numbers[index] += number.to_i
+      end
+      #puts all_read_numbers.join(":")
+      #puts all_genotypes.join(":")
+      #STDIN.gets
+      coverage += line[current_sample_number].split(":")[2].to_i
+    end
+  end
+
+  fraction = (all_read_numbers.max.to_f / coverage.to_f)
+  next unless fraction < 0.50
+
+  if snp_homo?(target_info[0])
+    homozygous_snps_first_window += 1
+    homozygous_snps_second_window += 1
+  end
+
+  all_snps_first_window += 1
+  all_snps_second_window += 1
+
+  position = line[1].to_i
+  state = "nothing"
+  if position > window_second
+    state = "second_done"
+  end
+  if position > window_first
+    state = "first_done"
+  end
+
+  case state
+   when "second_done"
+    if dummy
+      #ratio = ( homozygous_snps_second_window.to_f / ( all_snps_second_window.to_f / window_size.to_f ))
+      #puts "#{window_second}\t#{ratio}"
+      positions << window_second
+      homozygous << homozygous_snps_second_window
+      homozygous_snps_second_window = 0
+      all_snps_second_window = 0
+      window_second += window_size
+    else
+      window_second += window_size
+      homozygous_snps_second_window = 0
+      all_snps_second_window = 0
+      dummy = true
+    end
+   when "first_done"
+    #ratio = ( homozygous_snps_first_window.to_f / ( all_snps_first_window.to_f / window_size.to_f ))
+    #puts "#{window_first}\t#{ratio}"
+    positions << window_first
+    homozygous << homozygous_snps_first_window
+    total_bases_examined += all_snps_first_window
+    homozygous_snps_first_window = 0
+    all_snps_first_window = 0
+    window_first += window_size
+   end
+end
+
+total_number_of_bases_in_chromosome = chr_lengths[current_chromosome]
+
+positions.each_with_index do |pos,i|
+  ratio = homozygous[i].to_f * total_bases_examined.to_f/total_number_of_bases_in_chromosome.to_f
+  puts "#{pos}\t#{ratio}"
+end
+

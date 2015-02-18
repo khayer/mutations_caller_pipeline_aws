@@ -1,0 +1,344 @@
+#!/usr/bin/env ruby
+require 'spreadsheet'
+require 'csv'
+require 'bio'
+
+usage =<<EOF
+
+      #{$0} vcf xls target control tlf wik phast homo [sib]
+
+      ------------------------------------------------------
+      * vcf      :: vcf with all samples
+      * xls      :: spreadsheet.xls
+      * target   :: number of sample in vcf
+      * control  :: position in vcf file (seperated by ,)
+      * tlf      :: number of tlf
+      * wik      :: number of wik
+      * phast    :: phast cons score
+      * homo     :: homozygosity score
+      * [sib]    :: number of sibling
+      ------------------------------------------------------
+
+      - VERSION 7/22/2014 (105FEGG) -------------------------
+
+      ------------------------------------------------------
+
+      Creates spreadsheet from vcf file.
+
+      This version reports both SNP's in ORFs and those not
+      in ORFs, that have allele frequencies >50% in the target
+      and <10% in the "controls".
+
+                                                       by khayer
+
+EOF
+
+### Functions #######################################################
+#####################################################################
+
+def make_link(pos, location)
+  location = location.delete("chr")
+  pos_l = (pos - 10).to_s
+  pos_r = (pos + 10).to_s
+  link = "http://www.ensembl.org/Danio_rerio/Location/View?r=#{location}:#{pos_l}-#{pos_r}"
+end
+
+def make_link_refSeq(snpeff_transcript_id)
+  snpeff_transcript_id = snpeff_transcript_id.split(".")[0]
+  link = "http://www.ncbi.nlm.nih.gov/nuccore/#{snpeff_transcript_id}"
+end
+
+def make_link_ensembl(ensemble_id)
+  link = "http://useast.ensembl.org/Danio_rerio/Gene/Summary?db=core;g=#{ensemble_id}"
+end
+
+def snp_unique?(sample_genotype,sample_genotype_quality)
+  k = true
+  sample_genotype.each_with_index do |genotype,i|
+    k = false if ((genotype =~ /1\/1/ || genotype =~ /0\/1/ || genotype =~ /2\/2/|| genotype =~ /1\/2/ || genotype =~ /0\/2/) && sample_genotype_quality[i] >= 5)
+  end
+  k
+end
+
+#def get_score(location, pos, seg)
+#  lower = pos - 25000
+#  upper = pos + 25000
+#  scores = `grep -w #{location} #{seg}| awk '$3 > #{lower} {print $0}' | awk '$3 < #{upper} {print $0}'`
+#  highest = 0
+#  scores = scores.split("\n")
+#  scores.each do |line|
+#    line = line.split("\t")
+#    highest = line[-1].to_i if line[-1].to_i > highest
+#  end
+#  highest
+#end
+
+def get_names(vcf_file,numbers)
+  names = []
+  File.open(vcf_file).each do |line|
+    line.chomp!
+    next if line =~ /^##/
+    break unless line =~ /^#/
+    fields = line.split("\t")
+    numbers.each do |num|
+      names << fields[num]
+    end
+  end
+  names
+end
+
+def homozygous?(info)
+   (info =~ /0\/0/) || (info =~ /1\/1/) || (info =~ /2\/2/) || (info =~ /3\/3/)
+end
+
+def non_unique?(target_fields,array_of_control_fields)
+  result = false
+  target_dis = target_fields[1].split(",").map {|ele| ele.to_i}
+  return true if target_dis.uniq.length == 1
+  max_index = target_dis.index(target_dis.max)
+  array_of_control_fields.each do |control_fields|
+    next if control_fields[0] == "./."
+    next if control_fields[3].to_i < 30
+    control_dis = control_fields[1].split(",").map {|ele| ele.to_i}
+    #unless control_dis[max_index] == 0 && control_fields[0] != target_fields[0]
+    if control_fields[0] == target_fields[0] || !homozygous?(control_fields[0])
+      result = true
+      break
+    end
+  end
+  result
+end
+
+def get_base(control_fields,fields)
+  return "n/a" if control_fields[0] == "./."
+  bases = [fields[3],fields[4].split(",")].flatten
+  control_dis = control_fields[1].split(",").map {|ele| ele.to_i}
+  max_index = control_dis.index(control_dis.max)
+  bases[max_index]
+end
+
+def get_phast_cons_score(phast_cons,chromosome,position)
+  all_matches = open(phast_cons) { |f| f.grep(/\s#{chromosome}\s/) }
+  result = "n/a"
+  all_matches.each do |match|
+    match.chomp!
+    fields = match.split("\t")
+    if position > fields[2].to_i && position < fields[3].to_i
+      result = fields[-1].to_i
+      break
+    end
+  end
+  result
+end
+
+def get_homozygosity_score(homo_score,position)
+  result = "n/a"
+  File.open(homo_score).each do |line|
+    line.chomp!
+    fields = line.split("\t")
+    if position < fields[0].to_i
+      result = fields[1].to_f
+      break
+    end
+  end
+  result
+end
+
+def get_total_allele_depth(target_fields,array_of_control_fields)
+  array_length = target_fields[1].split(",").length
+  allele_depth = Array.new(array_length,0)
+  array_of_control_fields.each do |control_fields|
+    next if control_fields[0] == "./."
+    control_dis = control_fields[1].split(",").map {|ele| ele.to_i}
+    control_dis.each_with_index do |num,i|
+      allele_depth[i] += num
+    end
+  end
+  allele_depth.join(",")
+end
+
+def get_allele_frequency(array_of_control_fields,mutant_index)
+  allele_frequency = 0.0
+  all_reads = 0
+  mutant_reads = 0
+  array_of_control_fields.each do |control_fields|
+    next if control_fields[0] == "./."
+    dis = control_fields[1].split(",").map {|ele| ele.to_i}
+    dis.each do |num|
+      all_reads += num
+    end
+    mutant_reads += dis[mutant_index]
+  end
+  allele_frequency = mutant_reads.to_f / all_reads.to_f if all_reads > 0
+  allele_frequency
+end
+
+def getScore(target_read_dis)
+  #score = 0.0
+  max = target_read_dis.max
+  if max == target_read_dis[0]
+    score = 0.0
+  else
+    sum = target_read_dis.inject { |sum, n| sum + n }
+    score = max.to_f/sum.to_f
+  end
+  score
+end
+
+### Main ############################################################
+#####################################################################
+
+if ARGV.length < 8
+  puts usage
+  exit
+end
+
+#{$0} vcf xls target control tlf wik phast homo
+
+vcf_file = ARGV[0]
+xls_doc = ARGV[1]
+target_number = ARGV[2].to_i + 8
+control_numbers = ARGV[3].split(",").map {|ele| ele.to_i + 8}
+tlf_number = ARGV[4].to_i + 8
+wik_number = ARGV[5].to_i + 8
+phast_cons = ARGV[6]
+homo_score = ARGV[7]
+sib_number = ARGV[8].to_i + 8 if ARGV[8]
+
+#seg = ARGV[3]
+
+target_name = get_names(vcf_file,[target_number])
+control_names = get_names(vcf_file,control_numbers)
+
+book = Spreadsheet::Workbook.new
+sheet1 = book.create_worksheet
+sheet1.row(0).push '#CHROM','POS','Zv9 base'
+sheet1.row(0).push 'TLF base', 'TLF GT','TLF AD','TLF GTQ'
+sheet1.row(0).push 'Wik base', 'Wik GT','Wik AD','Wik GTQ'
+sheet1.row(0).push "#{target_name[0]} base",'Impact','Effect', 'Codon Change','Amino Change', 'Gen Name','Phast Cons','Score'
+sheet1.row(0).push "#{target_name[0]} GT","#{target_name[0]} AD", "#{target_name[0]} GTQ"
+if sib_number
+  sib_name = get_names(vcf_file,[sib_number])
+  sheet1.row(0).push "#{sib_name[0]} GT", "#{sib_name[0]} AD", "#{sib_name[0]} GTQ"
+end
+sheet1.row(0).push 'Total AD Control', "#{target_name[0]} Allele Frequency", 'Controls Allele Frequency'
+#puts control_names
+control_names.each do |control_name|
+  sheet1.row(0).push "#{control_name} GT", "#{control_name} AD", "#{control_name} GTQ"
+end
+
+format1 = Spreadsheet::Format.new :weight => :bold
+sheet1.row(0).default_format = format1
+
+
+i = 1
+#dummy = ""
+#locator = Hash.new()
+#number_of_samples = sample_names.length()
+#location_first = "dummy"
+File.open(vcf_file).each do |line|
+  line.chomp!
+  ###next if !(line =~ /EFF/)
+  #puts "YES1"
+  ###next unless (line =~ /HIGH/ || line =~ /MODERATE/ )
+  next if line =~ /^#/
+  #puts "#{line}"
+  #puts "YES2"
+  #fields = line.split("\t")
+  fields = line.split(" ")
+  #next unless homozygous?(fields[target_number])
+  target_fields = fields[target_number].split(":")
+  next if target_fields[2].to_i < 4
+  next if target_fields[0] == "0/0"
+  target_read_dis = target_fields[1].split(",").map {|ele| ele.to_i }
+  current_score = getScore(target_read_dis)
+  next if current_score < 0.5
+  next if target_fields[3].to_i < 5
+  tlf_fields = fields[tlf_number].split(":")
+  wik_fields = fields[wik_number].split(":")
+  next if non_unique?(target_fields,[tlf_fields,wik_fields])
+  array_of_control_fields = []
+  control_numbers.each do |num|
+    array_of_control_fields << fields[num].split(":")
+  end
+  next if non_unique?(target_fields,array_of_control_fields)
+  array_of_control_fields_with_strains = array_of_control_fields.dup
+  array_of_control_fields_with_strains << tlf_fields
+  array_of_control_fields_with_strains << wik_fields
+  #puts target_fields[0].split(",")
+  mutant_index = target_fields[0].split("/")[1].to_i
+  #puts mutant_index
+  all_allele_frequency = get_allele_frequency(array_of_control_fields_with_strains,mutant_index)
+  next if all_allele_frequency > 0.1
+
+  link = make_link(fields[1].to_i,fields[0])
+  sheet1.row(i).push Spreadsheet::Link.new(link,fields[0]), fields[1].to_i, fields[3]
+  tlf_base = get_base(tlf_fields,fields)
+  sheet1.row(i).push tlf_base, tlf_fields[0], tlf_fields[1], tlf_fields[3].to_i
+  wik_base = get_base(wik_fields,fields)
+  sheet1.row(i).push wik_base, wik_fields[0], wik_fields[1], wik_fields[3].to_i
+  target_base = get_base(target_fields,fields)
+  sheet1.row(i).push target_base
+  if line =~ /(HIGH|MODERATE)/
+    #STDERR.puts line
+    ###INFO=<ID=EFF,Number=.,Type=String,
+    #Description="Predicted effects for this variant.Format:
+    #'Effect ( Effect_Impact | Functional_Class | Codon_Change | Amino_Acid_Change|
+    #Amino_Acid_length | Gene_Name | Transcript_BioType | Gene_Coding | Transcript_ID
+    #| Exon_Rank  | Genotype_Number [ | ERRORS | WARNINGS ] )' ">
+    info = fields[7]
+    #puts info
+    snp_eff = info.split("EFF=")[1].split(",")
+    snp_eff.keep_if {|k| k =~ /(HIGH|MODERATE)/}
+    #puts snp_eff
+    effect,impact,functional_class,codon_change,aa_change,aa_length,gene_name,transcript_bio_type,gene_coding,snpeff_transcript_id,exon_rank,genotype_number= snp_eff[0].split(/[|()]/)
+    #impact = info.split("SNPEFF_IMPACT=")[-1].split(";")[0]
+    #gene_name = info.split("SNPEFF_GENE_NAME=")[-1].split(";")[0].gsub(/Multi/,"(x of x)")
+    #effect = info.split("SNPEFF_EFFECT=")[-1].split(";")[0]
+    #snpeff_transcript_id = info.split("SNPEFF_TRANSCRIPT_ID=")[-1].split(";")[0]
+    sheet1.row(i).default_format = Spreadsheet::Format.new :pattern => 1 ,:pattern_fg_color => :green, :color => :white if impact=="HIGH"
+    sheet1.row(i).default_format = Spreadsheet::Format.new :pattern => 1 ,:pattern_fg_color => :orange, :color => :white if impact=="MODERATE"
+    if snpeff_transcript_id =~ /^ENS/
+      link_transcript_id = make_link_ensembl(snpeff_transcript_id)
+    else
+      link_transcript_id = make_link_refSeq(snpeff_transcript_id)
+    end
+    codon_change = "n/a"
+    amino_change = "n/a"
+    if effect == "NON_SYNONYMOUS_CODING"
+      #codon_change = info.split("SNPEFF_CODON_CHANGE=")[-1].split(";")[0]
+      codons = codon_change.split("/")
+      amino_change = []
+      codons.each do |code|
+        amino_change << Bio::Sequence::NA.new(code).translate
+      end
+      amino_change = amino_change.join("/")
+    end
+    sheet1.row(i).push impact,effect,codon_change,amino_change,Spreadsheet::Link.new(link_transcript_id,gene_name)
+  else
+    sheet1.row(i).push 'n/a','n/a','n/a','n/a','n/a'
+  end
+  phast_cons_score = get_phast_cons_score(phast_cons,fields[0],fields[1].to_i)
+  homozygosity_score = get_homozygosity_score(homo_score,fields[1].to_i)
+  sheet1.row(i).push phast_cons_score, homozygosity_score
+  sheet1.row(i).push target_fields[0],target_fields[1],target_fields[3].to_i
+  if sib_number
+    sib_fields = fields[sib_number].split(":")
+    sheet1.row(i).push sib_fields[0],sib_fields[1],sib_fields[3].to_i
+  end
+  array_of_control_fields_with_strains = array_of_control_fields.dup
+  array_of_control_fields_with_strains << tlf_fields
+  array_of_control_fields_with_strains << wik_fields
+  total_allele_depth = get_total_allele_depth(target_fields,array_of_control_fields_with_strains)
+  mutant_index = target_fields[0].split("/")[1].to_i
+  target_allele_frequency = get_allele_frequency([target_fields],mutant_index)
+
+  all_allele_frequency = get_allele_frequency(array_of_control_fields_with_strains,mutant_index)
+  sheet1.row(i).push total_allele_depth, target_allele_frequency, all_allele_frequency
+  array_of_control_fields.each do |control_fields|
+    sheet1.row(i).push control_fields[0],control_fields[1],control_fields[3].to_i
+  end
+  i = i+1
+end
+
+book.write xls_doc

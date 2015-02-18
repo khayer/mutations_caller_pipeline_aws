@@ -60,7 +60,8 @@ def setup_options(args)
     :vcf => nil,
     :debug => 1,
     :lsf => false,
-    :threads => 1
+    :threads => 1,
+    :folder_name => "vcf_by_chromosome"
   }
   #:cluster => false,
   #:samtools => nil,
@@ -124,6 +125,10 @@ def setup_options(args)
       options[:sample_name] = i
     end
 
+    opts.on("-f", "--folder_name Name", :REQUIRED, String, "Folder name for splitted vcf files [DEFAULT: vcf_by_chromosome]") do |i|
+      options[:folder_name] = i
+    end
+
 
     opts.on("-d", "--debug", "Run in debug mode") do
       options[:log_level] = "debug"
@@ -154,6 +159,30 @@ def setup_options(args)
   options
 end
 
+def wait(running_jobs)
+  not_finished = true
+  
+  while not_finished
+    break if running_jobs.length == 0
+    sleep 50
+    running_jobs.each_pair do |key,files|
+      l = `bjobs -l #{key}`.gsub(/\s/,"")
+      case 
+      when l =~ /(Status<RUN>|Status<PEND>)/
+        next
+      when l =~ /Status<EXIT>/
+        raise "#{key} died on while running \"{files}\" "
+        running_jobs.delete(key)
+      when l =~ /Status<DONE>/
+        # merge
+        #puts "Graph id #{files[0]} done succesfully"
+        logger.info("Job #{key} was succesful running \"{files}\"")
+        running_jobs.delete(key)
+      end
+    end
+  end
+end
+
 def run(argv)
   options = setup_options(argv)
   setup_logger(options[:log_level])
@@ -176,9 +205,11 @@ def run(argv)
     l =~ /\<(\d*)\>/
     running_jobs[$1] = cmd
   end
+  #### Wait for running_jobs to finish
+  wait(running_jobs)
   # ANNOTATE
   cmd = "bsub -n 10 -q max_mem30 -J #{id}_snpEff \\
-    -o tp_%J_#{id}_snpEff_o.log -e tp_%J_#{id}_snpEff_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \> output_#{id}.ann.gatk.vcf"
+    -o tp_%J_#{id}_snpEff_o.log -e tp_%J_#{id}_snpEff_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
   if options[:debug]
     puts cmd
   else 
@@ -186,7 +217,20 @@ def run(argv)
     l =~ /\<(\d*)\>/
     running_jobs[$1] = cmd
   end
-
+  wait(running_jobs)
+  ### Split by chromosome
+  `mkdir #{options[:folder_name]}`
+  [(1..25).to_a,"M"].flatten.each do |i|
+    cmd = "bsub grep -E '(chr#{i}\\s|^#)' output_#{id}.ann.gatk.vcf \\> vcf_by_chr/chr#{i}.vcf"
+    if options[:debug]
+      puts cmd
+    else 
+      l = `#{cmd}`
+      l =~ /\<(\d*)\>/
+      running_jobs[$1] = cmd
+    end
+  end
+  wait(running_jobs)
 end
 
 if __FILE__ == $0

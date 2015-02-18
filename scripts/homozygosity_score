@@ -1,0 +1,96 @@
+#!/usr/bin/env ruby
+
+usage =<<EOF
+
+  #{$0} input.vcf cutoff [stdout]
+ -----------------------------------------
+  only report #_of_homozygot_snps > cutoff
+
+  format out:
+
+  location  start end #_of_homozygot_snps
+  ...
+  chr1  0 500000 50
+  chr1  1 500001 50
+  chr1  2 500002 51
+  ...
+EOF
+
+if ARGV.length != 2
+  puts usage
+  exit
+end
+
+# _ Functions _
+def get_location_lengths(filename)
+  location_lengths = Hash.new
+  File.open(filename).each do |line|
+    break if line =~ /^[\w]{2}/
+    next if !(line =~ /contig=<ID=/)
+
+    line = line.split(/\W/)
+    location_lengths[line[5]] = line[-1].to_i
+
+
+  end
+  location_lengths
+end
+
+
+# _ Functions end _
+
+
+input = ARGV[0]
+name = input.split(/\W/)[-2]
+cutoff = ARGV[1].to_i()
+window_length = 50000
+
+
+location_lengths = get_location_lengths(input)
+#puts "location\tstart\tend\t#_of_homozygot_snps"
+
+
+input_handle = File.open(input)
+k = "dummy"
+while k == "dummy"
+  line = input_handle.readline()
+  k = "da" if !(line =~ /^#/)
+end
+
+line = line.split("\t")
+
+while !input_handle.eof?
+
+  windows = Hash.new(0)
+  location = line[0]
+  position = line[1].to_i()-1
+
+
+  while location == line[0] && !input_handle.eof?
+
+    windows[position] = 0
+    windows.keys().each do |key|
+
+      if key >= position - window_length #&& location_lengths[location] >= key + window_length
+        windows[key] += 1 if line[-1] =~ /^1\/1/
+      else
+        number = windows.delete(key)
+        puts "#{name}\t#{location}\t#{key}\t#{key+1}\t#{number}" if number >= cutoff
+      end
+    end
+
+    line = input_handle.readline.split("\t")
+    position = line[1].to_i()-1
+  end
+
+  windows.keys().each do |key|
+    number = windows.delete(key)
+    key = key + window_length / 2
+    puts "#{name}\t#{location}\t#{key}\t#{key+1}\t#{number}" if number >= cutoff
+  end
+
+
+end
+
+
+

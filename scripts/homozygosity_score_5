@@ -1,0 +1,150 @@
+#!/usr/bin/env ruby
+
+usage =<<EOF
+
+  #{$0} input.vcf sample_number control_number [stdout]
+ -----------------------------------------
+  only report #_of_homozygot_snps > cutoff
+
+  format out:
+
+  location  start end #_of_homozygot_snps
+  ...
+  chr1  0 500000 50
+  chr1  1 500001 50
+  chr1  2 500002 51
+  ...
+EOF
+
+if ARGV.length != 3
+  puts usage
+  exit
+end
+
+# _ Functions _
+
+def frequency(mutated_reads,all_reads)
+  frequency = mutated_reads/all_reads.to_f
+  #frequency = 0.5 if frequency < 0.85
+  #frequency = 1.0 if frequency > 0.5
+  #frequency = 0.5 if frequency != 1.0 && frequency != 0.5
+  frequency.to_f
+  #frequency = 0.5 if frequency < 0.5
+
+end
+
+def snp_exist?(info)
+  !(info =~ /\.\/\./) && !(info =~ /0\/0/)
+end
+
+def snp_unique?(line,info,control_numbers)
+  snp_unique = true
+  control_numbers.each do |control_number|
+    info_control = line.split("\t")[control_number].split(":")
+    snp_unique = snp_unique && info[2].to_i > 10 && info[3].to_i > 75 &&
+      ( !(info_control[0] =~ /1\/1/) && !(info[0] =~ /2\/2/) && info[3].to_f >= 70.0) &&
+      ( !(info_control[0] == info[0]) &&  info[3].to_f >= 70.0)
+    break if !snp_unique
+  end
+  snp_unique
+end
+
+
+
+# _ Main _
+
+# Set Parameters
+input = ARGV[0]
+sample_number = ARGV[1].to_i() + 8
+control_numbers = ARGV[2].split(",").map {|ele| ele.to_i + 8}
+window_length = 1000
+
+# Skip Header
+input_handle = File.open(input)
+line = input_handle.readline()
+while line =~ /^#/
+  line = input_handle.readline()
+end
+
+frequencies = []
+positions = []
+i = 0
+counter = 0
+
+while i < window_length
+  info = line.split("\t")[sample_number]
+
+  if snp_exist?(info)
+    counter += 1
+    info = info.split(":")
+    #all_reads = info[1].split(",")[1].to_f + info[1].split(",")[0].to_f
+    #mutated_reads = info[1].split(",")[1].to_f
+
+
+    allele_frequency = info[1].split(",")
+    num_reference = allele_frequency.delete_at(0).to_f
+    num_mut_reads = allele_frequency.max.to_f
+    #next if num_reference > num_mut_reads
+    num_all_reads = info[2].to_f
+    num_mut_reads = num_all_reads if num_all_reads < num_mut_reads
+    freq = num_mut_reads / num_all_reads
+    #freq = frequency(mutated_reads,all_reads).to_f
+
+    if  snp_unique?(line,info,control_numbers)
+
+      frequencies << freq
+      i += 1
+      positions << line.split("\t")[1].to_i
+    end
+  end
+
+  line = input_handle.readline()
+end
+
+dummy = true
+i = 1
+number = 0
+storage = Hash.new
+while !input_handle.eof?()
+
+  info = line.split("\t")[sample_number]
+
+  if snp_exist?(info)
+    info = info.split(":")
+    allele_frequency = info[1].split(",")
+    num_reference = allele_frequency.delete_at(0).to_f
+    num_mut_reads = allele_frequency.max.to_f
+    #next if num_reference > num_mut_reads
+    num_all_reads = info[2].to_f
+    num_mut_reads = num_all_reads if num_all_reads < num_mut_reads
+    freq = num_mut_reads / num_all_reads
+    counter += 1
+
+    if  snp_unique?(line,info,control_numbers)
+      z = frequencies.sort
+      #mean = z.inject{ |sum, el| sum + el }.to_f / frequencies.length
+      positions << line.split("\t")[1].to_i
+
+      position = positions.delete_at(0)
+      #storage.store(position,mean)
+      puts "#{position}\t#{z[z.length/2]}"
+      #if storage.size == window_length*2
+#
+      #  pos = storage.keys[window_length]
+      #  value = storage.values.max
+      #  storage.delete(storage.keys.min)
+      #  puts "#{pos}\t#{value}"
+#
+      #end
+      i += 1
+      dummy = false
+      frequencies.delete_at(0)
+      frequencies << freq
+    end
+  end
+
+  line = input_handle.readline()
+
+end
+
+STDERR.puts counter
