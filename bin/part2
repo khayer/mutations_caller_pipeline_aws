@@ -161,13 +161,13 @@ end
 
 def wait(running_jobs)
   not_finished = true
-  
+
   while not_finished
     break if running_jobs.length == 0
     sleep 50
     running_jobs.each_pair do |key,files|
       l = `bjobs -l #{key}`.gsub(/\s/,"")
-      case 
+      case
       when l =~ /(Status<RUN>|Status<PEND>)/
         next
       when l =~ /Status<EXIT>/
@@ -193,14 +193,14 @@ def run(argv)
   id = rand(100000)+1
   running_jobs = {}
   # MERGE!
-  # bsub -n 20 -q max_mem30 -e GenotypeGVCFs_e.log -o GenotypeGVCFs_o.log 
+  # bsub -n 20 -q max_mem30 -e GenotypeGVCFs_e.log -o GenotypeGVCFs_o.log
   cmd = "bsub -q max_mem30 -n 20 -J #{id}_GenotypeGVCFs \\
     -o tp_%J_#{id}_GenotypeGVCFs_o.log -e tp_%J_#{id}_GenotypeGVCFs_e.log \\
     java -Xmx25g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
     --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt 20"
   if options[:debug]
     puts cmd
-  else 
+  else
     l = `#{cmd}`
     l =~ /\<(\d*)\>/
     running_jobs[$1] = cmd
@@ -212,11 +212,12 @@ def run(argv)
     -o tp_%J_#{id}_snpEff_o.log -e tp_%J_#{id}_snpEff_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
   if options[:debug]
     puts cmd
-  else 
+  else
     l = `#{cmd}`
     l =~ /\<(\d*)\>/
     running_jobs[$1] = cmd
   end
+  #### Wait for running_jobs to finish
   wait(running_jobs)
   ### Split by chromosome
   `mkdir #{options[:folder_name]}`
@@ -224,7 +225,7 @@ def run(argv)
     cmd = "bsub grep -E '(chr#{i}\\s|^#)' output_#{id}.ann.gatk.vcf \\> vcf_by_chr/chr#{i}.vcf"
     if options[:debug]
       puts cmd
-    else 
+    else
       l = `#{cmd}`
       l =~ /\<(\d*)\>/
       running_jobs[$1] = cmd
