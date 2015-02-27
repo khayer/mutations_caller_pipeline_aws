@@ -58,7 +58,7 @@ def setup_options(args)
     :gatk => nil,
     :bwa => nil,
     :vcf => nil,
-    :debug => 1,
+    :debug => false,
     :lsf => false,
     :threads => 1,
     :folder_name => "vcf_by_chromosome"
@@ -132,6 +132,7 @@ def setup_options(args)
 
     opts.on("-d", "--debug", "Run in debug mode") do
       options[:log_level] = "debug"
+      options[:debug] = true
     end
 
     opts.on_tail("-h", "--help", "Show this message") do
@@ -142,6 +143,10 @@ def setup_options(args)
 
   begin
     optparse.parse!(args)
+    if args.length == 0
+      puts optparse
+      exit 1
+    end
     options.merge!(Hash[YAML::load(open(args[1])).map { |k, v| [k.to_sym, v] }])
     #mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_index,
     #  :bwa, :gatk, :vcf, :sample_name, :index_fa]
@@ -171,7 +176,7 @@ def wait(running_jobs)
       when l =~ /(Status<RUN>|Status<PEND>)/
         next
       when l =~ /Status<EXIT>/
-        raise "#{key} died on while running \"{files}\" "
+        raise "#{key} died while running \"{files}\" "
         running_jobs.delete(key)
       when l =~ /Status<DONE>/
         # merge
@@ -194,10 +199,10 @@ def run(argv)
   running_jobs = {}
   # MERGE!
   # bsub -n 20 -q max_mem30 -e GenotypeGVCFs_e.log -o GenotypeGVCFs_o.log
-  cmd = "bsub -q max_mem30 -n 20 -J #{id}_GenotypeGVCFs \\
+  cmd = "bsub -q max_mem30 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
     -o tp_%J_#{id}_GenotypeGVCFs_o.log -e tp_%J_#{id}_GenotypeGVCFs_e.log \\
     java -Xmx25g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
-    --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt 20"
+    --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt #{options[:threads]}"
   if options[:debug]
     puts cmd
   else
