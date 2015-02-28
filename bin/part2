@@ -181,7 +181,7 @@ def wait(running_jobs)
       when l =~ /Status<DONE>/
         # merge
         #puts "Graph id #{files[0]} done succesfully"
-        logger.info("Job #{key} was succesful running \"{files}\"")
+        $logger.info("Job #{key} was succesful running \"{files}\"")
         running_jobs.delete(key)
       end
     end

@@ -15,5 +15,6 @@ Gem::Specification.new do |s|
   #s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   << 'mutations_caller_pipeline_aws'
   s.executables   << 'gatk_pipe_only_aws'
+  s.executables   << 'part2'
   #s.require_paths =  ["lib"]
 end
