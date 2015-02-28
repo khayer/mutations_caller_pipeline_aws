@@ -59,6 +59,7 @@ def setup_options(args)
     :bwa => nil,
     :vcf => nil,
     :debug => false,
+    :pre_num => 0,
     :lsf => false,
     :threads => 1,
     :folder_name => "vcf_by_chromosome"
@@ -119,6 +120,10 @@ def setup_options(args)
 
     opts.on("-t", "--threads INT", :REQUIRED, Integer, "Number of threads. DEFAULT: 1") do |i|
       options[:threads] = i
+    end
+
+    opts.on("-p", "--previousNum INT", :REQUIRED, Integer, "Number from previous run if available.") do |i|
+      options[:pre_num] = i
     end
 
     opts.on("-b", "--sample_name Name", :REQUIRED, String, "Sample name / SampleID") do |i|
@@ -196,31 +201,38 @@ def run(argv)
   $logger.debug(argv)
   variants = File.open(argv[0]).read.split("\n")
   id = rand(100000)+1
+  if options[:pre_num]
+    id = options[:pre_num]
+  end
   running_jobs = {}
   # MERGE!
-  # bsub -n 20 -q max_mem30 -e GenotypeGVCFs_e.log -o GenotypeGVCFs_o.log
-  cmd = "bsub -q max_mem30 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
-    -o tp_%J_#{id}_GenotypeGVCFs_o.log -e tp_%J_#{id}_GenotypeGVCFs_e.log \\
-    java -Xmx25g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
-    --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt #{options[:threads]}"
-  if options[:debug]
-    puts cmd
-  else
-    l = `#{cmd}`
-    l =~ /\<(\d*)\>/
-    running_jobs[$1] = cmd
+  unless File.exists?("output_#{id}.vcf")
+    # bsub -n 20 -q max_mem30 -e GenotypeGVCFs_e.log -o GenotypeGVCFs_o.log
+    cmd = "bsub -q max_mem30 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
+      -o tp_%J_#{id}_GenotypeGVCFs_o.log -e tp_%J_#{id}_GenotypeGVCFs_e.log \\
+      java -Xmx25g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
+      --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt #{options[:threads]}"
+    if options[:debug]
+      puts cmd
+    else
+      l = `#{cmd}`
+      l =~ /\<(\d*)\>/
+      running_jobs[$1] = cmd
+    end
   end
   #### Wait for running_jobs to finish
   wait(running_jobs)
   # ANNOTATE
-  cmd = "bsub -n 5 -q max_mem30 -J #{id}_snpEff \\
-    -o tp_%J_#{id}_snpEff_o.log -e tp_%J_#{id}_snpEff_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
-  if options[:debug]
-    puts cmd
-  else
-    l = `#{cmd}`
-    l =~ /\<(\d*)\>/
-    running_jobs[$1] = cmd
+  unless File.exists?("output_#{id}.ann.gatk.vcf")
+    cmd = "bsub -n 5 -q max_mem30 -J #{id}_snpEff \\
+      -o tp_%J_#{id}_snpEff_o.log -e tp_%J_#{id}_snpEff_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
+    if options[:debug]
+      puts cmd
+    else
+      l = `#{cmd}`
+      l =~ /\<(\d*)\>/
+      running_jobs[$1] = cmd
+    end
   end
   #### Wait for running_jobs to finish
   wait(running_jobs)
