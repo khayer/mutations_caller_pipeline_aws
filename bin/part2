@@ -153,14 +153,13 @@ def setup_options(args)
       exit 1
     end
     options.merge!(Hash[YAML::load(open(args[1])).map { |k, v| [k.to_sym, v] }])
-    #mandatory = [:dbsnp_file,:picard_tools, :samplesheet, :mutant_r1, :mutant_r2, :bwa_index,
-    #  :bwa, :gatk, :vcf, :sample_name, :index_fa]
-    #missing = mandatory.select{ |param| options[param].nil? }
-    #if !missing.empty?
-    #  puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
-    #  puts optparse
-    #  exit
-    #end
+    mandatory = [:gatk, :snpeff,:snpeff_ind]
+    missing = mandatory.select{ |param| options[param].nil? }
+    if !missing.empty?
+      puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
+      puts optparse
+      exit
+    end
   rescue OptionParser::InvalidOption, OptionParser::MissingArgument
      puts $!.to_s
      puts optparse
@@ -209,7 +208,7 @@ def run(argv)
   unless File.exists?("output_#{id}.vcf")
     # bsub -n 20 -q max_mem30 -e GenotypeGVCFs_e.log -o GenotypeGVCFs_o.log
     cmd = "bsub -q max_mem30 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
-      -o tp_%J_#{id}_GenotypeGVCFs_o.log -e tp_%J_#{id}_GenotypeGVCFs_e.log \\
+      -o #{id}_GenotypeGVCFs_%J_o.log -e #{id}_GenotypeGVCFs_%J_e.log \\
       java -Xmx25g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
       --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt #{options[:threads]}"
     if options[:debug]
@@ -225,7 +224,7 @@ def run(argv)
   # ANNOTATE
   unless File.exists?("output_#{id}.ann.gatk.vcf")
     cmd = "bsub -n 5 -q max_mem30 -J #{id}_snpEff \\
-      -o tp_%J_#{id}_snpEff_o.log -e tp_%J_#{id}_snpEff_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
+      -o #{id}_snpEff_%J_o.log -e #{id}_snpEff_%J_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
     if options[:debug]
       puts cmd
     else
@@ -239,7 +238,7 @@ def run(argv)
   ### Split by chromosome
   `mkdir #{options[:folder_name]}`
   [(1..25).to_a,"M"].flatten.each do |i|
-    cmd = "bsub grep -E '(chr#{i}\\s|^#)' output_#{id}.ann.gatk.vcf \\> vcf_by_chr/chr#{i}.vcf"
+    cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -E '(chr#{i}\\s|^#)' output_#{id}.ann.gatk.vcf \\> vcf_by_chr/chr#{i}.vcf"
     if options[:debug]
       puts cmd
     else
