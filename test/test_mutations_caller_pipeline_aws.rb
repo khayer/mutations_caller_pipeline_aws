@@ -35,7 +35,7 @@ class MutationsCallerPipelineAwsTest < Test::Unit::TestCase
 
   def test_bwa_caller
     k = BwaCaller.call_mem(@options)
-    assert_equal(k, "qsub -o log_prefix_bwa_mem_o.txt -e log_prefix_bwa_mem_e.txt -V -cwd -b y -N bwa_12345 -l h_vmem=6G /path/to/bwa mem -t 5 bwa_index r1.fq r2.fq \> sam_file")
+    assert_equal(k, "bsub -q max_mem30 -n 5 -o log_prefix_bwa_mem_o.log -e log_prefix_bwa_mem_e.log -J bwa_12345 /path/to/bwa mem -t 5 bwa_index r1.fq r2.fq \\> sam_file")
   end
 
   def test_samtools_indexing
