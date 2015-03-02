@@ -249,6 +249,7 @@ def run(argv)
     end
   end
   wait(running_jobs)
+  $logger.info("ALL DONE!")
 end
 
 if __FILE__ == $0
