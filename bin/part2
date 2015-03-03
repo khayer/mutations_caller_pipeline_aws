@@ -185,7 +185,7 @@ def wait(running_jobs)
       when l =~ /Status<DONE>/
         # merge
         #puts "Graph id #{files[0]} done succesfully"
-        $logger.info("Job #{key} was succesful running \"{files}\"")
+        $logger.info("Job #{key} was succesful running \"#{files}\"")
         running_jobs.delete(key)
       end
     end
@@ -200,7 +200,7 @@ def run(argv)
   $logger.debug(argv)
   variants = File.open(argv[0]).read.split("\n")
   id = rand(100000)+1
-  if options[:pre_num]
+  if options[:pre_num] != 0
     id = options[:pre_num]
   end
   running_jobs = {}
@@ -238,7 +238,7 @@ def run(argv)
   ### Split by chromosome
   `mkdir #{options[:folder_name]}`
   [(1..25).to_a,"M"].flatten.each do |i|
-    cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -E '(chr#{i}\\s|^#)' output_#{id}.ann.gatk.vcf \\> vcf_by_chr/chr#{i}.vcf"
+    cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
     if options[:debug]
       puts cmd
     else
