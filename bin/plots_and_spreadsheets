@@ -227,9 +227,10 @@ def run(argv)
       exit 1
     end
   end
+  #puts l
   remaining_numbers = []
-  (9..fields.length).to_a.each do |i|
-    puts i
+  (9..fields.length-1).to_a.each do |i|
+    #puts i
     case i-8
     when tlf_number, wik_number, sibling_number, sample_number
     
@@ -240,6 +241,7 @@ def run(argv)
   end
   remaining_numbers = remaining_numbers.join(",")
   #puts remaining_numbers
+  #exit
   sibling_number = "" if sibling_number == 0
   ### Start scoring
   scoring_dir = "scores_#{sample_name}_ws#{options[:window_size]}_q#{options[:quality]}_slider"
