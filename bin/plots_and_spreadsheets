@@ -271,7 +271,7 @@ def run(argv)
 
   # Generate Plots
   # Rscript quick_generic.r scores_$sample_name\_ws$window_size\_q$quality\_slider $sample_name $window_size
-  unless File.size?("#{scoring_dir}/chrM_poly.png")
+  unless File.size?("#{scoring_dir}/chr25_poly.png")
     cmd = "bsub -o #{scoring_dir}/#{id}_rscript_%J_o.log -e #{scoring_dir}/#{id}_rscript_%J_e.log Rscript #{home}/scripts/quick_generic.r #{scoring_dir} #{sample_name} #{options[:window_size]}"
     if options[:debug]
       puts cmd
