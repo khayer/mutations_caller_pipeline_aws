@@ -203,18 +203,6 @@ def run(argv)
   $logger.debug(options)
   $logger.info(argv)
   sample_name = argv[0]
-  ### Start scoring
-  scoring_dir = "scores_#{sample_name}_ws#{options[:window_size]}_q#{options[:quality]}_slider"
-  id = rand(100000)+1
-  if options[:pre_num] != 0
-    id = options[:pre_num]
-  end
-
-  begin
-    Dir.mkdir(scoring_dir)
-  rescue Exception => e
-    $logger.warn("Directory #{scoring_dir} does already exist.")
-  end
 
   # Determine sample numbers
   l = `grep -v ^\#\# #{options[:folder_name]}/chr1.vcf | head -1`
@@ -230,7 +218,23 @@ def run(argv)
       exit 1
   end
 
+
+  ### Start scoring
+  scoring_dir = "scores_#{sample_name}_ws#{options[:window_size]}_q#{options[:quality]}_slider"
+  id = rand(100000)+1
+  if options[:pre_num] != 0
+    id = options[:pre_num]
+  end
+
+  begin
+    Dir.mkdir(scoring_dir)
+  rescue Exception => e
+    $logger.warn("Directory #{scoring_dir} does already exist.")
+  end
+
   [(1..25).to_a,"M"].flatten.each do |i|
+    #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
+    next if File.size?("#{scoring_dir}/chr#{i}_#{sample_name}")
     #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
     cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_3_7_13_sliding_window #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} \> #{scoring_dir}/chr#{i}_#{sample_name}"
     if options[:debug]
@@ -242,6 +246,9 @@ def run(argv)
     end
   end
   wait(running_jobs)
+
+  # Generate Plots
+
 
   $logger.info("ALL DONE!")
 end
