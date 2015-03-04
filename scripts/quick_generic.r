@@ -5,7 +5,7 @@ sample_name <- args[2]
 ws <- args[3]
 combo_sn = paste("_",sample_name,sep="")
 combo_sn2 = paste(sample_name, "Chr", sep= " ")
-for (k in 1:25) {
+for (k in c(1:25,"M")) {
     png(paste(path,"_poly.png", sep=as.character(k)),width = 800, height = 480, units = "px", pointsize = 12)
     Test <- read.table(paste(path,"_poly.txt",sep=as.character(k)))
     for (i in 2) { plot(Test[,1],Test[,i],type="l",col='green', xlab= "", ylab = "",xaxt = 'n',yaxt='n', ylim=c(0,1000))
