@@ -1,0 +1,219 @@
+#!/usr/bin/env ruby
+require 'mutations_caller_pipeline_aws'
+require 'optparse'
+require 'rubygems'
+require 'yaml'
+require 'csv'
+require 'logger'
+=begin
+  * Name: Part2
+  * This script generates spreadsheets and homozygosity scores plots
+  * from a given file of raw vcf files.
+  * Author: Katharina Hayer
+  * Date: 2/1/2015
+  * License: GNU General Public License (GPL-2.0)
+=end
+
+$logger = Logger.new(STDERR)
+
+# Initialize logger
+def setup_logger(loglevel)
+  case loglevel
+  when "debug"
+    $logger.level = Logger::DEBUG
+  when "warn"
+    $logger.level = Logger::WARN
+  when "info"
+    $logger.level = Logger::INFO
+  else
+    $logger.level = Logger::ERROR
+  end
+end
+
+$usage =<<EOF
+_________________________________________________________________________________________________
+
+  #{$0} sample_name config.yml [OPTIONS]
+_________________________________________________________________________________________________
+
+  #{$0} ...
+  ... is a wrapper to take processed vcf files and prepares homozygosity
+  plots and variant spreadsheets.
+
+                      +++ V E R S I O N - 0.0.1 +++
+
+  config.yml should look like this:
+  # config.yml
+  parent_strain1: "Wik"
+  parent_strain2: "TLF"
+
+_________________________________________________________________________________________________
+
+EOF
+
+def setup_options(args)
+  options = {
+    #:gatk => nil,
+    #:bwa => nil,
+    #:vcf => nil,
+    :debug => false,
+    #:pre_num => 0,
+    #:lsf => false,
+    #:threads => 1,
+    :folder_name => "vcf_by_chromosome"
+    :sibling => "none"
+  }
+  #:cluster => false,
+  #:samtools => nil,
+  #:wildtype_r1 => nil,
+  #:wildtype_r2 => nil,
+  #:account => "",
+  #:project => "",
+
+  optparse = OptionParser.new do |opts|
+    opts.banner = $usage
+
+    #opts.on("-m", "--fwd_read_mutant DIR", :REQUIRED, String, "Path to fwd read of mutant") do |i|
+    #  options[:mutant_r1] = i
+    #end
+#
+    #opts.on("-n", "--rev_read_mutant DIR", :REQUIRED, String, "Path to rev read of mutant") do |i|
+    #  options[:mutant_r2] = i
+    #end
+
+    #opts.on("-w", "--fwd_read_wildtype DIR", String, "Path to fwd read of wildtype, not mandatory") do |i|
+    #  options[:wildtype_r1] = i if i
+    #end
+#
+    #opts.on("-x", "--rev_read_wildtype DIR", String, "Path to rev read of wildtype, not mandatory") do |i|
+    #  options[:wildtype_r2] = i if i
+    #end
+
+    #opts.on("-v","--vcf [PATH]", "Output of pipeline") do |i|
+    #  options[:vcf] = i
+    #end
+#
+    #opts.on("-a","--account [NAME]", "Option for qsub: -A [NAME]. Default: [none] " ) do |i|
+    #  options[:account] = " -A #{i}" if i
+    #end
+#
+    #opts.on("-p","--project [NAME]", "Option for qsub: -P [NAME]. Default: [none] " ) do |i|
+    #  options[:project] = " -P #{i}" if i
+    #end
+#
+    #opts.on("-o","--coverage", "GATK Coverage summary" ) do
+    #  options[:coverage] = true
+    #end
+
+    opts.on("-l", "--lsf", "LSF instead of SGE. DEFAULT: SGE") do
+      options[:lsf] = true
+    end
+
+    #opts.on("-s", "--sampleSheet DIR", :REQUIRED, String, "SampleSheet.csv") do |i|
+    #  options[:samplesheet] = i
+    #end
+#
+    #opts.on("-f", "--dbsnp_file DIR", :REQUIRED, String, "dbsnp.vcf") do |i|
+    #  options[:dbsnp_file] = i
+    #end
+
+    opts.on("-t", "--threads INT", :REQUIRED, Integer, "Number of threads. DEFAULT: 1") do |i|
+      options[:threads] = i
+    end
+
+    opts.on("-p", "--previousNum INT", :REQUIRED, Integer, "Number from previous run if available.") do |i|
+      options[:pre_num] = i
+    end
+
+    opts.on("-s", "--sibling Name", :REQUIRED, String, "Name of sibling e.g. 46FWGA_sib, DEFAULT:none") do |i|
+      options[:sibling] = i
+    end
+
+    opts.on("-f", "--folder_name Name", :REQUIRED, String, "Folder name for splitted vcf files [DEFAULT: vcf_by_chromosome]") do |i|
+      options[:folder_name] = i
+    end
+
+
+    opts.on("-d", "--debug", "Run in debug mode") do
+      options[:log_level] = "debug"
+      options[:debug] = true
+    end
+
+    opts.on_tail("-h", "--help", "Show this message") do
+      puts opts
+      exit
+    end
+  end
+
+  begin
+    optparse.parse!(args)
+    if args.length == 0
+      puts optparse
+      exit 1
+    end
+    options.merge!(Hash[YAML::load(open(args[1])).map { |k, v| [k.to_sym, v] }])
+    mandatory = [:gatk, :snpeff,:snpeff_ind]
+    missing = mandatory.select{ |param| options[param].nil? }
+    if !missing.empty?
+      puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
+      puts optparse
+      exit
+    end
+  rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+     puts $!.to_s
+     puts optparse
+     exit
+  end
+  options
+end
+
+def wait(running_jobs)
+  not_finished = true
+
+  while not_finished
+    break if running_jobs.length == 0
+    sleep 50
+    running_jobs.each_pair do |key,files|
+      l = `bjobs -l #{key}`.gsub(/\s/,"")
+      case
+      when l =~ /(Status<RUN>|Status<PEND>)/
+        next
+      when l =~ /Status<EXIT>/
+        raise "#{key} died while running \"{files}\" "
+        running_jobs.delete(key)
+      when l =~ /Status<DONE>/
+        # merge
+        #puts "Graph id #{files[0]} done succesfully"
+        $logger.info("Job #{key} was succesful running \"#{files}\"")
+        running_jobs.delete(key)
+      end
+    end
+  end
+end
+
+def run(argv)
+  options = setup_options(argv)
+  setup_logger(options[:log_level])
+
+  $logger.debug(options)
+  $logger.debug(argv)
+  
+  ### Split by chromosome
+  `mkdir #{options[:folder_name]}`
+  [(1..25).to_a,"M"].flatten.each do |i|
+    cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
+    if options[:debug]
+      puts cmd
+    else
+      l = `#{cmd}`
+      l =~ /\<(\d*)\>/
+      running_jobs[$1] = cmd
+    end
+  end
+  wait(running_jobs)
+  $logger.info("ALL DONE!")
+end
+
+#if __FILE__ == $0
+  run(ARGV)
+#end
