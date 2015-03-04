@@ -182,7 +182,7 @@ def wait(running_jobs)
       when l =~ /(Status<RUN>|Status<PEND>)/
         next
       when l =~ /Status<EXIT>/
-        raise "#{key} died while running \"{files}\" "
+        raise "#{key} died while running \"#{files}\" "
         running_jobs.delete(key)
       when l =~ /Status<DONE>/
         # merge
