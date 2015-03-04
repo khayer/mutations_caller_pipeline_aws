@@ -1,0 +1,1300 @@
+##fileformat=VCFv4.1
+##ALT=<ID=NON_REF,Description="Represents any possible alternative allele at this location">
+##FILTER=<ID=LowQual,Description="Low quality">
+##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=MIN_DP,Number=1,Type=Integer,Description="Minimum DP observed within the GVCF block">
+##FORMAT=<ID=PGT,Number=1,Type=String,Description="Physical phasing haplotype information, describing how the alternate alleles are phased in relation to one another">
+##FORMAT=<ID=PID,Number=1,Type=String,Description="Physical phasing ID information, where each unique ID within a given sample (but not across samples) connects records within a phasing group">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+##FORMAT=<ID=SB,Number=4,Type=Integer,Description="Per-sample component statistics which comprise the Fisher's Exact Test to detect strand bias.">
+##GATKCommandLine=<ID=GenotypeGVCFs,Version=3.3-0-g37228af,Date="Fri Feb 27 16:28:02 EST 2015",Epoch=1425072482931,CommandLineOptions="analysis_type=GenotypeGVCFs input_file=[] showFullBamList=false read_buffer_size=null phone_home=AWS gatk_key=null tag=NA read_filter=[] intervals=null excludeIntervals=null interval_set_rule=UNION interval_merging=ALL interval_padding=0 reference_sequence=/home/njessi/danRer7.fa nonDeterministicRandomSeed=false disableDithering=false maxRuntime=-1 maxRuntimeUnits=MINUTES downsampling_type=BY_SAMPLE downsample_to_fraction=null downsample_to_coverage=1000 baq=OFF baqGapOpenPenalty=40.0 refactor_NDN_cigar_string=false fix_misencoded_quality_scores=false allow_potentially_misencoded_quality_scores=false useOriginalQualities=false defaultBaseQualities=-1 performanceLog=null BQSR=null quantize_quals=0 disable_indel_quals=false emit_original_quals=false preserve_qscores_less_than=6 globalQScorePrior=-1.0 validation_strictness=SILENT remove_program_records=false keep_program_records=false sample_rename_mapping_file=null unsafe=null disable_auto_index_creation_and_locking_when_reading_rods=false no_cmdline_in_header=false sites_only=false never_trim_vcf_format_field=false bcf=false bam_compression=null simplifyBAM=false disable_bam_indexing=false generate_md5=false num_threads=20 num_cpu_threads_per_data_thread=1 num_io_threads=0 monitorThreadEfficiency=false num_bam_file_handles=null read_group_black_list=null pedigree=[] pedigreeString=[] pedigreeValidationType=STRICT allow_intervals_with_unindexed_bam=false generateShadowBCF=false variant_index_type=DYNAMIC_SEEK variant_index_parameter=-1 logging_level=INFO log_to_file=null help=false version=false variant=[(RodBindingCollection [(RodBinding name=variant source=all_raw/01GBFB_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant2 source=all_raw/05FQGB.vcf)]), (RodBindingCollection [(RodBinding name=variant3 source=all_raw/06JRKS_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant4 source=all_raw/105FEGG_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant5 source=all_raw/125FBGB_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant6 source=all_raw/14FQGK.vcf)]), (RodBindingCollection [(RodBinding name=variant7 source=all_raw/16FQGK_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant8 source=all_raw/17FBGA_mut_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant9 source=all_raw/20FYGD_mut_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant10 source=all_raw/25FUGK_mut_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant11 source=all_raw/25FUGK_sib_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant12 source=all_raw/26FQGB_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant13 source=all_raw/46FWGA_mut_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant14 source=all_raw/46FWGA_sib_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant15 source=all_raw/66FEGG_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant16 source=all_raw/71FAGA_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant17 source=all_raw/72FAGA_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant18 source=all_raw/84FBGB_mut_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant19 source=all_raw/84FBGB_sib_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant20 source=all_raw/84FUGK_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant21 source=all_raw/Rsh_Mut_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant22 source=all_raw/Rsh_WT_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant23 source=all_raw/TLF_raw.vcf)]), (RodBindingCollection [(RodBinding name=variant24 source=all_raw/Wik_raw.vcf)])] out=org.broadinstitute.gatk.engine.io.stubs.VariantContextWriterStub includeNonVariantSites=false annotateNDA=false heterozygosity=0.001 indel_heterozygosity=1.25E-4 standard_min_confidence_threshold_for_calling=30.0 standard_min_confidence_threshold_for_emitting=30.0 max_alternate_alleles=6 input_prior=[] sample_ploidy=2 annotation=[InbreedingCoeff, FisherStrand, QualByDepth, ChromosomeCounts, GenotypeSummaries, StrandOddsRatio] dbsnp=(RodBinding name= source=UNBOUND) filter_reads_with_N_cigar=false filter_mismatching_base_and_quals=false filter_bases_not_stored=false">
+##GATKCommandLine=<ID=HaplotypeCaller,Version=3.3-0-g37228af,Date="Wed Jan 21 11:52:29 EST 2015",Epoch=1421859149878,CommandLineOptions="analysis_type=HaplotypeCaller input_file=[17FBGA_mut.bam] showFullBamList=false read_buffer_size=null phone_home=AWS gatk_key=null tag=NA read_filter=[] intervals=null excludeIntervals=null interval_set_rule=UNION interval_merging=ALL interval_padding=0 reference_sequence=/home/hayer/index/danRer7.fa nonDeterministicRandomSeed=false disableDithering=false maxRuntime=-1 maxRuntimeUnits=MINUTES downsampling_type=BY_SAMPLE downsample_to_fraction=null downsample_to_coverage=250 baq=OFF baqGapOpenPenalty=40.0 refactor_NDN_cigar_string=false fix_misencoded_quality_scores=false allow_potentially_misencoded_quality_scores=false useOriginalQualities=false defaultBaseQualities=-1 performanceLog=null BQSR=null quantize_quals=0 disable_indel_quals=false emit_original_quals=false preserve_qscores_less_than=6 globalQScorePrior=-1.0 validation_strictness=SILENT remove_program_records=false keep_program_records=false sample_rename_mapping_file=null unsafe=null disable_auto_index_creation_and_locking_when_reading_rods=false no_cmdline_in_header=false sites_only=false never_trim_vcf_format_field=false bcf=false bam_compression=null simplifyBAM=false disable_bam_indexing=false generate_md5=false num_threads=1 num_cpu_threads_per_data_thread=10 num_io_threads=0 monitorThreadEfficiency=false num_bam_file_handles=null read_group_black_list=null pedigree=[] pedigreeString=[] pedigreeValidationType=STRICT allow_intervals_with_unindexed_bam=false generateShadowBCF=false variant_index_type=LINEAR variant_index_parameter=128000 logging_level=INFO log_to_file=null help=false version=false likelihoodCalculationEngine=PairHMM heterogeneousKmerSizeResolution=COMBO_MIN graphOutput=null bamOutput=null bamWriterType=CALLED_HAPLOTYPES disableOptimizations=false dbsnp=(RodBinding name= source=UNBOUND) dontTrimActiveRegions=false maxDiscARExtension=25 maxGGAARExtension=300 paddingAroundIndels=150 paddingAroundSNPs=20 comp=[] annotation=[ClippingRankSumTest, DepthPerSampleHC, StrandBiasBySample] excludeAnnotation=[SpanningDeletions, TandemRepeatAnnotator, ChromosomeCounts, FisherStrand, StrandOddsRatio, QualByDepth] debug=false useFilteredReadsForAnnotations=false emitRefConfidence=GVCF annotateNDA=false heterozygosity=0.001 indel_heterozygosity=1.25E-4 standard_min_confidence_threshold_for_calling=-0.0 standard_min_confidence_threshold_for_emitting=-0.0 max_alternate_alleles=6 input_prior=[] sample_ploidy=2 genotyping_mode=DISCOVERY alleles=(RodBinding name= source=UNBOUND) contamination_fraction_to_filter=0.0 contamination_fraction_per_sample_file=null p_nonref_model=null exactcallslog=null output_mode=EMIT_VARIANTS_ONLY allSitePLs=true sample_name=null kmerSize=[10, 25] dontIncreaseKmerSizesForCycles=false allowNonUniqueKmersInRef=false numPruningSamples=1 recoverDanglingHeads=false doNotRecoverDanglingBranches=false minDanglingBranchLength=4 consensus=false GVCFGQBands=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 70, 80, 90, 99] indelSizeToEliminateInRefModel=10 min_base_quality_score=10 minPruning=2 gcpHMM=10 includeUmappedReads=false useAllelesTrigger=false phredScaledGlobalReadMismappingRate=45 maxNumHaplotypesInPopulation=128 mergeVariantsViaLD=false doNotRunPhysicalPhasing=false pair_hmm_implementation=VECTOR_LOGLESS_CACHING keepRG=null justDetermineActiveRegions=false dontGenotype=false errorCorrectKmers=false debugGraphTransformations=false dontUseSoftClippedBases=false captureAssemblyFailureBAM=false allowCyclesInKmerGraphToGeneratePaths=false noFpga=false errorCorrectReads=false kmerLengthForReadErrorCorrection=25 minObservationsForKmerToBeSolid=20 pcr_indel_model=CONSERVATIVE maxReadsInRegionPerSample=1000 minReadsPerAlignmentStart=5 activityProfileOut=null activeRegionOut=null activeRegionIn=null activeRegionExtension=null forceActive=false activeRegionMaxSize=null bandPassSigma=null maxProbPropagationDistance=50 activeProbabilityThreshold=0.002 min_mapping_quality_score=20 filter_reads_with_N_cigar=false filter_mismatching_base_and_quals=false filter_bases_not_stored=false">
+##GVCFBlock=minGQ=0(inclusive),maxGQ=1(exclusive)
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=BaseQRankSum,Number=1,Type=Float,Description="Z-score from Wilcoxon rank sum test of Alt Vs. Ref base qualities">
+##INFO=<ID=CCC,Number=1,Type=Integer,Description="Number of called chromosomes">
+##INFO=<ID=ClippingRankSum,Number=1,Type=Float,Description="Z-score From Wilcoxon rank sum test of Alt vs. Ref number of hard clipped bases">
+##INFO=<ID=DB,Number=0,Type=Flag,Description="dbSNP Membership">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth; some reads may have been filtered">
+##INFO=<ID=DS,Number=0,Type=Flag,Description="Were any of the samples downsampled?">
+##INFO=<ID=END,Number=1,Type=Integer,Description="Stop position of the interval">
+##INFO=<ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bias">
+##INFO=<ID=GQ_MEAN,Number=1,Type=Float,Description="Mean of all GQ values">
+##INFO=<ID=GQ_STDDEV,Number=1,Type=Float,Description="Standard deviation of all GQ values">
+##INFO=<ID=HWP,Number=1,Type=Float,Description="P value from test of Hardy Weinberg Equilibrium">
+##INFO=<ID=HaplotypeScore,Number=1,Type=Float,Description="Consistency of the site with at most two segregating haplotypes">
+##INFO=<ID=InbreedingCoeff,Number=1,Type=Float,Description="Inbreeding coefficient as estimated from the genotype likelihoods per-sample when compared against the Hardy-Weinberg expectation">
+##INFO=<ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC), for each ALT allele, in the same order as listed">
+##INFO=<ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF), for each ALT allele, in the same order as listed">
+##INFO=<ID=MQ,Number=1,Type=Float,Description="RMS Mapping Quality">
+##INFO=<ID=MQ0,Number=1,Type=Integer,Description="Total Mapping Quality Zero Reads">
+##INFO=<ID=MQRankSum,Number=1,Type=Float,Description="Z-score From Wilcoxon rank sum test of Alt vs. Ref read mapping qualities">
+##INFO=<ID=NCC,Number=1,Type=Integer,Description="Number of no-called samples">
+##INFO=<ID=QD,Number=1,Type=Float,Description="Variant Confidence/Quality by Depth">
+##INFO=<ID=ReadPosRankSum,Number=1,Type=Float,Description="Z-score from Wilcoxon rank sum test of Alt vs. Ref read position bias">
+##INFO=<ID=SOR,Number=1,Type=Float,Description="Symmetric Odds Ratio of 2x2 contingency table to detect strand bias">
+##contig=<ID=Zv9_scaffold3453,length=203829>
+##contig=<ID=Zv9_scaffold3454,length=91011>
+##contig=<ID=Zv9_scaffold3455,length=543129>
+##contig=<ID=Zv9_scaffold3456,length=253302>
+##contig=<ID=Zv9_scaffold3457,length=101278>
+##contig=<ID=Zv9_scaffold3458,length=223119>
+##contig=<ID=Zv9_scaffold3459,length=417943>
+##contig=<ID=Zv9_scaffold3460,length=146079>
+##contig=<ID=Zv9_scaffold3461,length=302948>
+##contig=<ID=Zv9_scaffold3462,length=224830>
+##contig=<ID=Zv9_scaffold3463,length=664565>
+##contig=<ID=Zv9_scaffold3464,length=182716>
+##contig=<ID=Zv9_scaffold3465,length=500345>
+##contig=<ID=Zv9_scaffold3466,length=152860>
+##contig=<ID=Zv9_scaffold3467,length=195956>
+##contig=<ID=Zv9_scaffold3468,length=88922>
+##contig=<ID=Zv9_scaffold3469,length=118908>
+##contig=<ID=Zv9_scaffold3470,length=425063>
+##contig=<ID=Zv9_scaffold3471,length=638129>
+##contig=<ID=Zv9_scaffold3472,length=162930>
+##contig=<ID=Zv9_scaffold3473,length=352305>
+##contig=<ID=Zv9_scaffold3474,length=67913>
+##contig=<ID=Zv9_scaffold3475,length=162031>
+##contig=<ID=Zv9_scaffold3476,length=146794>
+##contig=<ID=Zv9_scaffold3477,length=292984>
+##contig=<ID=Zv9_scaffold3478,length=135618>
+##contig=<ID=Zv9_scaffold3479,length=80581>
+##contig=<ID=Zv9_scaffold3480,length=407754>
+##contig=<ID=Zv9_scaffold3481,length=164780>
+##contig=<ID=Zv9_scaffold3482,length=283152>
+##contig=<ID=Zv9_scaffold3483,length=213343>
+##contig=<ID=Zv9_scaffold3484,length=148568>
+##contig=<ID=Zv9_scaffold3485,length=341688>
+##contig=<ID=Zv9_scaffold3486,length=202621>
+##contig=<ID=Zv9_scaffold3487,length=231704>
+##contig=<ID=Zv9_scaffold3488,length=217805>
+##contig=<ID=Zv9_scaffold3489,length=167085>
+##contig=<ID=Zv9_scaffold3490,length=197274>
+##contig=<ID=Zv9_scaffold3491,length=284732>
+##contig=<ID=Zv9_scaffold3492,length=236140>
+##contig=<ID=Zv9_scaffold3493,length=171924>
+##contig=<ID=Zv9_scaffold3494,length=233193>
+##contig=<ID=Zv9_scaffold3495,length=321770>
+##contig=<ID=Zv9_scaffold3496,length=52255>
+##contig=<ID=Zv9_scaffold3497,length=110876>
+##contig=<ID=Zv9_scaffold3498,length=343018>
+##contig=<ID=Zv9_scaffold3499,length=44485>
+##contig=<ID=Zv9_scaffold3500,length=271256>
+##contig=<ID=Zv9_scaffold3501,length=159057>
+##contig=<ID=Zv9_scaffold3502,length=51622>
+##contig=<ID=Zv9_scaffold3503,length=965101>
+##contig=<ID=Zv9_scaffold3504,length=82506>
+##contig=<ID=Zv9_scaffold3505,length=159528>
+##contig=<ID=Zv9_scaffold3506,length=210931>
+##contig=<ID=Zv9_scaffold3507,length=149509>
+##contig=<ID=Zv9_scaffold3508,length=36911>
+##contig=<ID=Zv9_scaffold3509,length=266362>
+##contig=<ID=Zv9_scaffold3510,length=279262>
+##contig=<ID=Zv9_scaffold3511,length=156401>
+##contig=<ID=Zv9_scaffold3512,length=86846>
+##contig=<ID=Zv9_scaffold3513,length=38724>
+##contig=<ID=Zv9_scaffold3514,length=225481>
+##contig=<ID=Zv9_scaffold3515,length=276154>
+##contig=<ID=Zv9_scaffold3516,length=107959>
+##contig=<ID=Zv9_scaffold3517,length=225600>
+##contig=<ID=Zv9_scaffold3518,length=504410>
+##contig=<ID=Zv9_scaffold3519,length=192420>
+##contig=<ID=Zv9_scaffold3520,length=436282>
+##contig=<ID=Zv9_scaffold3521,length=192579>
+##contig=<ID=Zv9_scaffold3522,length=67935>
+##contig=<ID=Zv9_scaffold3523,length=49295>
+##contig=<ID=Zv9_scaffold3524,length=123466>
+##contig=<ID=Zv9_scaffold3525,length=90105>
+##contig=<ID=Zv9_scaffold3526,length=185489>
+##contig=<ID=Zv9_scaffold3527,length=22119>
+##contig=<ID=Zv9_scaffold3528,length=117557>
+##contig=<ID=Zv9_scaffold3529,length=212462>
+##contig=<ID=Zv9_scaffold3530,length=1544009>
+##contig=<ID=Zv9_scaffold3531,length=200274>
+##contig=<ID=Zv9_scaffold3532,length=45094>
+##contig=<ID=Zv9_scaffold3533,length=242772>
+##contig=<ID=Zv9_scaffold3534,length=206488>
+##contig=<ID=Zv9_scaffold3535,length=329156>
+##contig=<ID=Zv9_scaffold3536,length=368818>
+##contig=<ID=Zv9_scaffold3537,length=35552>
+##contig=<ID=Zv9_scaffold3538,length=253640>
+##contig=<ID=Zv9_scaffold3539,length=276747>
+##contig=<ID=Zv9_scaffold3540,length=281342>
+##contig=<ID=Zv9_scaffold3541,length=164497>
+##contig=<ID=Zv9_scaffold3542,length=165668>
+##contig=<ID=Zv9_scaffold3543,length=33292>
+##contig=<ID=Zv9_scaffold3544,length=115763>
+##contig=<ID=Zv9_scaffold3545,length=351865>
+##contig=<ID=Zv9_scaffold3546,length=150703>
+##contig=<ID=Zv9_scaffold3547,length=260465>
+##contig=<ID=Zv9_scaffold3548,length=301592>
+##contig=<ID=Zv9_scaffold3549,length=111234>
+##contig=<ID=Zv9_scaffold3550,length=245711>
+##contig=<ID=Zv9_scaffold3551,length=306644>
+##contig=<ID=Zv9_scaffold3552,length=137468>
+##contig=<ID=Zv9_scaffold3553,length=144917>
+##contig=<ID=Zv9_scaffold3554,length=332968>
+##contig=<ID=Zv9_scaffold3555,length=184511>
+##contig=<ID=Zv9_scaffold3556,length=68961>
+##contig=<ID=Zv9_scaffold3557,length=91369>
+##contig=<ID=Zv9_scaffold3558,length=102840>
+##contig=<ID=Zv9_scaffold3559,length=37822>
+##contig=<ID=Zv9_scaffold3560,length=190731>
+##contig=<ID=Zv9_scaffold3561,length=204746>
+##contig=<ID=Zv9_scaffold3562,length=124569>
+##contig=<ID=Zv9_scaffold3563,length=295849>
+##contig=<ID=Zv9_scaffold3564,length=143554>
+##contig=<ID=Zv9_NA654,length=124886>
+##contig=<ID=Zv9_NA922,length=29672>
+##contig=<ID=Zv9_NA772,length=32349>
+##contig=<ID=Zv9_NA560,length=13345>
+##contig=<ID=Zv9_NA79,length=108195>
+##contig=<ID=Zv9_NA799,length=20004>
+##contig=<ID=Zv9_NA847,length=12709>
+##contig=<ID=Zv9_NA526,length=14376>
+##contig=<ID=Zv9_NA404,length=22375>
+##contig=<ID=Zv9_NA812,length=27620>
+##contig=<ID=Zv9_NA352,length=10736>
+##contig=<ID=Zv9_NA506,length=31336>
+##contig=<ID=Zv9_NA943,length=2065>
+##contig=<ID=Zv9_NA272,length=41819>
+##contig=<ID=Zv9_NA419,length=17824>
+##contig=<ID=Zv9_NA598,length=14074>
+##contig=<ID=Zv9_NA173,length=51419>
+##contig=<ID=Zv9_NA222,length=13102>
+##contig=<ID=Zv9_NA168,length=12432>
+##contig=<ID=Zv9_NA237,length=32983>
+##contig=<ID=Zv9_NA82,length=15371>
+##contig=<ID=Zv9_NA442,length=8651>
+##contig=<ID=Zv9_NA834,length=51674>
+##contig=<ID=Zv9_NA285,length=19619>
+##contig=<ID=Zv9_NA432,length=11996>
+##contig=<ID=Zv9_NA444,length=24654>
+##contig=<ID=Zv9_NA540,length=23261>
+##contig=<ID=Zv9_NA394,length=48543>
+##contig=<ID=Zv9_NA945,length=3228>
+##contig=<ID=Zv9_NA206,length=11987>
+##contig=<ID=Zv9_NA792,length=10565>
+##contig=<ID=Zv9_NA712,length=2434>
+##contig=<ID=Zv9_NA719,length=20460>
+##contig=<ID=Zv9_NA275,length=26969>
+##contig=<ID=Zv9_NA84,length=50229>
+##contig=<ID=Zv9_NA714,length=35226>
+##contig=<ID=Zv9_NA760,length=20464>
+##contig=<ID=Zv9_NA426,length=19583>
+##contig=<ID=Zv9_NA240,length=28254>
+##contig=<ID=Zv9_NA718,length=15513>
+##contig=<ID=Zv9_NA497,length=23192>
+##contig=<ID=Zv9_NA647,length=13311>
+##contig=<ID=Zv9_NA811,length=32979>
+##contig=<ID=Zv9_NA204,length=17408>
+##contig=<ID=Zv9_NA303,length=74724>
+##contig=<ID=Zv9_NA937,length=1137>
+##contig=<ID=Zv9_NA170,length=11900>
+##contig=<ID=Zv9_NA535,length=13512>
+##contig=<ID=Zv9_NA294,length=11702>
+##contig=<ID=Zv9_NA692,length=28160>
+##contig=<ID=Zv9_NA727,length=50218>
+##contig=<ID=Zv9_NA46,length=17430>
+##contig=<ID=Zv9_NA646,length=12439>
+##contig=<ID=Zv9_NA789,length=9531>
+##contig=<ID=Zv9_NA364,length=14425>
+##contig=<ID=Zv9_NA441,length=16312>
+##contig=<ID=Zv9_NA446,length=19179>
+##contig=<ID=Zv9_NA146,length=9278>
+##contig=<ID=Zv9_NA289,length=20220>
+##contig=<ID=Zv9_NA605,length=31268>
+##contig=<ID=Zv9_NA450,length=12580>
+##contig=<ID=Zv9_NA227,length=101587>
+##contig=<ID=Zv9_NA555,length=152271>
+##contig=<ID=Zv9_NA277,length=102386>
+##contig=<ID=Zv9_NA333,length=29546>
+##contig=<ID=Zv9_NA808,length=86421>
+##contig=<ID=Zv9_NA530,length=37815>
+##contig=<ID=Zv9_NA406,length=17476>
+##contig=<ID=Zv9_NA575,length=16560>
+##contig=<ID=Zv9_NA756,length=26580>
+##contig=<ID=Zv9_NA742,length=42001>
+##contig=<ID=Zv9_NA842,length=19550>
+##contig=<ID=Zv9_NA935,length=1714>
+##contig=<ID=Zv9_NA121,length=27700>
+##contig=<ID=Zv9_NA177,length=31785>
+##contig=<ID=Zv9_NA691,length=10108>
+##contig=<ID=Zv9_NA340,length=44913>
+##contig=<ID=Zv9_NA216,length=17117>
+##contig=<ID=Zv9_NA486,length=53540>
+##contig=<ID=Zv9_NA869,length=16026>
+##contig=<ID=Zv9_NA472,length=104196>
+##contig=<ID=Zv9_NA325,length=22153>
+##contig=<ID=Zv9_NA235,length=18241>
+##contig=<ID=Zv9_NA823,length=17820>
+##contig=<ID=Zv9_NA500,length=17390>
+##contig=<ID=Zv9_NA551,length=47808>
+##contig=<ID=Zv9_NA86,length=78076>
+##contig=<ID=Zv9_NA334,length=3679>
+##contig=<ID=Zv9_NA1000,length=942>
+##contig=<ID=Zv9_NA607,length=9792>
+##contig=<ID=Zv9_NA380,length=12028>
+##contig=<ID=Zv9_NA958,length=1428>
+##contig=<ID=Zv9_NA100,length=26026>
+##contig=<ID=Zv9_NA323,length=76538>
+##contig=<ID=Zv9_NA483,length=16238>
+##contig=<ID=Zv9_NA601,length=27290>
+##contig=<ID=Zv9_NA150,length=16306>
+##contig=<ID=Zv9_NA353,length=49005>
+##contig=<ID=Zv9_NA357,length=35038>
+##contig=<ID=Zv9_NA282,length=11858>
+##contig=<ID=Zv9_NA803,length=22486>
+##contig=<ID=Zv9_NA74,length=24343>
+##contig=<ID=Zv9_NA591,length=13836>
+##contig=<ID=Zv9_NA451,length=13629>
+##contig=<ID=Zv9_NA465,length=16386>
+##contig=<ID=Zv9_NA495,length=12261>
+##contig=<ID=Zv9_NA338,length=20631>
+##contig=<ID=Zv9_NA557,length=11730>
+##contig=<ID=Zv9_NA814,length=19636>
+##contig=<ID=Zv9_NA420,length=10930>
+##contig=<ID=Zv9_NA649,length=51503>
+##contig=<ID=Zv9_NA750,length=6274>
+##contig=<ID=Zv9_NA305,length=10046>
+##contig=<ID=Zv9_NA400,length=24847>
+##contig=<ID=Zv9_NA822,length=90387>
+##contig=<ID=Zv9_NA587,length=9880>
+##contig=<ID=Zv9_NA462,length=2052>
+##contig=<ID=Zv9_NA268,length=9235>
+##contig=<ID=Zv9_NA387,length=88343>
+##contig=<ID=Zv9_NA593,length=13130>
+##contig=<ID=Zv9_NA424,length=13466>
+##contig=<ID=Zv9_NA939,length=6107>
+##contig=<ID=Zv9_NA153,length=32345>
+##contig=<ID=Zv9_NA794,length=16060>
+##contig=<ID=Zv9_NA502,length=50098>
+##contig=<ID=Zv9_NA213,length=31386>
+##contig=<ID=Zv9_NA759,length=17709>
+##contig=<ID=Zv9_NA751,length=9435>
+##contig=<ID=Zv9_NA658,length=11539>
+##contig=<ID=Zv9_NA597,length=33981>
+##contig=<ID=Zv9_NA886,length=6767>
+##contig=<ID=Zv9_NA717,length=19004>
+##contig=<ID=Zv9_NA427,length=35047>
+##contig=<ID=Zv9_NA21,length=32121>
+##contig=<ID=Zv9_NA262,length=66365>
+##contig=<ID=Zv9_NA827,length=63484>
+##contig=<ID=Zv9_NA267,length=9624>
+##contig=<ID=Zv9_NA307,length=13949>
+##contig=<ID=Zv9_NA579,length=9245>
+##contig=<ID=Zv9_NA920,length=3455>
+##contig=<ID=Zv9_NA131,length=11127>
+##contig=<ID=Zv9_NA315,length=27237>
+##contig=<ID=Zv9_NA73,length=25381>
+##contig=<ID=Zv9_NA254,length=24909>
+##contig=<ID=Zv9_NA628,length=70574>
+##contig=<ID=Zv9_NA565,length=21958>
+##contig=<ID=Zv9_NA574,length=42704>
+##contig=<ID=Zv9_NA200,length=12094>
+##contig=<ID=Zv9_NA360,length=27325>
+##contig=<ID=Zv9_NA258,length=64126>
+##contig=<ID=Zv9_NA636,length=29216>
+##contig=<ID=Zv9_NA548,length=31405>
+##contig=<ID=Zv9_NA218,length=12029>
+##contig=<ID=Zv9_NA612,length=39557>
+##contig=<ID=Zv9_NA731,length=27568>
+##contig=<ID=Zv9_NA604,length=19118>
+##contig=<ID=Zv9_NA887,length=62336>
+##contig=<ID=Zv9_NA977,length=2246>
+##contig=<ID=Zv9_NA195,length=10201>
+##contig=<ID=Zv9_NA848,length=25751>
+##contig=<ID=Zv9_NA198,length=10341>
+##contig=<ID=Zv9_NA867,length=27814>
+##contig=<ID=Zv9_NA571,length=7952>
+##contig=<ID=Zv9_NA749,length=21692>
+##contig=<ID=Zv9_NA892,length=110593>
+##contig=<ID=Zv9_NA524,length=22206>
+##contig=<ID=Zv9_NA910,length=9279>
+##contig=<ID=Zv9_NA278,length=53295>
+##contig=<ID=Zv9_NA93,length=20402>
+##contig=<ID=Zv9_NA655,length=8345>
+##contig=<ID=Zv9_NA568,length=20260>
+##contig=<ID=Zv9_NA522,length=18131>
+##contig=<ID=Zv9_NA577,length=11234>
+##contig=<ID=Zv9_NA677,length=59211>
+##contig=<ID=Zv9_NA454,length=18196>
+##contig=<ID=Zv9_NA507,length=30832>
+##contig=<ID=Zv9_NA752,length=9251>
+##contig=<ID=Zv9_NA942,length=16044>
+##contig=<ID=Zv9_NA162,length=17517>
+##contig=<ID=Zv9_NA76,length=10220>
+##contig=<ID=Zv9_NA951,length=2975>
+##contig=<ID=Zv9_NA660,length=76246>
+##contig=<ID=Zv9_NA215,length=7091>
+##contig=<ID=Zv9_NA433,length=13259>
+##contig=<ID=Zv9_NA805,length=25159>
+##contig=<ID=Zv9_NA106,length=13397>
+##contig=<ID=Zv9_NA252,length=11887>
+##contig=<ID=Zv9_NA941,length=1591>
+##contig=<ID=Zv9_NA12,length=10334>
+##contig=<ID=Zv9_NA439,length=47473>
+##contig=<ID=Zv9_NA288,length=6556>
+##contig=<ID=Zv9_NA508,length=8540>
+##contig=<ID=Zv9_NA626,length=15975>
+##contig=<ID=Zv9_NA217,length=10166>
+##contig=<ID=Zv9_NA298,length=16921>
+##contig=<ID=Zv9_NA514,length=23414>
+##contig=<ID=Zv9_NA376,length=24192>
+##contig=<ID=Zv9_NA594,length=14640>
+##contig=<ID=Zv9_NA928,length=50629>
+##contig=<ID=Zv9_NA78,length=41459>
+##contig=<ID=Zv9_NA479,length=87008>
+##contig=<ID=Zv9_NA747,length=17546>
+##contig=<ID=Zv9_NA960,length=2671>
+##contig=<ID=Zv9_NA975,length=1452>
+##contig=<ID=Zv9_NA7,length=5401>
+##contig=<ID=Zv9_NA676,length=21894>
+##contig=<ID=Zv9_NA852,length=16373>
+##contig=<ID=Zv9_NA413,length=14974>
+##contig=<ID=Zv9_NA266,length=59274>
+##contig=<ID=Zv9_NA695,length=55642>
+##contig=<ID=Zv9_NA180,length=6675>
+##contig=<ID=Zv9_NA196,length=28664>
+##contig=<ID=Zv9_NA407,length=49373>
+##contig=<ID=Zv9_NA985,length=6726>
+##contig=<ID=Zv9_NA368,length=10626>
+##contig=<ID=Zv9_NA955,length=1989>
+##contig=<ID=Zv9_NA516,length=13800>
+##contig=<ID=Zv9_NA311,length=17727>
+##contig=<ID=Zv9_NA117,length=16041>
+##contig=<ID=Zv9_NA327,length=8813>
+##contig=<ID=Zv9_NA771,length=103698>
+##contig=<ID=Zv9_NA80,length=23586>
+##contig=<ID=Zv9_NA713,length=11974>
+##contig=<ID=Zv9_NA169,length=15454>
+##contig=<ID=Zv9_NA351,length=18882>
+##contig=<ID=Zv9_NA225,length=13632>
+##contig=<ID=Zv9_NA726,length=44130>
+##contig=<ID=Zv9_NA871,length=22550>
+##contig=<ID=Zv9_NA902,length=3484>
+##contig=<ID=Zv9_NA51,length=37662>
+##contig=<ID=Zv9_NA661,length=14997>
+##contig=<ID=Zv9_NA108,length=5702>
+##contig=<ID=Zv9_NA970,length=17707>
+##contig=<ID=Zv9_NA798,length=11546>
+##contig=<ID=Zv9_NA391,length=15497>
+##contig=<ID=Zv9_NA685,length=17582>
+##contig=<ID=Zv9_NA411,length=6273>
+##contig=<ID=Zv9_NA27,length=59009>
+##contig=<ID=Zv9_NA639,length=89659>
+##contig=<ID=Zv9_NA725,length=7299>
+##contig=<ID=Zv9_NA990,length=29963>
+##contig=<ID=Zv9_NA573,length=51528>
+##contig=<ID=Zv9_NA673,length=14614>
+##contig=<ID=Zv9_NA489,length=9450>
+##contig=<ID=Zv9_NA965,length=10904>
+##contig=<ID=Zv9_NA499,length=36661>
+##contig=<ID=Zv9_NA214,length=12938>
+##contig=<ID=Zv9_NA113,length=11849>
+##contig=<ID=Zv9_NA730,length=17908>
+##contig=<ID=Zv9_NA782,length=19382>
+##contig=<ID=Zv9_NA670,length=9549>
+##contig=<ID=Zv9_NA839,length=13309>
+##contig=<ID=Zv9_NA72,length=13297>
+##contig=<ID=Zv9_NA361,length=62725>
+##contig=<ID=Zv9_NA640,length=63628>
+##contig=<ID=Zv9_NA194,length=18016>
+##contig=<ID=Zv9_NA36,length=97240>
+##contig=<ID=Zv9_NA549,length=20999>
+##contig=<ID=Zv9_NA11,length=81751>
+##contig=<ID=Zv9_NA862,length=6736>
+##contig=<ID=Zv9_NA631,length=24320>
+##contig=<ID=Zv9_NA889,length=20886>
+##contig=<ID=Zv9_NA683,length=123701>
+##contig=<ID=Zv9_NA953,length=1633>
+##contig=<ID=Zv9_NA171,length=40464>
+##contig=<ID=Zv9_NA918,length=47971>
+##contig=<ID=Zv9_NA111,length=16298>
+##contig=<ID=Zv9_NA75,length=21196>
+##contig=<ID=Zv9_NA130,length=96570>
+##contig=<ID=Zv9_NA423,length=49457>
+##contig=<ID=Zv9_NA243,length=63587>
+##contig=<ID=Zv9_NA906,length=88699>
+##contig=<ID=Zv9_NA969,length=1853>
+##contig=<ID=Zv9_NA881,length=9090>
+##contig=<ID=Zv9_NA983,length=1919>
+##contig=<ID=Zv9_NA115,length=9442>
+##contig=<ID=Zv9_NA389,length=9804>
+##contig=<ID=Zv9_NA99,length=84903>
+##contig=<ID=Zv9_NA164,length=25635>
+##contig=<ID=Zv9_NA666,length=5580>
+##contig=<ID=Zv9_NA541,length=12472>
+##contig=<ID=Zv9_NA471,length=16672>
+##contig=<ID=Zv9_NA544,length=9167>
+##contig=<ID=Zv9_NA840,length=21256>
+##contig=<ID=Zv9_NA853,length=16938>
+##contig=<ID=Zv9_NA326,length=14527>
+##contig=<ID=Zv9_NA997,length=650>
+##contig=<ID=Zv9_NA765,length=28871>
+##contig=<ID=Zv9_NA370,length=19437>
+##contig=<ID=Zv9_NA241,length=37908>
+##contig=<ID=Zv9_NA899,length=92401>
+##contig=<ID=Zv9_NA689,length=35575>
+##contig=<ID=Zv9_NA807,length=67541>
+##contig=<ID=Zv9_NA26,length=15782>
+##contig=<ID=Zv9_NA828,length=54201>
+##contig=<ID=Zv9_NA304,length=14071>
+##contig=<ID=Zv9_NA804,length=32850>
+##contig=<ID=Zv9_NA504,length=13934>
+##contig=<ID=Zv9_NA744,length=12932>
+##contig=<ID=Zv9_NA133,length=13928>
+##contig=<ID=Zv9_NA537,length=51630>
+##contig=<ID=Zv9_NA513,length=34295>
+##contig=<ID=Zv9_NA359,length=29537>
+##contig=<ID=Zv9_NA253,length=13607>
+##contig=<ID=Zv9_NA644,length=15380>
+##contig=<ID=Zv9_NA363,length=25595>
+##contig=<ID=Zv9_NA710,length=49935>
+##contig=<ID=Zv9_NA787,length=102574>
+##contig=<ID=Zv9_NA43,length=13714>
+##contig=<ID=Zv9_NA412,length=16251>
+##contig=<ID=Zv9_NA929,length=1577>
+##contig=<ID=Zv9_NA740,length=12167>
+##contig=<ID=Zv9_NA151,length=39831>
+##contig=<ID=Zv9_NA909,length=1916>
+##contig=<ID=Zv9_NA251,length=76611>
+##contig=<ID=Zv9_NA778,length=14570>
+##contig=<ID=Zv9_NA256,length=29092>
+##contig=<ID=Zv9_NA883,length=67738>
+##contig=<ID=Zv9_NA329,length=53190>
+##contig=<ID=Zv9_NA686,length=26739>
+##contig=<ID=Zv9_NA984,length=1745>
+##contig=<ID=Zv9_NA611,length=17295>
+##contig=<ID=Zv9_NA845,length=60897>
+##contig=<ID=Zv9_NA609,length=53888>
+##contig=<ID=Zv9_NA732,length=190002>
+##contig=<ID=Zv9_NA314,length=27068>
+##contig=<ID=Zv9_NA863,length=27926>
+##contig=<ID=Zv9_NA559,length=19525>
+##contig=<ID=Zv9_NA297,length=57912>
+##contig=<ID=Zv9_NA469,length=15354>
+##contig=<ID=Zv9_NA882,length=8946>
+##contig=<ID=Zv9_NA542,length=36728>
+##contig=<ID=Zv9_NA994,length=46999>
+##contig=<ID=Zv9_NA77,length=24494>
+##contig=<ID=Zv9_NA437,length=35759>
+##contig=<ID=Zv9_NA321,length=11925>
+##contig=<ID=Zv9_NA224,length=42463>
+##contig=<ID=Zv9_NA8,length=11297>
+##contig=<ID=Zv9_NA245,length=14297>
+##contig=<ID=Zv9_NA635,length=25956>
+##contig=<ID=Zv9_NA999,length=91010>
+##contig=<ID=Zv9_NA816,length=22839>
+##contig=<ID=Zv9_NA801,length=15811>
+##contig=<ID=Zv9_NA947,length=197207>
+##contig=<ID=Zv9_NA890,length=6597>
+##contig=<ID=Zv9_NA484,length=28415>
+##contig=<ID=Zv9_NA176,length=39965>
+##contig=<ID=Zv9_NA239,length=13053>
+##contig=<ID=Zv9_NA373,length=12836>
+##contig=<ID=Zv9_NA634,length=15053>
+##contig=<ID=Zv9_NA843,length=5690>
+##contig=<ID=Zv9_NA116,length=14804>
+##contig=<ID=Zv9_NA114,length=23645>
+##contig=<ID=Zv9_NA49,length=21348>
+##contig=<ID=Zv9_NA60,length=42458>
+##contig=<ID=Zv9_NA723,length=20880>
+##contig=<ID=Zv9_NA735,length=175146>
+##contig=<ID=Zv9_NA220,length=24638>
+##contig=<ID=Zv9_NA777,length=12430>
+##contig=<ID=Zv9_NA900,length=23581>
+##contig=<ID=Zv9_NA944,length=1251>
+##contig=<ID=Zv9_NA232,length=40056>
+##contig=<ID=Zv9_NA455,length=71322>
+##contig=<ID=Zv9_NA25,length=17273>
+##contig=<ID=Zv9_NA586,length=17145>
+##contig=<ID=Zv9_NA895,length=29524>
+##contig=<ID=Zv9_NA709,length=21577>
+##contig=<ID=Zv9_NA930,length=24203>
+##contig=<ID=Zv9_NA734,length=10141>
+##contig=<ID=Zv9_NA694,length=46188>
+##contig=<ID=Zv9_NA992,length=10131>
+##contig=<ID=Zv9_NA912,length=2460>
+##contig=<ID=Zv9_NA392,length=55498>
+##contig=<ID=Zv9_NA390,length=24178>
+##contig=<ID=Zv9_NA265,length=19758>
+##contig=<ID=Zv9_NA491,length=60821>
+##contig=<ID=Zv9_NA485,length=24616>
+##contig=<ID=Zv9_NA134,length=15848>
+##contig=<ID=Zv9_NA276,length=82990>
+##contig=<ID=Zv9_NA855,length=11940>
+##contig=<ID=Zv9_NA37,length=30922>
+##contig=<ID=Zv9_NA722,length=221151>
+##contig=<ID=Zv9_NA179,length=90482>
+##contig=<ID=Zv9_NA724,length=13138>
+##contig=<ID=Zv9_NA366,length=16690>
+##contig=<ID=Zv9_NA968,length=1173>
+##contig=<ID=Zv9_NA753,length=21302>
+##contig=<ID=Zv9_NA309,length=13072>
+##contig=<ID=Zv9_NA181,length=11414>
+##contig=<ID=Zv9_NA459,length=9480>
+##contig=<ID=Zv9_NA10,length=48062>
+##contig=<ID=Zv9_NA561,length=109565>
+##contig=<ID=Zv9_NA388,length=78223>
+##contig=<ID=Zv9_NA619,length=10081>
+##contig=<ID=Zv9_NA517,length=12942>
+##contig=<ID=Zv9_NA184,length=8007>
+##contig=<ID=Zv9_NA966,length=12799>
+##contig=<ID=Zv9_NA547,length=22983>
+##contig=<ID=Zv9_NA335,length=56448>
+##contig=<ID=Zv9_NA679,length=25813>
+##contig=<ID=Zv9_NA917,length=25214>
+##contig=<ID=Zv9_NA421,length=26178>
+##contig=<ID=Zv9_NA536,length=9489>
+##contig=<ID=Zv9_NA558,length=18137>
+##contig=<ID=Zv9_NA741,length=45335>
+##contig=<ID=Zv9_NA31,length=11944>
+##contig=<ID=Zv9_NA401,length=33302>
+##contig=<ID=Zv9_NA409,length=36779>
+##contig=<ID=Zv9_NA904,length=10439>
+##contig=<ID=Zv9_NA582,length=15907>
+##contig=<ID=Zv9_NA15,length=22730>
+##contig=<ID=Zv9_NA617,length=10910>
+##contig=<ID=Zv9_NA755,length=12115>
+##contig=<ID=Zv9_NA293,length=9944>
+##contig=<ID=Zv9_NA981,length=1813>
+##contig=<ID=Zv9_NA157,length=3679>
+##contig=<ID=Zv9_NA938,length=14383>
+##contig=<ID=Zv9_NA223,length=14044>
+##contig=<ID=Zv9_NA299,length=56304>
+##contig=<ID=Zv9_NA936,length=1530>
+##contig=<ID=Zv9_NA795,length=14844>
+##contig=<ID=Zv9_NA957,length=2866>
+##contig=<ID=Zv9_NA318,length=35750>
+##contig=<ID=Zv9_NA458,length=25470>
+##contig=<ID=Zv9_NA578,length=28855>
+##contig=<ID=Zv9_NA416,length=23078>
+##contig=<ID=Zv9_NA961,length=2357>
+##contig=<ID=Zv9_NA447,length=38868>
+##contig=<ID=Zv9_NA186,length=24180>
+##contig=<ID=Zv9_NA738,length=17517>
+##contig=<ID=Zv9_NA30,length=10762>
+##contig=<ID=Zv9_NA257,length=117499>
+##contig=<ID=Zv9_NA158,length=37156>
+##contig=<ID=Zv9_NA641,length=28789>
+##contig=<ID=Zv9_NA810,length=39727>
+##contig=<ID=Zv9_NA250,length=34033>
+##contig=<ID=Zv9_NA449,length=30599>
+##contig=<ID=Zv9_NA324,length=55820>
+##contig=<ID=Zv9_NA903,length=51036>
+##contig=<ID=Zv9_NA140,length=19644>
+##contig=<ID=Zv9_NA851,length=48009>
+##contig=<ID=Zv9_NA721,length=47384>
+##contig=<ID=Zv9_NA872,length=17592>
+##contig=<ID=Zv9_NA583,length=19631>
+##contig=<ID=Zv9_NA103,length=65247>
+##contig=<ID=Zv9_NA806,length=63519>
+##contig=<ID=Zv9_NA850,length=25985>
+##contig=<ID=Zv9_NA901,length=1786>
+##contig=<ID=Zv9_NA203,length=53306>
+##contig=<ID=Zv9_NA85,length=15739>
+##contig=<ID=Zv9_NA774,length=55488>
+##contig=<ID=Zv9_NA470,length=108843>
+##contig=<ID=Zv9_NA125,length=21023>
+##contig=<ID=Zv9_NA809,length=11627>
+##contig=<ID=Zv9_NA849,length=242593>
+##contig=<ID=Zv9_NA624,length=31814>
+##contig=<ID=Zv9_NA490,length=35271>
+##contig=<ID=Zv9_NA696,length=11840>
+##contig=<ID=Zv9_NA474,length=110669>
+##contig=<ID=Zv9_NA87,length=11002>
+##contig=<ID=Zv9_NA466,length=162877>
+##contig=<ID=Zv9_NA707,length=14003>
+##contig=<ID=Zv9_NA202,length=64403>
+##contig=<ID=Zv9_NA908,length=130527>
+##contig=<ID=Zv9_NA716,length=12245>
+##contig=<ID=Zv9_NA55,length=20389>
+##contig=<ID=Zv9_NA210,length=44680>
+##contig=<ID=Zv9_NA362,length=14960>
+##contig=<ID=Zv9_NA825,length=9590>
+##contig=<ID=Zv9_NA496,length=39310>
+##contig=<ID=Zv9_NA770,length=13719>
+##contig=<ID=Zv9_NA820,length=18075>
+##contig=<ID=Zv9_NA139,length=46605>
+##contig=<ID=Zv9_NA672,length=248473>
+##contig=<ID=Zv9_NA588,length=15084>
+##contig=<ID=Zv9_NA766,length=26604>
+##contig=<ID=Zv9_NA295,length=40063>
+##contig=<ID=Zv9_NA487,length=9340>
+##contig=<ID=Zv9_NA972,length=26415>
+##contig=<ID=Zv9_NA229,length=38987>
+##contig=<ID=Zv9_NA129,length=9079>
+##contig=<ID=Zv9_NA948,length=10954>
+##contig=<ID=Zv9_NA762,length=24359>
+##contig=<ID=Zv9_NA374,length=8788>
+##contig=<ID=Zv9_NA88,length=21856>
+##contig=<ID=Zv9_NA786,length=98280>
+##contig=<ID=Zv9_NA580,length=49608>
+##contig=<ID=Zv9_NA128,length=12948>
+##contig=<ID=Zv9_NA16,length=14579>
+##contig=<ID=Zv9_NA1,length=22128>
+##contig=<ID=Zv9_NA784,length=12499>
+##contig=<ID=Zv9_NA877,length=3381>
+##contig=<ID=Zv9_NA67,length=25796>
+##contig=<ID=Zv9_NA145,length=17671>
+##contig=<ID=Zv9_NA973,length=10057>
+##contig=<ID=Zv9_NA242,length=23619>
+##contig=<ID=Zv9_NA45,length=16781>
+##contig=<ID=Zv9_NA488,length=18511>
+##contig=<ID=Zv9_NA681,length=103999>
+##contig=<ID=Zv9_NA866,length=29245>
+##contig=<ID=Zv9_NA595,length=17431>
+##contig=<ID=Zv9_NA780,length=14103>
+##contig=<ID=Zv9_NA821,length=29322>
+##contig=<ID=Zv9_NA793,length=11974>
+##contig=<ID=Zv9_NA287,length=81645>
+##contig=<ID=Zv9_NA313,length=12995>
+##contig=<ID=Zv9_NA529,length=41505>
+##contig=<ID=Zv9_NA746,length=10479>
+##contig=<ID=Zv9_NA367,length=51360>
+##contig=<ID=Zv9_NA728,length=13249>
+##contig=<ID=Zv9_NA35,length=9230>
+##contig=<ID=Zv9_NA737,length=23246>
+##contig=<ID=Zv9_NA875,length=22862>
+##contig=<ID=Zv9_NA468,length=22488>
+##contig=<ID=Zv9_NA48,length=148772>
+##contig=<ID=Zv9_NA925,length=6296>
+##contig=<ID=Zv9_NA5,length=15341>
+##contig=<ID=Zv9_NA978,length=3784>
+##contig=<ID=Zv9_NA976,length=1692>
+##contig=<ID=Zv9_NA841,length=11947>
+##contig=<ID=Zv9_NA345,length=128109>
+##contig=<ID=Zv9_NA964,length=12227>
+##contig=<ID=Zv9_NA979,length=1346>
+##contig=<ID=Zv9_NA377,length=24652>
+##contig=<ID=Zv9_NA878,length=20579>
+##contig=<ID=Zv9_NA888,length=7339>
+##contig=<ID=Zv9_NA846,length=13510>
+##contig=<ID=Zv9_NA98,length=7902>
+##contig=<ID=Zv9_NA193,length=20710>
+##contig=<ID=Zv9_NA142,length=29197>
+##contig=<ID=Zv9_NA155,length=11892>
+##contig=<ID=Zv9_NA874,length=7316>
+##contig=<ID=Zv9_NA264,length=19033>
+##contig=<ID=Zv9_NA858,length=33146>
+##contig=<ID=Zv9_NA879,length=26928>
+##contig=<ID=Zv9_NA974,length=7997>
+##contig=<ID=Zv9_NA54,length=19310>
+##contig=<ID=Zv9_NA205,length=14336>
+##contig=<ID=Zv9_NA556,length=15807>
+##contig=<ID=Zv9_NA701,length=14213>
+##contig=<ID=Zv9_NA402,length=12262>
+##contig=<ID=Zv9_NA68,length=70538>
+##contig=<ID=Zv9_NA18,length=4371>
+##contig=<ID=Zv9_NA959,length=1142>
+##contig=<ID=Zv9_NA916,length=18284>
+##contig=<ID=Zv9_NA279,length=27489>
+##contig=<ID=Zv9_NA621,length=79091>
+##contig=<ID=Zv9_NA65,length=12735>
+##contig=<ID=Zv9_NA356,length=24048>
+##contig=<ID=Zv9_NA89,length=90601>
+##contig=<ID=Zv9_NA705,length=5946>
+##contig=<ID=Zv9_NA123,length=51610>
+##contig=<ID=Zv9_NA642,length=12053>
+##contig=<ID=Zv9_NA308,length=10518>
+##contig=<ID=Zv9_NA788,length=51696>
+##contig=<ID=Zv9_NA105,length=25462>
+##contig=<ID=Zv9_NA396,length=32330>
+##contig=<ID=Zv9_NA503,length=202348>
+##contig=<ID=Zv9_NA346,length=45008>
+##contig=<ID=Zv9_NA191,length=46864>
+##contig=<ID=Zv9_NA921,length=85407>
+##contig=<ID=Zv9_NA687,length=11552>
+##contig=<ID=Zv9_NA531,length=10238>
+##contig=<ID=Zv9_NA300,length=22954>
+##contig=<ID=Zv9_NA785,length=19019>
+##contig=<ID=Zv9_NA165,length=1990>
+##contig=<ID=Zv9_NA190,length=12998>
+##contig=<ID=Zv9_NA743,length=21448>
+##contig=<ID=Zv9_NA791,length=37413>
+##contig=<ID=Zv9_NA684,length=6489>
+##contig=<ID=Zv9_NA989,length=1920>
+##contig=<ID=Zv9_NA817,length=81249>
+##contig=<ID=Zv9_NA66,length=38884>
+##contig=<ID=Zv9_NA603,length=15215>
+##contig=<ID=Zv9_NA512,length=12637>
+##contig=<ID=Zv9_NA90,length=14065>
+##contig=<ID=Zv9_NA231,length=12800>
+##contig=<ID=Zv9_NA211,length=11298>
+##contig=<ID=Zv9_NA829,length=15325>
+##contig=<ID=Zv9_NA864,length=33279>
+##contig=<ID=Zv9_NA228,length=14056>
+##contig=<ID=Zv9_NA510,length=21397>
+##contig=<ID=Zv9_NA996,length=21489>
+##contig=<ID=Zv9_NA620,length=34697>
+##contig=<ID=Zv9_NA967,length=6697>
+##contig=<ID=Zv9_NA112,length=29992>
+##contig=<ID=Zv9_NA448,length=11399>
+##contig=<ID=Zv9_NA23,length=9515>
+##contig=<ID=Zv9_NA163,length=34615>
+##contig=<ID=Zv9_NA927,length=9426>
+##contig=<ID=Zv9_NA425,length=17027>
+##contig=<ID=Zv9_NA570,length=20603>
+##contig=<ID=Zv9_NA236,length=10395>
+##contig=<ID=Zv9_NA246,length=50906>
+##contig=<ID=Zv9_NA860,length=13902>
+##contig=<ID=Zv9_NA896,length=33258>
+##contig=<ID=Zv9_NA118,length=21637>
+##contig=<ID=Zv9_NA17,length=69829>
+##contig=<ID=Zv9_NA126,length=57500>
+##contig=<ID=Zv9_NA456,length=16564>
+##contig=<ID=Zv9_NA703,length=13237>
+##contig=<ID=Zv9_NA63,length=10966>
+##contig=<ID=Zv9_NA34,length=23395>
+##contig=<ID=Zv9_NA120,length=33766>
+##contig=<ID=Zv9_NA940,length=22542>
+##contig=<ID=Zv9_NA915,length=115850>
+##contig=<ID=Zv9_NA410,length=19733>
+##contig=<ID=Zv9_NA270,length=39283>
+##contig=<ID=Zv9_NA873,length=8506>
+##contig=<ID=Zv9_NA273,length=83881>
+##contig=<ID=Zv9_NA431,length=13387>
+##contig=<ID=Zv9_NA907,length=30410>
+##contig=<ID=Zv9_NA515,length=12247>
+##contig=<ID=Zv9_NA623,length=31528>
+##contig=<ID=Zv9_NA172,length=8720>
+##contig=<ID=Zv9_NA97,length=47727>
+##contig=<ID=Zv9_NA781,length=8817>
+##contig=<ID=Zv9_NA884,length=4454>
+##contig=<ID=Zv9_NA764,length=10130>
+##contig=<ID=Zv9_NA698,length=90382>
+##contig=<ID=Zv9_NA768,length=11084>
+##contig=<ID=Zv9_NA708,length=19391>
+##contig=<ID=Zv9_NA493,length=42860>
+##contig=<ID=Zv9_NA473,length=28122>
+##contig=<ID=Zv9_NA545,length=196107>
+##contig=<ID=Zv9_NA671,length=41319>
+##contig=<ID=Zv9_NA14,length=16517>
+##contig=<ID=Zv9_NA650,length=62738>
+##contig=<ID=Zv9_NA405,length=13999>
+##contig=<ID=Zv9_NA779,length=28463>
+##contig=<ID=Zv9_NA92,length=45130>
+##contig=<ID=Zv9_NA481,length=31979>
+##contig=<ID=Zv9_NA757,length=6941>
+##contig=<ID=Zv9_NA775,length=34402>
+##contig=<ID=Zv9_NA330,length=18401>
+##contig=<ID=Zv9_NA776,length=12396>
+##contig=<ID=Zv9_NA415,length=27317>
+##contig=<ID=Zv9_NA249,length=13433>
+##contig=<ID=Zv9_NA599,length=13722>
+##contig=<ID=Zv9_NA946,length=3086>
+##contig=<ID=Zv9_NA355,length=82545>
+##contig=<ID=Zv9_NA452,length=18921>
+##contig=<ID=Zv9_NA962,length=1732>
+##contig=<ID=Zv9_NA919,length=2001>
+##contig=<ID=Zv9_NA736,length=31752>
+##contig=<ID=Zv9_NA201,length=12817>
+##contig=<ID=Zv9_NA70,length=29907>
+##contig=<ID=Zv9_NA893,length=15043>
+##contig=<ID=Zv9_NA690,length=10411>
+##contig=<ID=Zv9_NA498,length=12144>
+##contig=<ID=Zv9_NA382,length=61361>
+##contig=<ID=Zv9_NA188,length=5676>
+##contig=<ID=Zv9_NA763,length=16505>
+##contig=<ID=Zv9_NA422,length=32739>
+##contig=<ID=Zv9_NA475,length=20248>
+##contig=<ID=Zv9_NA477,length=30201>
+##contig=<ID=Zv9_NA436,length=21670>
+##contig=<ID=Zv9_NA590,length=11460>
+##contig=<ID=Zv9_NA463,length=33163>
+##contig=<ID=Zv9_NA995,length=152294>
+##contig=<ID=Zv9_NA857,length=23450>
+##contig=<ID=Zv9_NA110,length=25708>
+##contig=<ID=Zv9_NA585,length=15639>
+##contig=<ID=Zv9_NA371,length=6328>
+##contig=<ID=Zv9_NA255,length=33071>
+##contig=<ID=Zv9_NA280,length=35555>
+##contig=<ID=Zv9_NA56,length=8697>
+##contig=<ID=Zv9_NA971,length=2865>
+##contig=<ID=Zv9_NA564,length=44968>
+##contig=<ID=Zv9_NA132,length=40089>
+##contig=<ID=Zv9_NA40,length=43073>
+##contig=<ID=Zv9_NA613,length=25191>
+##contig=<ID=Zv9_NA271,length=18539>
+##contig=<ID=Zv9_NA306,length=34409>
+##contig=<ID=Zv9_NA739,length=12323>
+##contig=<ID=Zv9_NA349,length=62665>
+##contig=<ID=Zv9_NA238,length=21073>
+##contig=<ID=Zv9_NA492,length=45964>
+##contig=<ID=Zv9_NA868,length=11473>
+##contig=<ID=Zv9_NA331,length=110945>
+##contig=<ID=Zv9_NA521,length=45935>
+##contig=<ID=Zv9_NA949,length=3033>
+##contig=<ID=Zv9_NA956,length=1989>
+##contig=<ID=Zv9_NA292,length=28756>
+##contig=<ID=Zv9_NA576,length=29114>
+##contig=<ID=Zv9_NA844,length=184625>
+##contig=<ID=Zv9_NA815,length=28088>
+##contig=<ID=Zv9_NA182,length=12483>
+##contig=<ID=Zv9_NA567,length=50772>
+##contig=<ID=Zv9_NA383,length=11690>
+##contig=<ID=Zv9_NA700,length=14191>
+##contig=<ID=Zv9_NA50,length=6674>
+##contig=<ID=Zv9_NA428,length=140649>
+##contig=<ID=Zv9_NA341,length=9130>
+##contig=<ID=Zv9_NA638,length=16452>
+##contig=<ID=Zv9_NA281,length=19596>
+##contig=<ID=Zv9_NA697,length=19866>
+##contig=<ID=Zv9_NA136,length=40214>
+##contig=<ID=Zv9_NA143,length=14664>
+##contig=<ID=Zv9_NA187,length=19609>
+##contig=<ID=Zv9_NA913,length=26843>
+##contig=<ID=Zv9_NA933,length=3012>
+##contig=<ID=Zv9_NA337,length=71326>
+##contig=<ID=Zv9_NA754,length=9286>
+##contig=<ID=Zv9_NA761,length=49566>
+##contig=<ID=Zv9_NA135,length=30249>
+##contig=<ID=Zv9_NA562,length=17410>
+##contig=<ID=Zv9_NA260,length=5952>
+##contig=<ID=Zv9_NA19,length=16275>
+##contig=<ID=Zv9_NA905,length=58278>
+##contig=<ID=Zv9_NA29,length=30195>
+##contig=<ID=Zv9_NA259,length=12046>
+##contig=<ID=Zv9_NA894,length=11382>
+##contig=<ID=Zv9_NA993,length=2100>
+##contig=<ID=Zv9_NA148,length=14151>
+##contig=<ID=Zv9_NA339,length=18649>
+##contig=<ID=Zv9_NA94,length=15103>
+##contig=<ID=Zv9_NA652,length=11830>
+##contig=<ID=Zv9_NA348,length=16143>
+##contig=<ID=Zv9_NA783,length=60847>
+##contig=<ID=Zv9_NA438,length=24002>
+##contig=<ID=Zv9_NA622,length=27587>
+##contig=<ID=Zv9_NA633,length=14951>
+##contig=<ID=Zv9_NA711,length=16171>
+##contig=<ID=Zv9_NA758,length=22875>
+##contig=<ID=Zv9_NA800,length=30729>
+##contig=<ID=Zv9_NA643,length=12561>
+##contig=<ID=Zv9_NA538,length=19784>
+##contig=<ID=Zv9_NA81,length=89657>
+##contig=<ID=Zv9_NA248,length=35264>
+##contig=<ID=Zv9_NA62,length=15451>
+##contig=<ID=Zv9_NA244,length=31367>
+##contig=<ID=Zv9_NA476,length=11398>
+##contig=<ID=Zv9_NA52,length=44649>
+##contig=<ID=Zv9_NA931,length=6731>
+##contig=<ID=Zv9_NA880,length=25201>
+##contig=<ID=Zv9_NA572,length=13385>
+##contig=<ID=Zv9_NA480,length=12701>
+##contig=<ID=Zv9_NA24,length=53048>
+##contig=<ID=Zv9_NA219,length=107910>
+##contig=<ID=Zv9_NA47,length=47767>
+##contig=<ID=Zv9_NA399,length=83315>
+##contig=<ID=Zv9_NA199,length=33401>
+##contig=<ID=Zv9_NA274,length=59701>
+##contig=<ID=Zv9_NA675,length=312116>
+##contig=<ID=Zv9_NA209,length=17192>
+##contig=<ID=Zv9_NA865,length=20567>
+##contig=<ID=Zv9_NA733,length=12119>
+##contig=<ID=Zv9_NA386,length=20039>
+##contig=<ID=Zv9_NA365,length=15053>
+##contig=<ID=Zv9_NA478,length=6919>
+##contig=<ID=Zv9_NA159,length=29163>
+##contig=<ID=Zv9_NA566,length=12307>
+##contig=<ID=Zv9_NA528,length=9984>
+##contig=<ID=Zv9_NA836,length=7552>
+##contig=<ID=Zv9_NA584,length=71383>
+##contig=<ID=Zv9_NA532,length=23472>
+##contig=<ID=Zv9_NA833,length=41858>
+##contig=<ID=Zv9_NA372,length=206081>
+##contig=<ID=Zv9_NA980,length=1872>
+##contig=<ID=Zv9_NA397,length=8447>
+##contig=<ID=Zv9_NA398,length=67534>
+##contig=<ID=Zv9_NA674,length=14586>
+##contig=<ID=Zv9_NA429,length=67766>
+##contig=<ID=Zv9_NA616,length=15977>
+##contig=<ID=Zv9_NA322,length=103967>
+##contig=<ID=Zv9_NA830,length=13526>
+##contig=<ID=Zv9_NA596,length=19249>
+##contig=<ID=Zv9_NA414,length=32451>
+##contig=<ID=Zv9_NA91,length=26145>
+##contig=<ID=Zv9_NA550,length=15747>
+##contig=<ID=Zv9_NA748,length=37420>
+##contig=<ID=Zv9_NA144,length=30874>
+##contig=<ID=Zv9_NA637,length=17683>
+##contig=<ID=Zv9_NA627,length=35871>
+##contig=<ID=Zv9_NA147,length=12046>
+##contig=<ID=Zv9_NA319,length=38162>
+##contig=<ID=Zv9_NA174,length=11116>
+##contig=<ID=Zv9_NA543,length=16101>
+##contig=<ID=Zv9_NA818,length=25381>
+##contig=<ID=Zv9_NA149,length=13273>
+##contig=<ID=Zv9_NA41,length=71685>
+##contig=<ID=Zv9_NA445,length=16544>
+##contig=<ID=Zv9_NA861,length=6161>
+##contig=<ID=Zv9_NA234,length=8389>
+##contig=<ID=Zv9_NA813,length=20890>
+##contig=<ID=Zv9_NA657,length=12499>
+##contig=<ID=Zv9_NA553,length=12455>
+##contig=<ID=Zv9_NA824,length=88608>
+##contig=<ID=Zv9_NA6,length=6378>
+##contig=<ID=Zv9_NA263,length=46218>
+##contig=<ID=Zv9_NA534,length=28537>
+##contig=<ID=Zv9_NA653,length=47980>
+##contig=<ID=Zv9_NA527,length=18248>
+##contig=<ID=Zv9_NA2,length=16058>
+##contig=<ID=Zv9_NA328,length=26343>
+##contig=<ID=Zv9_NA645,length=10343>
+##contig=<ID=Zv9_NA161,length=11232>
+##contig=<ID=Zv9_NA501,length=95885>
+##contig=<ID=Zv9_NA702,length=26814>
+##contig=<ID=Zv9_NA796,length=3298>
+##contig=<ID=Zv9_NA648,length=16134>
+##contig=<ID=Zv9_NA539,length=5114>
+##contig=<ID=Zv9_NA854,length=19629>
+##contig=<ID=Zv9_NA301,length=29537>
+##contig=<ID=Zv9_NA831,length=9332>
+##contig=<ID=Zv9_NA124,length=21941>
+##contig=<ID=Zv9_NA178,length=57586>
+##contig=<ID=Zv9_NA924,length=11402>
+##contig=<ID=Zv9_NA667,length=15093>
+##contig=<ID=Zv9_NA435,length=12108>
+##contig=<ID=Zv9_NA625,length=37191>
+##contig=<ID=Zv9_NA630,length=28321>
+##contig=<ID=Zv9_NA403,length=107891>
+##contig=<ID=Zv9_NA911,length=16801>
+##contig=<ID=Zv9_NA192,length=46519>
+##contig=<ID=Zv9_NA651,length=11834>
+##contig=<ID=Zv9_NA83,length=14644>
+##contig=<ID=Zv9_NA166,length=16018>
+##contig=<ID=Zv9_NA141,length=15732>
+##contig=<ID=Zv9_NA408,length=28725>
+##contig=<ID=Zv9_NA296,length=57651>
+##contig=<ID=Zv9_NA291,length=17202>
+##contig=<ID=Zv9_NA167,length=10148>
+##contig=<ID=Zv9_NA505,length=12318>
+##contig=<ID=Zv9_NA592,length=29560>
+##contig=<ID=Zv9_NA183,length=17343>
+##contig=<ID=Zv9_NA207,length=14752>
+##contig=<ID=Zv9_NA189,length=35705>
+##contig=<ID=Zv9_NA518,length=30978>
+##contig=<ID=Zv9_NA987,length=4206>
+##contig=<ID=Zv9_NA898,length=10149>
+##contig=<ID=Zv9_NA61,length=35842>
+##contig=<ID=Zv9_NA952,length=1326>
+##contig=<ID=Zv9_NA729,length=17661>
+##contig=<ID=Zv9_NA773,length=12355>
+##contig=<ID=Zv9_NA233,length=55805>
+##contig=<ID=Zv9_NA156,length=73829>
+##contig=<ID=Zv9_NA354,length=8909>
+##contig=<ID=Zv9_NA316,length=13588>
+##contig=<ID=Zv9_NA175,length=51667>
+##contig=<ID=Zv9_NA95,length=49544>
+##contig=<ID=Zv9_NA138,length=11785>
+##contig=<ID=Zv9_NA13,length=12144>
+##contig=<ID=Zv9_NA659,length=73536>
+##contig=<ID=Zv9_NA926,length=44504>
+##contig=<ID=Zv9_NA247,length=13470>
+##contig=<ID=Zv9_NA312,length=14703>
+##contig=<ID=Zv9_NA745,length=1198>
+##contig=<ID=Zv9_NA395,length=54494>
+##contig=<ID=Zv9_NA699,length=12094>
+##contig=<ID=Zv9_NA819,length=28018>
+##contig=<ID=Zv9_NA662,length=17481>
+##contig=<ID=Zv9_NA375,length=49514>
+##contig=<ID=Zv9_NA57,length=9714>
+##contig=<ID=Zv9_NA563,length=13297>
+##contig=<ID=Zv9_NA350,length=12545>
+##contig=<ID=Zv9_NA320,length=28998>
+##contig=<ID=Zv9_NA384,length=79937>
+##contig=<ID=Zv9_NA546,length=23518>
+##contig=<ID=Zv9_NA663,length=45603>
+##contig=<ID=Zv9_NA393,length=14260>
+##contig=<ID=Zv9_NA982,length=1919>
+##contig=<ID=Zv9_NA832,length=13959>
+##contig=<ID=Zv9_NA464,length=12550>
+##contig=<ID=Zv9_NA302,length=33528>
+##contig=<ID=Zv9_NA185,length=29025>
+##contig=<ID=Zv9_NA286,length=31814>
+##contig=<ID=Zv9_NA369,length=12019>
+##contig=<ID=Zv9_NA914,length=9328>
+##contig=<ID=Zv9_NA790,length=9429>
+##contig=<ID=Zv9_NA678,length=61693>
+##contig=<ID=Zv9_NA859,length=40050>
+##contig=<ID=Zv9_NA385,length=58062>
+##contig=<ID=Zv9_NA618,length=34930>
+##contig=<ID=Zv9_NA197,length=8328>
+##contig=<ID=Zv9_NA347,length=5663>
+##contig=<ID=Zv9_NA457,length=11494>
+##contig=<ID=Zv9_NA693,length=21062>
+##contig=<ID=Zv9_NA767,length=18499>
+##contig=<ID=Zv9_NA706,length=56151>
+##contig=<ID=Zv9_NA283,length=24131>
+##contig=<ID=Zv9_NA533,length=23511>
+##contig=<ID=Zv9_NA119,length=6288>
+##contig=<ID=Zv9_NA44,length=9871>
+##contig=<ID=Zv9_NA336,length=19927>
+##contig=<ID=Zv9_NA64,length=12831>
+##contig=<ID=Zv9_NA511,length=22285>
+##contig=<ID=Zv9_NA284,length=12811>
+##contig=<ID=Zv9_NA629,length=33835>
+##contig=<ID=Zv9_NA440,length=11735>
+##contig=<ID=Zv9_NA379,length=11020>
+##contig=<ID=Zv9_NA226,length=10512>
+##contig=<ID=Zv9_NA885,length=65370>
+##contig=<ID=Zv9_NA39,length=29772>
+##contig=<ID=Zv9_NA988,length=2311>
+##contig=<ID=Zv9_NA212,length=1347>
+##contig=<ID=Zv9_NA991,length=12451>
+##contig=<ID=Zv9_NA876,length=49336>
+##contig=<ID=Zv9_NA453,length=14532>
+##contig=<ID=Zv9_NA954,length=2620>
+##contig=<ID=Zv9_NA856,length=44612>
+##contig=<ID=Zv9_NA230,length=9870>
+##contig=<ID=Zv9_NA152,length=111598>
+##contig=<ID=Zv9_NA358,length=14598>
+##contig=<ID=Zv9_NA680,length=17332>
+##contig=<ID=Zv9_NA525,length=96074>
+##contig=<ID=Zv9_NA669,length=24865>
+##contig=<ID=Zv9_NA430,length=12500>
+##contig=<ID=Zv9_NA343,length=39438>
+##contig=<ID=Zv9_NA569,length=31147>
+##contig=<ID=Zv9_NA602,length=35900>
+##contig=<ID=Zv9_NA160,length=12990>
+##contig=<ID=Zv9_NA950,length=1755>
+##contig=<ID=Zv9_NA826,length=11944>
+##contig=<ID=Zv9_NA682,length=7348>
+##contig=<ID=Zv9_NA837,length=15190>
+##contig=<ID=Zv9_NA460,length=24004>
+##contig=<ID=Zv9_NA269,length=20600>
+##contig=<ID=Zv9_NA897,length=19172>
+##contig=<ID=Zv9_NA69,length=27326>
+##contig=<ID=Zv9_NA600,length=22969>
+##contig=<ID=Zv9_NA107,length=55784>
+##contig=<ID=Zv9_NA378,length=32319>
+##contig=<ID=Zv9_NA418,length=35229>
+##contig=<ID=Zv9_NA53,length=34431>
+##contig=<ID=Zv9_NA494,length=18273>
+##contig=<ID=Zv9_NA32,length=16487>
+##contig=<ID=Zv9_NA332,length=60899>
+##contig=<ID=Zv9_NA891,length=3607>
+##contig=<ID=Zv9_NA482,length=17061>
+##contig=<ID=Zv9_NA509,length=77778>
+##contig=<ID=Zv9_NA461,length=95149>
+##contig=<ID=Zv9_NA870,length=74622>
+##contig=<ID=Zv9_NA58,length=27350>
+##contig=<ID=Zv9_NA610,length=8176>
+##contig=<ID=Zv9_NA342,length=12023>
+##contig=<ID=Zv9_NA96,length=15815>
+##contig=<ID=Zv9_NA4,length=41486>
+##contig=<ID=Zv9_NA520,length=27067>
+##contig=<ID=Zv9_NA38,length=49389>
+##contig=<ID=Zv9_NA552,length=39982>
+##contig=<ID=Zv9_NA668,length=31510>
+##contig=<ID=Zv9_NA33,length=54475>
+##contig=<ID=Zv9_NA581,length=7798>
+##contig=<ID=Zv9_NA317,length=25636>
+##contig=<ID=Zv9_NA704,length=38183>
+##contig=<ID=Zv9_NA554,length=20424>
+##contig=<ID=Zv9_NA923,length=33441>
+##contig=<ID=Zv9_NA109,length=11016>
+##contig=<ID=Zv9_NA606,length=17139>
+##contig=<ID=Zv9_NA608,length=40497>
+##contig=<ID=Zv9_NA59,length=18756>
+##contig=<ID=Zv9_NA802,length=1126>
+##contig=<ID=Zv9_NA998,length=43558>
+##contig=<ID=Zv9_NA589,length=20976>
+##contig=<ID=Zv9_NA986,length=1639>
+##contig=<ID=Zv9_NA101,length=47589>
+##contig=<ID=Zv9_NA963,length=33607>
+##contig=<ID=Zv9_NA615,length=17237>
+##contig=<ID=Zv9_NA154,length=36097>
+##contig=<ID=Zv9_NA632,length=14114>
+##contig=<ID=Zv9_NA3,length=20749>
+##contig=<ID=Zv9_NA208,length=26893>
+##contig=<ID=Zv9_NA519,length=23764>
+##contig=<ID=Zv9_NA102,length=14832>
+##contig=<ID=Zv9_NA443,length=24376>
+##contig=<ID=Zv9_NA523,length=11856>
+##contig=<ID=Zv9_NA137,length=11941>
+##contig=<ID=Zv9_NA290,length=96477>
+##contig=<ID=Zv9_NA614,length=19362>
+##contig=<ID=Zv9_NA720,length=10750>
+##contig=<ID=Zv9_NA42,length=60856>
+##contig=<ID=Zv9_NA9,length=20238>
+##contig=<ID=Zv9_NA932,length=2185>
+##contig=<ID=Zv9_NA221,length=27995>
+##contig=<ID=Zv9_NA797,length=114591>
+##contig=<ID=Zv9_NA127,length=8150>
+##contig=<ID=Zv9_NA434,length=24612>
+##contig=<ID=Zv9_NA71,length=15078>
+##contig=<ID=Zv9_NA344,length=52186>
+##contig=<ID=Zv9_NA381,length=14544>
+##contig=<ID=Zv9_NA122,length=18352>
+##contig=<ID=Zv9_NA838,length=24053>
+##contig=<ID=Zv9_NA310,length=15572>
+##contig=<ID=Zv9_NA22,length=67349>
+##contig=<ID=Zv9_NA28,length=130903>
+##contig=<ID=Zv9_NA417,length=33247>
+##contig=<ID=Zv9_NA769,length=36129>
+##contig=<ID=Zv9_NA688,length=31617>
+##contig=<ID=Zv9_NA934,length=1266>
+##contig=<ID=Zv9_NA104,length=47531>
+##contig=<ID=Zv9_NA261,length=12074>
+##contig=<ID=Zv9_NA656,length=18479>
+##contig=<ID=Zv9_NA715,length=20896>
+##contig=<ID=chr1,length=60348388>
+##contig=<ID=chr10,length=46591166>
+##contig=<ID=chr11,length=46661319>
+##contig=<ID=chr12,length=50697278>
+##contig=<ID=chr13,length=54093808>
+##contig=<ID=chr14,length=53733891>
+##contig=<ID=chr15,length=47442429>
+##contig=<ID=chr16,length=58780683>
+##contig=<ID=chr17,length=53984731>
+##contig=<ID=chr18,length=49877488>
+##contig=<ID=chr19,length=50254551>
+##contig=<ID=chr2,length=60300536>
+##contig=<ID=chr20,length=55952140>
+##contig=<ID=chr21,length=44544065>
+##contig=<ID=chr22,length=42261000>
+##contig=<ID=chr23,length=46386876>
+##contig=<ID=chr24,length=43947580>
+##contig=<ID=chr25,length=38499472>
+##contig=<ID=chr3,length=63268876>
+##contig=<ID=chr4,length=62094675>
+##contig=<ID=chr5,length=75682077>
+##contig=<ID=chr6,length=59938731>
+##contig=<ID=chr7,length=77276063>
+##contig=<ID=chr8,length=56184765>
+##contig=<ID=chr9,length=58232459>
+##contig=<ID=chrM,length=16596>
+##reference=file:///home/njessi/danRer7.fa
+##SnpEffVersion="4.1b (build 2015-02-13), by Pablo Cingolani"
+##SnpEffCmd="SnpEff  Zv9.76 -o gatk output_90962.vcf "
+##INFO=<ID=EFF,Number=.,Type=String,Description="Predicted effects for this variant.Format: 'Effect ( Effect_Impact | Functional_Class | Codon_Change | Amino_Acid_change| Gene_Name | Transcript_BioType | Gene_Coding | Transcript_ID | Exon [ | ERRORS | WARNINGS ] )' ">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	01GBFB	05FQGB	06JRKS	105FEGG	125FBGB	14FQGK	16FQGK	17FBGA_mut	20FYGD_mut	25FUGK_mut	25FUGK_sib	26FQGB	46FWGA_mut	46FWGA_sib	66FEGG	71FAGA	72FAGA	84FBGB_mut	84FBGB_sib	84FUGK	Rsh_Mut	Rsh_WT	TLF	Wik
+chr1	995	.	A	G	68.77	.	AC=2;AF=0.250;AN=8;DP=9;FS=0.000;GQ_MEAN=4.50;GQ_STDDEV=5.20;MLEAC=3;MLEAF=0.375;MQ=40.00;MQ0=0;NCC=20;QD=17.19;SOR=3.258;EFF=UPSTREAM(MODIFIER||2805||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	./.:0,0:0	1/1:0,4:4:12:98,12,0	0/0:1,0:1:3:0,3,21	./.:0,0:0	./.:0,0:0	0/0:3,0:3:0:0,0,22	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	0/0:1,0:1:3:0,3,20	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0
+chr1	1082	.	T	A	67.22	.	AC=2;AF=0.200;AN=10;DP=18;FS=0.000;GQ_MEAN=4.20;GQ_STDDEV=4.55;MLEAC=3;MLEAF=0.300;MQ=40.00;MQ0=0;NCC=19;QD=16.81;SOR=3.258;EFF=UPSTREAM(MODIFIER||2718||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	./.:0,0:0	1/1:0,4:4:12:98,12,0	./.:2,0:2	0/0:1,0:1:3:0,3,24	./.:0,0:0	0/0:5,0:5:0:0,0,74	./.:0,0:0	./.:0,0:0	./.:1,0:1	./.:0,0:0	./.:0,0:0	./.:2,0:2	./.:0,0:0	0/0:1,0:1:3:0,3,24	./.:1,0:1	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	0/0:1,0:1:3:0,3,24
+chr1	1100	.	G	A	90.73	.	AC=3;AF=0.167;AN=18;BaseQRankSum=0.00;ClippingRankSum=-1.026e+00;DP=21;FS=0.000;GQ_MEAN=6.67;GQ_STDDEV=11.20;MLEAC=4;MLEAF=0.222;MQ=40.00;MQ0=0;MQRankSum=-1.026e+00;NCC=15;QD=15.12;ReadPosRankSum=1.03;SOR=1.329;EFF=UPSTREAM(MODIFIER||2700||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	0/0:5,0:5:0:.:.:0,0,74	0/1:2,2:4:36:0|1:1100_G_A:36,0,37	./.:1,0:1	./.:0,0:0	0/0:3,0:3:6:.:.:0,6,90	./.:0,0:0	./.:0,0:0	0/0:1,0:1:3:.:.:0,3,24	./.:0,0:0	./.:0,0:0	0/0:2,0:2:0:.:.:0,0,1	./.:0,0:0	0/0:1,0:1:3:.:.:0,3,24	0/0:1,0:1:3:.:.:0,3,24	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	1/1:0,2:2:6:1|1:1100_G_A:90,6,0	./.:0,0:0	./.:0,0:0	./.:0,0:0	0/0:1,0:1:3:.:.:0,3,24
+chr1	1118	.	A	T	375.5	.	AC=7;AF=0.700;AN=10;BaseQRankSum=0.736;ClippingRankSum=-7.360e-01;DP=21;FS=0.000;GQ_MEAN=11.60;GQ_STDDEV=6.66;MLEAC=8;MLEAF=0.800;MQ=40.00;MQ0=0;MQRankSum=0.736;NCC=19;QD=28.88;ReadPosRankSum=-7.360e-01;SOR=3.258;EFF=UPSTREAM(MODIFIER||2682||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	1/1:0,5:5:15:.:.:117,15,0	1/1:0,6:6:18:1|1:1100_G_A:187,18,0	./.:1,0:1	./.:0,0:0	0/1:2,1:3:16:.:.:16,0,37	./.:0,0:0	./.:0,0:0	./.:1,0:1	./.:0,0:0	./.:0,0:0	./.:2,0:2	./.:0,0:0	0/0:1,0:1:3:.:.:0,3,24	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0	1/1:0,2:2:6:1|1:1100_G_A:90,6,0	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:0,0:0
+chr1	1175	.	C	T	52.2	.	AC=2;AF=0.100;AN=20;BaseQRankSum=0.358;ClippingRankSum=0.358;DP=50;FS=0.000;GQ_MEAN=15.30;GQ_STDDEV=16.82;InbreedingCoeff=0.1172;MLEAC=3;MLEAF=0.150;MQ=40.00;MQ0=0;MQRankSum=-3.580e-01;NCC=14;QD=4.75;ReadPosRankSum=1.38;SOR=0.551;EFF=UPSTREAM(MODIFIER||2625||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	./.:0,0:0	0/0:15,0:15:42:0,42,630	0/0:12,0:12:33:0,33,495	./.:0,0:0	./.:0,0:0	0/1:2,3:5:33:57,0,33	0/1:4,2:6:30:30,0,81	./.:0,0:0	0/0:1,0:1:3:0,3,24	./.:0,0:0	./.:0,0:0	0/0:2,0:2:3:0,3,45	./.:0,0:0	0/0:1,0:1:3:0,3,23	./.:0,0:0	0/0:1,0:1:3:0,3,11	./.:0,0:0	./.:0,0:0	0/0:1,0:1:3:0,3,24	0/0:4,0:4:0:0,0,48	./.:0,0:0	./.:0,0:0	./.:0,0:0	./.:2,0:2
+chr1	1209	.	T	A	1865.97	.	AC=9;AF=0.409;AN=22;BaseQRankSum=-5.560e-01;ClippingRankSum=0.067;DP=74;FS=0.000;GQ_MEAN=28.09;GQ_STDDEV=39.85;InbreedingCoeff=0.0703;MLEAC=11;MLEAF=0.500;MQ=40.00;MQ0=0;MQRankSum=0.067;NCC=13;QD=33.93;ReadPosRankSum=0.067;SOR=2.917;EFF=UPSTREAM(MODIFIER||2591||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	1/1:0,17:17:57:1|1:1209_T_A:823,57,0	0/1:2,14:16:95:0|1:1209_T_A:563,0,95	0/0:1,0:1:3:.:.:0,3,23	./.:0,0:0	0/1:6,3:9:99:0|1:1209_T_A:108,0,243	0/1:2,7:9:22:.:.:245,0,22	./.:2,0:2	./.:1,0:1	./.:0,0:0	./.:0,0:0	1/1:0,2:2:6:1|1:1209_T_A:90,6,0	./.:1,0:1	1/1:0,2:2:6:1|1:1209_T_A:90,6,0	0/0:1,0:1:3:.:.:0,3,24	0/0:1,0:1:3:.:.:0,3,22	./.:1,0:1	./.:1,0:1	./.:2,0:2	0/0:5,0:5:0:.:.:0,0,75	./.:0,0:0	./.:0,0:0	./.:1,0:1	0/0:2,0:2:6:.:.:0,6,45
+chr1	1219	.	T	G	2789.48	.	AC=13;AF=0.650;AN=20;BaseQRankSum=0.315;ClippingRankSum=0.567;DP=81;FS=0.000;GQ_MEAN=29.60;GQ_STDDEV=43.08;InbreedingCoeff=0.3769;MLEAC=14;MLEAF=0.700;MQ=40.00;MQ0=0;MQRankSum=-1.323e+00;NCC=14;QD=27.46;ReadPosRankSum=-6.930e-01;SOR=5.610;EFF=UPSTREAM(MODIFIER||2581||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	1/1:0,20:20:60:1|1:1209_T_A:875,60,0	0/1:3,14:17:99:0|1:1209_T_A:579,0,140	0/0:1,0:1:3:.:.:0,3,23	./.:0,0:0	1/1:0,11:11:33:.:.:495,33,0	1/1:0,9:9:27:.:.:385,27,0	./.:2,0:2	./.:1,0:1	./.:0,0:0	./.:0,0:0	1/1:0,3:3:9:1|1:1209_T_A:135,9,0	./.:1,0:1	1/1:0,2:2:6:1|1:1209_T_A:90,6,0	./.:0,0:0	./.:1,0:1	./.:1,0:1	./.:1,0:1	0/0:2,0:2:0:.:.:0,0,1	1/1:0,6:6:18:1|1:1219_T_G:270,18,0	./.:0,0:0	./.:0,0:0	./.:1,0:1	0/0:2,0:2:0:.:.:0,0,1
+chr1	1227	.	A	G	1244.47	.	AC=6;AF=0.300;AN=20;BaseQRankSum=-2.843e+00;ClippingRankSum=0.259;DP=85;FS=0.000;GQ_MEAN=105.40;GQ_STDDEV=139.82;InbreedingCoeff=-0.2067;MLEAC=8;MLEAF=0.400;MQ=40.00;MQ0=0;MQRankSum=0.529;NCC=14;QD=19.44;ReadPosRankSum=1.81;SOR=0.693;EFF=UPSTREAM(MODIFIER||2573||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	0/1:14,8:22:99:0|1:1209_T_A:314,0,529	0/1:7,9:16:99:0|1:1209_T_A:340,0,396	0/0:1,0:1:3:.:.:0,3,23	./.:0,0:0	0/1:6,6:12:99:0|1:1227_A_G:234,0,234	0/1:5,3:8:99:0|1:1227_A_G:133,0,178	./.:3,0:3	./.:1,0:1	./.:0,0:0	./.:0,0:0	0/0:4,0:4:0:.:.:0,0,45	0/0:1,0:1:3:.:.:0,3,23	0/0:2,0:2:6:.:.:0,6,45	./.:0,0:0	./.:1,0:1	./.:1,0:1	0/0:1,0:1:3:.:.:0,3,24	./.:2,0:2	1/1:0,6:6:18:1|1:1219_T_G:270,18,0	./.:0,0:0	./.:0,0:0	./.:1,0:1	./.:3,0:3
+chr1	1228	.	T	A	1244.47	.	AC=6;AF=0.300;AN=20;BaseQRankSum=1.75;ClippingRankSum=0.550;DP=84;FS=0.000;GQ_MEAN=105.40;GQ_STDDEV=139.82;InbreedingCoeff=-0.2067;MLEAC=8;MLEAF=0.400;MQ=40.00;MQ0=0;MQRankSum=0.735;NCC=14;QD=19.75;ReadPosRankSum=0.801;SOR=0.790;EFF=UPSTREAM(MODIFIER||2572||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	0/1:13,9:22:99:0|1:1209_T_A:314,0,529	0/1:7,9:16:99:0|1:1209_T_A:340,0,396	0/0:1,0:1:3:.:.:0,3,23	./.:0,0:0	0/1:6,6:12:99:0|1:1227_A_G:234,0,234	0/1:4,3:7:99:0|1:1227_A_G:133,0,178	./.:3,0:3	./.:1,0:1	./.:0,0:0	./.:0,0:0	0/0:4,0:4:0:.:.:0,0,45	0/0:1,0:1:3:.:.:0,3,23	0/0:2,0:2:6:.:.:0,6,45	./.:0,0:0	./.:1,0:1	./.:1,0:1	0/0:1,0:1:3:.:.:0,3,24	./.:2,0:2	1/1:0,6:6:18:1|1:1219_T_G:270,18,0	./.:0,0:0	./.:0,0:0	./.:1,0:1	./.:3,0:3
+chr1	1231	.	C	A	1109.53	.	AC=8;AF=0.286;AN=28;BaseQRankSum=0.560;ClippingRankSum=-4.210e-01;DP=89;FS=0.000;GQ_MEAN=65.29;GQ_STDDEV=107.24;InbreedingCoeff=0.0414;MLEAC=9;MLEAF=0.321;MQ=40.00;MQ0=0;MQRankSum=0.910;NCC=10;QD=17.34;ReadPosRankSum=1.02;SOR=0.634;EFF=UPSTREAM(MODIFIER||2569||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	0/1:10,12:22:99:0|1:1209_T_A:449,0,358	0/1:12,4:16:99:0|1:1209_T_A:132,0,532	0/0:1,0:1:3:.:.:0,3,23	./.:0,0:0	0/1:7,6:13:99:0|1:1209_T_A:210,0,257	0/1:4,4:8:99:.:.:156,0,136	0/0:4,0:4:12:.:.:0,12,90	./.:1,0:1	./.:0,0:0	./.:0,0:0	1/1:0,3:3:9:1|1:1209_T_A:135,9,0	./.:1,0:1	1/1:0,2:2:6:1|1:1209_T_A:90,6,0	./.:0,0:0	0/0:1,0:1:3:.:.:0,3,14	0/0:1,0:1:3:.:.:0,3,21	./.:1,0:1	0/0:2,0:2:6:.:.:0,6,47	0/0:8,0:8:24:.:.:0,24,184	./.:0,0:0	./.:0,0:0	0/0:1,0:1:3:.:.:0,3,18	0/0:4,0:4:9:.:.:0,9,135
+chr1	1326	.	T	TTAATAAACTTG	2200.05	.	AC=8;AF=0.250;AN=32;BaseQRankSum=0.102;ClippingRankSum=1.03;DP=165;FS=0.000;GQ_MEAN=97.19;GQ_STDDEV=138.57;InbreedingCoeff=-0.1833;MLEAC=9;MLEAF=0.281;MQ=40.00;MQ0=0;MQRankSum=0.00;NCC=8;QD=6.38;ReadPosRankSum=0.00;SOR=0.874;EFF=UPSTREAM(MODIFIER||2473||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	./.:0,0:0	0/1:22,10:32:99:381,0,2272	0/1:5,9:14:99:405,0,463	./.:4,0:4	./.:0,0:0	0/0:19,0:19:57:0,57,437	0/1:3,4:7:99:180,0,111	0/0:7,0:7:0:0,0,124	0/0:8,0:8:0:0,0,97	./.:0,0:0	0/0:3,0:3:9:0,9,71	0/1:5,6:11:99:265,0,444	./.:0,0:0	./.:0,0:0	0/0:8,0:8:24:0,24,187	0/1:2,2:4:72:136,0,72	1/1:0,2:2:9:130,9,0	0/0:5,0:5:9:0,9,135	0/0:3,0:3:9:0,9,70	0/1:6,18:24:99:767,0,195	./.:1,0:1	./.:0,0:0	0/0:4,0:4:9:0,9,135	0/0:5,0:5:0:0,0,71
+chr1	1334	.	A	C	124.55	.	AC=1;AF=0.025;AN=40;BaseQRankSum=-7.200e-01;ClippingRankSum=-1.380e+00;DP=188;FS=0.000;GQ_MEAN=19.90;GQ_STDDEV=19.91;InbreedingCoeff=0.0283;MLEAC=1;MLEAF=0.025;MQ=34.93;MQ0=0;MQRankSum=-7.200e-01;NCC=4;QD=20.76;ReadPosRankSum=1.38;SOR=1.329;EFF=UPSTREAM(MODIFIER||2466||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	0/0:34,0:34:31:.:.:0,31,673	0/0:17,0:17:51:.:.:0,51,407	0/0:5,0:5:15:.:.:0,15,119	./.:0,0:0	0/0:20,0:20:54:.:.:0,54,810	0/0:11,0:11:30:.:.:0,30,450	0/0:6,0:6:18:.:.:0,18,142	0/1:2,4:6:73:0|1:1334_A_C:159,0,73	./.:0,0:0	0/0:3,0:3:9:.:.:0,9,71	0/0:15,0:15:0:.:.:0,0,274	./.:0,0:0	0/0:2,0:2:0:.:.:0,0,2	0/0:11,0:11:33:.:.:0,33,261	0/0:6,0:6:18:.:.:0,18,141	0/0:4,0:4:12:.:.:0,12,95	0/0:5,0:5:12:.:.:0,12,180	0/0:4,0:4:12:.:.:0,12,95	0/0:29,0:29:0:.:.:0,0,515	0/0:1,0:1:3:.:.:0,3,24	0/0:2,0:2:6:.:.:0,6,40	0/0:3,0:3:9:.:.:0,9,63	0/0:4,0:4:12:.:.:0,12,89
+chr1	1343	.	T	TA	127.47	.	AC=1;AF=0.026;AN=38;BaseQRankSum=0.720;ClippingRankSum=0.720;DP=185;FS=0.000;GQ_MEAN=17.68;GQ_STDDEV=15.33;InbreedingCoeff=-0.0916;MLEAC=1;MLEAF=0.026;MQ=33.83;MQ0=0;MQRankSum=-7.200e-01;NCC=5;QD=21.24;ReadPosRankSum=1.38;SOR=1.329;EFF=UPSTREAM(MODIFIER||2456||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	./.:0,0:0	0/0:33,0:33:24:.:.:0,24,656	0/0:17,0:17:27:.:.:0,27,376	0/0:5,0:5:15:.:.:0,15,119	./.:0,0:0	0/0:18,0:18:51:.:.:0,51,765	0/0:11,0:11:33:.:.:0,33,259	0/0:7,0:7:21:.:.:0,21,166	0/1:2,4:6:51:0|1:1334_A_C:162,0,51	./.:0,0:0	0/0:3,0:3:6:.:.:0,6,90	0/0:16,0:16:0:.:.:0,0,288	./.:0,0:0	./.:2,0:2	0/0:11,0:11:33:.:.:0,33,261	0/0:5,0:5:12:.:.:0,12,180	0/0:4,0:4:12:.:.:0,12,95	0/0:4,0:4:9:.:.:0,9,135	0/0:4,0:4:12:.:.:0,12,95	0/0:29,0:29:0:.:.:0,0,484	0/0:1,0:1:3:.:.:0,3,24	0/0:2,0:2:6:.:.:0,6,41	0/0:3,0:3:9:.:.:0,9,63	0/0:4,0:4:12:.:.:0,12,89
+chr1	1378	.	T	C	538.72	.	AC=7;AF=0.167;AN=42;BaseQRankSum=-1.380e+00;ClippingRankSum=-3.650e-01;DP=205;FS=0.000;GQ_MEAN=34.81;GQ_STDDEV=34.54;InbreedingCoeff=-0.0218;MLEAC=8;MLEAF=0.190;MQ=32.69;MQ0=0;MQRankSum=0.296;NCC=3;QD=5.55;ReadPosRankSum=0.354;SOR=0.719;EFF=UPSTREAM(MODIFIER||2422||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	./.:0,0:0	0/0:27,0:27:75:0,75,1125	0/0:13,0:13:39:0,39,309	0/0:8,0:8:21:0,21,315	./.:0,0:0	0/1:12,7:19:99:109,0,234	0/1:6,4:10:67:67,0,115	0/1:4,6:10:70:107,0,70	0/0:6,0:6:18:0,18,148	0/0:2,0:2:0:0,0,2	0/1:2,4:6:31:76,0,31	0/0:14,0:14:39:0,39,585	./.:0,0:0	0/0:4,0:4:12:0,12,93	0/1:10,4:14:51:51,0,205	0/0:9,0:9:0:0,0,81	0/0:7,0:7:21:0,21,155	0/0:5,0:5:15:0,15,119	0/0:6,0:6:18:0,18,142	0/1:23,9:32:99:117,0,455	0/0:1,0:1:3:0,3,24	0/0:3,0:3:9:0,9,61	0/0:3,0:3:9:0,9,61	0/1:1,5:6:7:83,0,7
+chr1	1435	.	A	C	6914.7	.	AC=26;AF=0.591;AN=44;BaseQRankSum=-1.920e+00;ClippingRankSum=-6.390e-01;DP=269;FS=1.231;GQ_MEAN=101.41;GQ_STDDEV=123.39;InbreedingCoeff=-0.6017;MLEAC=26;MLEAF=0.591;MQ=45.37;MQ0=0;MQRankSum=-2.120e-01;NCC=2;QD=26.49;ReadPosRankSum=-5.660e-01;SOR=0.585;EFF=UPSTREAM(MODIFIER||2365||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:1,3:4:30:0|1:1435_A_C:165,0,30	0/1:3,30:33:39:.:.:1208,0,39	1/1:1,18:19:12:.:.:745,12,0	0/1:6,6:12:99:0|1:1435_A_C:240,0,209	1/1:0,2:2:6:1|1:1435_A_C:90,6,0	0/1:7,12:19:99:0|1:1435_A_C:440,0,238	0/1:4,7:11:99:.:.:262,0,147	0/1:7,3:10:99:.:.:105,0,246	0/1:1,6:7:24:.:.:184,0,24	0/1:1,2:3:17:.:.:39,0,17	0/1:4,10:14:99:0|1:1435_A_C:387,0,138	1/1:0,15:15:51:.:.:723,51,0	0/0:3,0:3:0:.:.:0,0,28	0/1:1,2:3:17:.:.:38,0,17	0/1:5,3:8:99:0|1:1435_A_C:195,0,176	0/1:2,12:14:48:0|1:1435_A_C:498,0,48	1/1:0,9:9:27:1|1:1435_A_C:384,27,0	0/1:13,2:15:45:0|1:1435_A_C:45,0,540	0/1:8,9:17:99:0|1:1435_A_C:333,0,290	0/1:14,21:35:99:0|1:1435_A_C:772,0,507	1/1:0,1:1:3:1|1:1435_A_C:45,3,0	./.:1,0:1	./.:1,0:1	0/1:8,3:11:99:0|1:1435_A_C:102,0,327
+chr1	1457	.	T	G	3977.85	.	AC=17;AF=0.370;AN=46;BaseQRankSum=-6.270e-01;ClippingRankSum=0.727;DP=333;FS=0.505;GQ_MEAN=117.00;GQ_STDDEV=161.12;InbreedingCoeff=-0.2149;MLEAC=19;MLEAF=0.413;MQ=51.85;MQ0=0;MQRankSum=-3.060e-01;NCC=1;QD=17.76;ReadPosRankSum=0.251;SOR=0.745;EFF=UPSTREAM(MODIFIER||2343||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:6,0:6:0:.:.:0,0,99	0/1:30,8:38:99:.:.:199,0,1281	0/1:15,14:29:99:.:.:458,0,546	0/1:6,11:17:99:0|1:1435_A_C:316,0,197	1/1:0,4:4:12:1|1:1435_A_C:137,12,0	0/0:21,0:21:60:.:.:0,60,534	0/1:8,5:13:99:.:.:186,0,321	0/1:9,1:10:12:.:.:12,0,398	0/1:6,2:8:46:.:.:46,0,246	0/0:4,0:4:0:.:.:0,0,50	0/1:5,10:15:99:0|1:1435_A_C:383,0,180	0/1:6,10:16:99:.:.:382,0,222	0/0:5,0:5:12:.:.:0,12,180	0/0:5,0:5:0:.:.:0,0,75	0/0:12,0:12:33:.:.:0,33,495	0/1:5,15:20:99:0|1:1435_A_C:551,0,165	1/1:0,9:9:27:1|1:1435_A_C:384,27,0	0/0:22,0:22:57:.:.:0,57,855	0/0:18,0:18:29:.:.:0,29,394	0/1:16,22:38:99:0|1:1435_A_C:786,0,649	1/1:1,3:4:2:1|1:1435_A_C:85,2,0	./.:1,0:1	0/0:3,0:3:0:.:.:0,0,26	0/1:8,5:13:99:0|1:1435_A_C:145,0,321
+chr1	1459	.	A	T	3751.74	.	AC=11;AF=0.239;AN=46;BaseQRankSum=-7.050e-01;ClippingRankSum=0.00;DP=335;FS=7.405;GQ_MEAN=117.00;GQ_STDDEV=134.87;InbreedingCoeff=-0.4101;MLEAC=13;MLEAF=0.283;MQ=53.31;MQ0=0;MQRankSum=0.066;NCC=1;QD=19.34;ReadPosRankSum=-5.970e-01;SOR=1.167;EFF=UPSTREAM(MODIFIER||2341||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:1,5:6:27:0|1:1435_A_C:207,0,27	0/1:11,28:39:99:0|1:1459_A_T:1173,0,384	0/1:17,12:29:99:0|1:1459_A_T:449,0,678	0/0:17,0:17:51:.:.:0,51,407	0/0:5,0:5:0:.:.:0,0,76	0/1:8,13:21:99:0|1:1435_A_C:543,0,294	0/1:10,3:13:96:.:.:96,0,411	0/1:8,2:10:60:.:.:60,0,330	0/1:5,3:8:91:.:.:91,0,160	0/0:5,0:5:0:.:.:0,0,78	0/0:15,0:15:42:.:.:0,42,630	0/1:10,6:16:99:0|1:1459_A_T:222,0,402	0/0:5,0:5:0:.:.:0,0,28	0/0:5,0:5:0:.:.:0,0,27	0/1:5,6:11:99:0|1:1435_A_C:259,0,189	0/0:20,0:20:60:.:.:0,60,478	0/0:8,0:8:21:.:.:0,21,315	0/1:15,8:23:99:0|1:1435_A_C:291,0,628	0/1:7,11:18:99:0|1:1435_A_C:441,0,261	0/0:38,0:38:99:.:.:0,99,1485	0/0:4,0:4:12:.:.:0,12,93	0/0:1,0:1:3:.:.:0,3,24	./.:3,0:3	0/0:14,0:14:39:.:.:0,39,585
+chr1	1465	.	A	T	1718.51	.	AC=8;AF=0.174;AN=46;BaseQRankSum=2.21;ClippingRankSum=-2.390e-01;DP=341;FS=1.461;GQ_MEAN=95.30;GQ_STDDEV=123.54;InbreedingCoeff=-0.2518;MLEAC=9;MLEAF=0.196;MQ=46.76;MQ0=0;MQRankSum=0.465;NCC=1;QD=11.61;ReadPosRankSum=0.583;SOR=0.542;EFF=UPSTREAM(MODIFIER||2335||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:6,0:6:18:.:.:0,18,142	0/0:43,0:43:99:.:.:0,112,956	0/0:29,0:29:84:.:.:0,84,1260	0/0:18,0:18:51:.:.:0,51,765	0/0:6,0:6:18:.:.:0,18,142	0/1:14,8:22:99:.:.:274,0,543	0/1:8,5:13:99:.:.:186,0,321	0/1:3,6:9:99:.:.:243,0,108	0/0:8,0:8:24:.:.:0,24,193	0/0:4,0:4:0:.:.:0,0,47	0/1:10,5:15:99:0|1:1465_A_T:139,0,405	0/0:17,0:17:51:.:.:0,51,391	0/0:5,0:5:12:.:.:0,12,180	0/0:3,0:3:0:.:.:0,0,23	0/1:12,2:14:48:.:.:48,0,456	0/1:15,5:20:99:0|1:1465_A_T:145,0,615	0/0:9,0:9:24:.:.:0,24,360	0/0:20,0:20:60:.:.:0,60,482	0/0:18,0:18:54:.:.:0,54,428	0/1:27,16:43:99:0|1:1465_A_T:549,0,1086	0/0:4,0:4:12:.:.:0,12,93	./.:0,0:0	0/0:3,0:3:9:.:.:0,9,70	0/1:6,6:12:99:0|1:1465_A_T:214,0,234
+chr1	1477	.	A	T	6608.35	.	AC=18;AF=0.429;AN=42;BaseQRankSum=-6.080e-01;ClippingRankSum=0.579;DP=361;FS=0.910;GQ_MEAN=160.90;GQ_STDDEV=162.78;InbreedingCoeff=-0.4661;MLEAC=19;MLEAF=0.452;MQ=54.71;MQ0=0;MQRankSum=0.361;NCC=3;QD=21.81;ReadPosRankSum=-5.790e-01;SOR=0.777;EFF=UPSTREAM(MODIFIER||2323||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:1,5:6:24:0|1:1435_A_C:214,0,24	0/1:11,32:43:99:0|1:1459_A_T:1277,0,375	0/1:21,12:33:99:0|1:1459_A_T:425,0,868	0/0:21,0:21:60:.:.:0,60,900	0/0:6,0:6:0:.:.:0,0,100	1/1:0,24:24:75:1|1:1477_A_T:1102,75,0	0/1:5,9:14:99:.:.:363,0,183	0/1:1,11:12:9:0|1:1477_A_T:458,0,9	0/1:2,8:10:60:.:.:248,0,60	0/0:4,0:4:0:.:.:0,0,1	0/1:12,3:15:90:0|1:1465_A_T:90,0,495	0/1:11,9:20:99:0|1:1459_A_T:328,0,475	1/1:0,3:3:9:.:.:94,9,0	./.:5,0:5	0/1:4,9:13:99:0|1:1477_A_T:356,0,141	0/1:13,5:18:99:0|1:1465_A_T:190,0,570	0/0:12,0:12:33:.:.:0,33,495	0/1:13,8:21:99:0|1:1435_A_C:297,0,549	0/1:8,11:19:99:0|1:1435_A_C:465,0,297	0/1:25,15:40:99:0|1:1465_A_T:549,0,1089	0/0:4,0:4:0:.:.:0,0,51	./.:0,0:0	./.:5,0:5	0/1:6,6:12:99:0|1:1465_A_T:234,0,234
+chr1	1485	.	T	C	6265.52	.	AC=17;AF=0.405;AN=42;BaseQRankSum=-2.620e+00;ClippingRankSum=0.761;DP=380;FS=0.419;GQ_MEAN=167.90;GQ_STDDEV=166.11;InbreedingCoeff=-0.5403;MLEAC=18;MLEAF=0.429;MQ=56.65;MQ0=0;MQRankSum=-1.930e-01;NCC=3;QD=19.83;ReadPosRankSum=0.223;SOR=0.728;EFF=UPSTREAM(MODIFIER||2315||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:1,6:7:24:0|1:1435_A_C:214,0,24	0/1:15,32:47:99:0|1:1459_A_T:1244,0,461	0/1:24,12:36:99:0|1:1459_A_T:419,0,911	0/0:22,0:22:57:.:.:0,57,855	0/0:6,0:6:0:.:.:0,0,101	1/1:0,26:26:78:1|1:1477_A_T:1114,78,0	0/1:5,10:15:99:.:.:385,0,180	0/1:1,9:10:15:0|1:1477_A_T:374,0,15	0/1:6,5:11:55:.:.:55,0,156	0/0:4,0:4:0:.:.:0,0,3	0/1:10,3:13:96:0|1:1465_A_T:96,0,411	0/1:13,9:22:99:0|1:1459_A_T:309,0,446	0/1:2,2:4:34:.:.:34,0,37	./.:6,0:6	0/1:4,9:13:99:0|1:1477_A_T:356,0,141	0/1:12,6:18:99:0|1:1465_A_T:222,0,567	0/0:14,0:14:39:.:.:0,39,585	0/1:13,8:21:99:0|1:1435_A_C:297,0,549	0/1:8,12:20:99:0|1:1435_A_C:462,0,319	0/1:25,15:40:99:0|1:1465_A_T:540,0,1047	0/0:4,0:4:12:.:.:0,12,92	./.:0,0:0	./.:6,0:6	0/1:7,6:13:99:0|1:1465_A_T:228,0,318
+chr1	1505	.	A	G	1560.76	.	AC=8;AF=0.167;AN=48;BaseQRankSum=-1.359e+00;ClippingRankSum=0.085;DP=405;FS=13.111;GQ_MEAN=84.25;GQ_STDDEV=105.60;InbreedingCoeff=-0.2491;MLEAC=9;MLEAF=0.188;MQ=48.95;MQ0=0;MQRankSum=-4.040e-01;NCC=0;QD=9.35;ReadPosRankSum=-7.000e-02;SOR=0.229;EFF=UPSTREAM(MODIFIER||2295||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:11,0:11:33:.:.:0,33,263	0/0:49,0:49:99:.:.:0,120,1800	0/0:35,0:35:90:.:.:0,90,1350	0/0:21,0:21:60:.:.:0,60,900	0/0:5,0:5:12:.:.:0,12,180	0/1:16,9:25:99:.:.:110,0,634	0/1:13,3:16:53:.:.:53,0,537	0/1:5,11:16:99:0|1:1477_A_T:384,0,177	0/0:14,0:14:39:.:.:0,39,585	0/0:7,0:7:0:.:.:0,0,23	0/1:10,6:16:99:0|1:1465_A_T:108,0,528	0/0:21,0:21:57:.:.:0,57,855	0/0:4,0:4:9:.:.:0,9,135	0/0:6,0:6:0:.:.:0,0,49	0/1:11,5:16:69:.:.:69,0,469	0/1:15,10:25:99:0|1:1465_A_T:283,0,600	0/0:15,0:15:42:.:.:0,42,630	0/0:17,0:17:42:.:.:0,42,630	0/0:19,0:19:48:.:.:0,48,720	0/1:28,13:41:99:0|1:1465_A_T:466,0,1215	0/0:4,0:4:9:.:.:0,9,135	0/0:1,0:1:3:.:.:0,3,21	0/0:8,0:8:24:.:.:0,24,193	0/1:7,5:12:99:0|1:1465_A_T:168,0,279
+chr1	1512	.	G	C	9305.68	.	AC=33;AF=0.717;AN=46;BaseQRankSum=-6.560e-01;ClippingRankSum=0.353;DP=403;FS=3.812;GQ_MEAN=113.57;GQ_STDDEV=130.09;InbreedingCoeff=-0.4074;MLEAC=33;MLEAF=0.717;MQ=51.42;MQ0=0;MQRankSum=-9.100e-02;NCC=1;QD=23.38;ReadPosRankSum=0.510;SOR=0.908;EFF=UPSTREAM(MODIFIER||2288||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	1/1:1,11:12:11:.:.:301,11,0	0/1:8,43:51:42:.:.:1107,0,42	1/1:3,29:32:26:.:.:914,26,0	0/1:6,17:23:99:0|1:1512_G_C:662,0,204	1/1:0,5:5:15:1|1:1512_G_C:225,15,0	0/1:9,16:25:99:.:.:302,0,281	0/1:3,12:15:54:.:.:537,0,54	0/1:12,5:17:99:.:.:151,0,488	1/1:0,13:13:39:.:.:418,39,0	1/1:0,4:4:12:1|1:1512_G_C:180,12,0	0/1:6,11:17:99:0|1:1512_G_C:444,0,219	1/1:0,20:20:63:.:.:659,63,0	1/1:0,3:3:9:.:.:71,9,0	0/1:1,4:5:10:.:.:80,0,10	0/1:12,8:20:99:.:.:132,0,335	0/1:10,16:26:99:0|1:1512_G_C:546,0,372	1/1:0,15:15:45:1|1:1512_G_C:675,45,0	0/1:9,9:18:99:.:.:160,0,162	0/1:4,13:17:44:.:.:258,0,44	0/1:13,26:39:99:0|1:1512_G_C:1033,0,486	1/1:0,3:3:9:1|1:1512_G_C:135,9,0	./.:2,0:2	1/1:0,6:6:18:.:.:198,18,0	0/1:6,6:12:99:0|1:1512_G_C:210,0,255
+chr1	1524	.	T	G	4923.18	.	AC=19;AF=0.413;AN=46;BaseQRankSum=-2.383e+00;ClippingRankSum=0.377;DP=416;FS=2.419;GQ_MEAN=111.57;GQ_STDDEV=129.39;InbreedingCoeff=-0.3384;MLEAC=20;MLEAF=0.435;MQ=49.39;MQ0=0;MQRankSum=-1.840e-01;NCC=1;QD=15.48;ReadPosRankSum=0.053;SOR=0.834;EFF=UPSTREAM(MODIFIER||2276||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:9,3:12:37:.:.:37,0,214	0/1:39,15:54:99:.:.:191,0,895	0/1:14,17:31:99:.:.:275,0,301	0/1:6,16:22:99:0|1:1512_G_C:641,0,207	0/1:1,7:8:2:0|1:1512_G_C:248,0,2	0/0:26,0:26:60:.:.:0,60,579	0/1:12,5:17:72:.:.:72,0,282	0/1:12,5:17:66:.:.:66,0,492	0/1:13,3:16:25:.:.:25,0,271	0/1:1,5:6:8:0|1:1512_G_C:186,0,8	0/1:6,11:17:99:0|1:1512_G_C:444,0,219	0/1:9,11:20:99:.:.:207,0,160	0/0:6,0:6:15:.:.:0,15,225	0/0:7,0:7:0:.:.:0,0,130	0/0:21,0:21:54:.:.:0,54,810	0/1:9,13:22:99:0|1:1512_G_C:510,0,375	1/1:0,15:15:45:1|1:1512_G_C:675,45,0	0/0:17,0:17:45:.:.:0,45,675	0/0:16,0:16:24:.:.:0,24,357	0/1:15,27:42:99:0|1:1512_G_C:1028,0,489	1/1:0,3:3:9:1|1:1512_G_C:135,9,0	./.:3,0:3	0/1:3,3:6:41:.:.:41,0,59	0/1:4,6:10:99:0|1:1512_G_C:240,0,147
+chr1	1552	.	G	A	4458.85	.	AC=13;AF=0.271;AN=48;BaseQRankSum=1.52;ClippingRankSum=0.00;DP=444;FS=0.429;GQ_MEAN=166.29;GQ_STDDEV=203.62;InbreedingCoeff=-0.4342;MLEAC=14;MLEAF=0.292;MQ=60.00;MQ0=0;MQRankSum=-2.200e-01;NCC=0;QD=16.64;ReadPosRankSum=0.00;SOR=0.654;EFF=UPSTREAM(MODIFIER||2248||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,6:11:99:0|1:1552_G_A:226,0,192	0/1:25,35:60:99:0|1:1552_G_A:1213,0,895	0/1:21,8:29:99:0|1:1552_G_A:225,0,738	0/0:21,0:21:60:.:.:0,60,504	0/0:6,0:6:0:.:.:0,0,94	0/1:14,13:27:99:0|1:1552_G_A:473,0,506	0/1:9,12:21:99:.:.:458,0,300	0/0:20,2:22:16:.:.:0,16,432	0/1:7,5:12:99:0|1:1552_G_A:168,0,247	0/0:8,0:8:21:.:.:0,21,315	0/0:20,0:20:54:.:.:0,54,810	0/1:16,13:29:99:0|1:1552_G_A:434,0,627	0/1:2,2:4:77:0|1:1552_G_A:78,0,77	0/1:5,3:8:91:0|1:1552_G_A:91,0,177	0/1:17,8:25:99:0|1:1552_G_A:265,0,644	0/0:24,0:24:72:.:.:0,72,564	0/0:17,0:17:51:.:.:0,51,403	0/1:9,7:16:99:0|1:1552_G_A:208,0,313	0/1:6,14:20:99:0|1:1552_G_A:567,0,204	0/0:38,0:38:99:.:.:0,102,1007	0/0:3,0:3:0:.:.:0,0,28	0/0:4,0:4:0:.:.:0,0,42	0/1:2,4:6:53:0|1:1552_G_A:142,0,53	0/0:11,0:11:30:.:.:0,30,450
+chr1	1572	.	CA	C	4559.54	.	AC=14;AF=0.292;AN=48;BaseQRankSum=0.171;ClippingRankSum=0.143;DP=471;FS=1.338;GQ_MEAN=179.75;GQ_STDDEV=224.25;InbreedingCoeff=-0.4413;MLEAC=15;MLEAF=0.313;MQ=56.16;MQ0=0;MQRankSum=-1.460e-01;NCC=0;QD=14.43;ReadPosRankSum=-3.820e-01;SOR=0.776;EFF=UPSTREAM(MODIFIER||2227||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,6:11:99:0|1:1552_G_A:226,0,192	0/1:28,34:62:99:0|1:1552_G_A:1182,0,973	0/1:21,6:27:99:0|1:1552_G_A:188,0,716	0/0:22,0:22:60:.:.:0,60,900	0/0:7,0:7:0:.:.:0,0,113	0/1:16,16:32:99:0|1:1552_G_A:485,0,521	0/1:12,12:24:99:.:.:470,0,356	0/1:21,2:23:21:.:.:21,0,782	0/1:7,6:13:99:0|1:1552_G_A:165,0,247	0/0:8,0:8:24:.:.:0,24,185	0/0:18,0:18:51:.:.:0,51,765	0/1:19,15:34:99:0|1:1552_G_A:490,0,660	0/1:2,3:5:74:0|1:1552_G_A:96,0,74	0/1:6,4:10:99:0|1:1552_G_A:105,0,194	0/1:16,10:26:99:0|1:1552_G_A:335,0,626	0/0:23,0:23:60:.:.:0,60,585	0/0:12,0:12:33:.:.:0,33,495	0/1:10,7:17:99:0|1:1552_G_A:196,0,332	0/1:12,15:27:99:0|1:1552_G_A:550,0,302	0/0:38,0:38:99:.:.:0,102,1007	0/0:3,0:3:6:.:.:0,6,90	0/0:9,0:9:27:.:.:0,27,196	0/1:1,4:5:30:0|1:1552_G_A:145,0,30	0/0:13,0:13:39:.:.:0,39,303
+chr1	1609	.	A	G	2762.29	.	AC=16;AF=0.333;AN=48;BaseQRankSum=-1.883e+00;ClippingRankSum=0.404;DP=486;FS=0.817;GQ_MEAN=86.96;GQ_STDDEV=90.71;InbreedingCoeff=-0.3655;MLEAC=17;MLEAF=0.354;MQ=53.95;MQ0=0;MQRankSum=-1.560e-01;NCC=0;QD=8.08;ReadPosRankSum=0.289;SOR=0.631;EFF=UPSTREAM(MODIFIER||2191||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/0:8,0:8:21:0,21,315	0/1:48,20:68:99:266,0,963	0/1:8,19:27:99:367,0,116	0/1:15,9:24:99:151,0,313	0/1:3,5:8:53:100,0,53	0/0:31,0:31:60:0,60,900	0/1:20,9:29:99:135,0,447	0/1:11,3:14:32:32,0,239	0/1:13,3:16:25:25,0,284	0/1:4,4:8:72:72,0,78	0/1:4,8:12:67:162,0,67	0/1:17,21:38:99:369,0,303	0/0:5,0:5:9:0,9,135	0/0:11,0:11:30:0,30,450	0/0:26,0:26:72:0,72,1080	0/1:6,11:17:99:220,0,103	1/1:0,13:13:38:304,38,0	0/0:23,0:23:66:0,66,990	0/0:27,0:27:32:0,32,596	0/1:19,29:48:99:546,0,325	0/0:4,0:4:0:0,0,8	0/1:5,3:8:48:48,0,79	0/0:5,0:5:0:0,0,80	0/1:8,4:12:63:63,0,168
+chr1	1635	.	A	T	282.98	.	AC=3;AF=0.063;AN=48;BaseQRankSum=-5.720e-01;ClippingRankSum=0.572;DP=486;FS=3.332;GQ_MEAN=42.50;GQ_STDDEV=29.58;InbreedingCoeff=0.4343;MLEAC=2;MLEAF=0.042;MQ=33.32;MQ0=0;MQRankSum=1.59;NCC=0;QD=28.30;ReadPosRankSum=-5.720e-01;SOR=0.859;EFF=UPSTREAM(MODIFIER||2165||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:12,0:12:15:.:.:0,15,225	0/0:62,0:62:84:.:.:0,84,1260	0/0:31,0:31:66:.:.:0,66,990	0/0:31,0:31:84:.:.:0,84,1260	0/0:6,0:6:12:.:.:0,12,180	0/0:37,0:37:54:.:.:0,54,810	0/0:22,0:22:36:.:.:0,36,540	0/0:7,0:7:18:.:.:0,18,270	0/0:17,0:17:36:.:.:0,36,540	0/0:7,0:7:21:.:.:0,21,166	0/0:10,0:10:24:.:.:0,24,360	0/0:40,0:40:78:.:.:0,78,1170	0/0:5,0:5:9:.:.:0,9,135	0/0:12,0:12:21:.:.:0,21,315	0/0:25,0:25:57:.:.:0,57,855	0/0:17,0:17:42:.:.:0,42,630	0/0:12,0:12:30:.:.:0,30,450	0/0:21,0:21:39:.:.:0,39,585	0/0:30,0:30:45:.:.:0,45,675	0/0:44,0:44:99:.:.:0,120,1103	1/1:0,2:2:6:1|1:1635_A_T:90,6,0	0/1:2,6:8:66:.:.:246,0,66	0/0:6,0:6:3:.:.:0,3,45	0/0:20,0:20:54:.:.:0,54,810
+chr1	1636	.	C	A,T	7049.77	.	AC=18,3;AF=0.375,0.063;AN=48;BaseQRankSum=3.11;ClippingRankSum=-3.580e-01;DP=491;FS=2.792;GQ_MEAN=166.71;GQ_STDDEV=186.47;InbreedingCoeff=-0.3259;MLEAC=19,2;MLEAF=0.396,0.042;MQ=54.91;MQ0=0;MQRankSum=-2.860e-01;NCC=0;QD=19.53;ReadPosRankSum=-3.220e-01;SOR=0.850;EFF=UPSTREAM(MODIFIER||2164||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:10,2,0:12:13:0|1:1636_C_A:13,0,353,43,359,403	0/1:44,17,0:61:99:0|1:1636_C_A:579,0,1436,714,1487,2201	0/1:9,22,0:31:99:0|1:1636_C_A:918,0,209,945,279,1224	0/1:19,12,0:31:99:0|1:1636_C_A:447,0,535,504,571,1075	0/1:2,4,0:6:72:0|1:1636_C_A:162,0,72,168,84,252	0/0:37,0,0:37:54:.:.:0,54,810,54,810,810	0/1:14,8,0:22:99:.:.:316,0,536,358,563,921	0/0:7,0,0:7:0:.:.:0,0,106,0,106,106	0/1:9,10,0:19:99:0|1:1636_C_A:383,0,238,410,268,678	0/1:5,2,0:7:69:0|1:1636_C_A:69,0,204,84,210,294	0/1:4,6,0:10:99:0|1:1636_C_A:240,0,127,252,145,397	0/1:17,23,0:40:99:0|1:1636_C_A:912,0,464,966,534,1499	0/1:3,2,0:5:72:0|1:1636_C_A:72,0,150,84,156,240	0/1:10,2,0:12:54:0|1:1636_C_A:54,0,292,84,298,382	0/0:25,0,0:25:57:.:.:0,57,855,57,855,855	0/1:5,12,0:17:99:0|1:1636_C_A:489,0,162,504,198,702	1/1:0,12,0:12:36:1|1:1636_C_A:540,36,0,540,36,540	0/0:22,0,0:22:36:.:.:0,36,540,36,540,540	0/0:30,0,0:30:45:.:.:0,45,675,45,675,675	0/1:17,29,0:46:99:0|1:1636_C_A:1139,0,604,1190,691,1882	2/2:0,0,2:2:6:1|1:1635_A_T:90,90,90,6,6,0	1/2:0,2,6:8:66:.:.:336,252,246,84,0,66	0/0:6,0,0:6:0:.:.:0,0,84,0,84,84	0/1:11,9,0:20:99:0|1:1636_C_A:387,0,275,420,306,725
+chr1	1637	.	G	C	6711.74	.	AC=18;AF=0.375;AN=48;BaseQRankSum=2.05;ClippingRankSum=0.455;DP=492;FS=1.231;GQ_MEAN=166.96;GQ_STDDEV=186.46;InbreedingCoeff=-0.4903;MLEAC=19;MLEAF=0.396;MQ=54.91;MQ0=0;MQRankSum=0.573;NCC=0;QD=18.54;ReadPosRankSum=-1.980e-01;SOR=0.766;EFF=UPSTREAM(MODIFIER||2163||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:10,2:12:13:0|1:1636_C_A:13,0,353	0/1:45,17:62:99:0|1:1636_C_A:579,0,1436	0/1:9,23:32:99:0|1:1636_C_A:918,0,209	0/1:19,12:31:99:0|1:1636_C_A:447,0,535	0/1:2,4:6:72:0|1:1636_C_A:162,0,72	0/0:39,0:39:48:.:.:0,48,720	0/1:14,8:22:99:.:.:316,0,536	0/0:7,0:7:0:.:.:0,0,106	0/1:9,10:19:99:0|1:1636_C_A:383,0,238	0/1:5,2:7:90:0|1:1636_C_A:90,0,201	0/1:3,6:9:99:0|1:1636_C_A:240,0,127	0/1:18,23:41:99:0|1:1636_C_A:912,0,464	0/1:4,2:6:72:0|1:1636_C_A:72,0,150	0/1:10,2:12:54:0|1:1636_C_A:54,0,292	0/0:23,0:23:54:.:.:0,54,810	0/1:5,12:17:99:0|1:1636_C_A:489,0,162	1/1:0,12:12:36:1|1:1636_C_A:540,36,0	0/0:22,0:22:36:.:.:0,36,540	0/0:29,0:29:39:.:.:0,39,585	0/1:17,29:46:99:0|1:1636_C_A:1139,0,604	0/0:2,0:2:6:.:.:0,6,46	0/1:6,2:8:66:0|1:1637_G_C:66,0,246	0/0:6,0:6:0:.:.:0,0,84	0/1:10,10:20:99:0|1:1636_C_A:387,0,275
+chr1	1653	.	AC	A,GC	8999.08	.	AC=15,15;AF=0.313,0.313;AN=48;BaseQRankSum=-2.230e-01;ClippingRankSum=0.437;DP=487;FS=0.779;GQ_MEAN=187.42;GQ_STDDEV=172.26;InbreedingCoeff=-0.3420;MLEAC=15,15;MLEAF=0.313,0.313;MQ=55.19;MQ0=0;MQRankSum=0.00;NCC=0;QD=19.23;ReadPosRankSum=-1.090e-01;SOR=0.742;EFF=UPSTREAM(MODIFIER||2147||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,8,0:13:99:.:.:284,0,157,313,138,470	1/2:7,35,17:59:99:.:.:1292,396,608,839,0,1445	1/2:0,8,22:30:99:.:.:779,519,897,328,0,291	0/2:19,0,13:32:99:.:.:223,279,671,0,391,352	1/2:0,3,5:8:99:.:.:360,213,201,129,0,111	0/1:17,23,0:40:99:.:.:565,0,422,617,491,1107	1/2:5,8,11:24:87:.:.:451,262,432,87,0,344	0/0:7,0,0:7:0:.:.:0,0,122,0,122,122	1/2:3,10,10:23:99:.:.:405,172,406,229,0,375	0/2:6,0,3:9:87:0|1:1636_C_A:87,105,337,0,233,224	0/2:4,0,8:12:99:0|1:1636_C_A:243,255,403,0,148,124	1/2:0,16,22:38:99:.:.:1608,907,852,665,0,606	0/1:4,3,0:7:71:.:.:71,0,133,83,142,225	0/1:6,7,0:13:99:.:.:177,0,147,195,168,363	0/1:15,5,0:20:99:.:.:142,0,543,187,558,745	0/2:4,0,11:15:99:0|1:1636_C_A:409,421,589,0,168,135	2/2:0,0,10:10:30:.:.:243,243,243,30,30,0	0/1:11,9,0:20:99:.:.:221,0,306,254,333,586	0/1:13,13,1:27:99:.:.:310,0,357,368,317,877	0/2:18,0,24:42:99:0|1:1636_C_A:935,988,1666,0,677,605	0/0:1,0,0:1:3:.:.:0,3,23,3,23,23	0/2:6,0,1:7:24:0|1:1637_G_C:24,42,294,0,252,249	1/1:0,4,0:4:12:.:.:123,12,0,123,12,123	0/2:13,0,9:22:99:.:.:141,180,660,0,480,453
+chr1	1665	.	A	T	13313.93	.	AC=40;AF=0.870;AN=46;BaseQRankSum=-1.202e+00;ClippingRankSum=0.041;DP=497;FS=1.794;GQ_MEAN=78.39;GQ_STDDEV=69.19;InbreedingCoeff=-0.1407;MLEAC=41;MLEAF=0.891;MQ=55.17;MQ0=0;MQRankSum=-6.670e-01;NCC=1;QD=27.01;ReadPosRankSum=0.442;SOR=0.507;EFF=UPSTREAM(MODIFIER||2135||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/1:4,12:16:53:290,0,53	0/1:7,48:55:2:1257,0,2	1/1:0,29:29:87:873,87,0	0/1:18,12:30:99:208,0,367	1/1:0,9:9:27:384,27,0	1/1:0,38:38:99:901,114,0	1/1:0,26:26:81:1012,81,0	1/1:0,6:6:18:152,18,0	1/1:0,21:21:63:873,63,0	1/1:0,9:9:27:281,27,0	1/1:0,13:13:39:460,39,0	1/1:0,38:38:99:1682,117,0	1/1:0,9:9:27:281,27,0	1/1:0,12:12:39:471,39,0	0/1:9,13:22:99:254,0,160	1/1:0,19:19:60:717,60,0	1/1:0,11:11:33:274,33,0	0/1:9,10:19:99:189,0,173	0/1:14,17:31:99:332,0,261	1/1:0,47:47:99:1601,141,0	./.:0,0:0	1/1:0,5:5:15:124,15,0	1/1:0,7:7:21:160,21,0	1/1:1,20:21:37:608,37,0
+chr1	1732	.	T	A	9728.94	.	AC=34;AF=0.773;AN=44;BaseQRankSum=-1.220e-01;ClippingRankSum=0.184;DP=489;FS=9.347;GQ_MEAN=78.64;GQ_STDDEV=57.12;InbreedingCoeff=-0.2947;MLEAC=34;MLEAF=0.773;MQ=52.63;MQ0=0;MQRankSum=-7.150e-01;NCC=2;QD=20.06;ReadPosRankSum=0.400;SOR=0.726;EFF=UPSTREAM(MODIFIER||2068||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,10:15:79:.:.:202,0,79	0/1:7,43:50:22:.:.:1023,0,22	1/1:2,21:23:19:.:.:466,19,0	0/1:18,10:28:99:.:.:162,0,361	1/1:0,6:6:18:.:.:148,18,0	1/1:0,41:41:99:.:.:999,123,0	1/1:0,29:29:87:1|1:1732_T_A:932,87,0	1/1:0,20:20:60:.:.:495,60,0	0/1:6,8:14:99:.:.:155,0,106	1/1:0,12:12:36:.:.:296,36,0	1/1:0,19:19:57:.:.:468,57,0	1/1:0,28:28:84:.:.:693,84,0	0/1:2,8:10:19:.:.:168,0,19	0/1:2,6:8:25:.:.:125,0,25	0/1:8,16:24:99:.:.:323,0,126	1/1:0,25:25:75:.:.:618,75,0	1/1:0,9:9:27:.:.:225,27,0	0/1:9,10:19:99:.:.:191,0,167	0/1:12,16:28:99:.:.:330,0,213	1/1:0,48:48:99:.:.:1269,147,0	./.:0,0:0	./.:1,0:1	1/1:0,7:7:21:.:.:174,21,0	0/1:5,17:22:57:.:.:354,0,57
+chr1	1762	.	GATGACT	G	5657.32	.	AC=17;AF=0.370;AN=46;BaseQRankSum=-2.890e-01;ClippingRankSum=-3.450e-01;DP=483;FS=0.831;GQ_MEAN=159.96;GQ_STDDEV=154.18;InbreedingCoeff=-0.2624;MLEAC=16;MLEAF=0.348;MQ=49.14;MQ0=0;MQRankSum=-1.239e+00;NCC=1;QD=8.49;ReadPosRankSum=-6.730e-01;SOR=0.737;EFF=UPSTREAM(MODIFIER||2037||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:15,0:15:42:.:.:0,42,630	0/1:34,12:46:99:.:.:395,0,1413	0/1:8,19:27:99:.:.:733,0,279	0/1:19,8:27:99:.:.:279,0,774	0/0:4,0:4:9:.:.:0,9,135	0/0:34,0:34:93:.:.:0,93,1395	0/1:20,8:28:99:0|1:1732_T_A:276,0,795	0/1:14,6:20:99:.:.:210,0,549	0/0:14,0:14:39:.:.:0,39,585	0/1:4,8:12:99:.:.:324,0,144	0/1:3,13:16:87:.:.:527,0,87	0/1:17,11:28:99:.:.:392,0,681	0/0:7,0:7:21:.:.:0,21,167	0/0:9,0:9:27:.:.:0,27,215	0/0:25,0:25:72:.:.:0,72,680	0/1:9,14:23:99:.:.:542,0,336	1/1:0,9:9:27:.:.:405,27,0	0/0:23,0:23:45:.:.:0,45,500	0/1:22,3:25:60:.:.:60,0,914	0/1:16,32:48:99:.:.:1283,0,555	1/1:0,1:1:3:.:.:45,3,0	./.:1,0:1	0/1:4,2:6:72:.:.:72,0,162	0/1:12,6:18:99:.:.:216,0,535
+chr1	1806	.	A	G	2764.39	.	AC=7;AF=0.146;AN=48;BaseQRankSum=-9.780e-01;ClippingRankSum=0.379;DP=508;FS=8.156;GQ_MEAN=140.37;GQ_STDDEV=200.46;InbreedingCoeff=-0.2002;MLEAC=7;MLEAF=0.146;MQ=53.52;MQ0=0;MQRankSum=-6.700e-02;NCC=0;QD=13.89;ReadPosRankSum=-2.060e-01;SOR=0.862;EFF=UPSTREAM(MODIFIER||1994||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:17,0:17:45:.:.:0,45,675	0/0:45,0:45:99:.:.:0,120,1800	0/0:34,0:34:90:.:.:0,90,1350	0/0:32,0:32:71:.:.:0,71,743	0/0:4,0:4:9:.:.:0,9,135	0/1:22,19:41:99:0|1:1806_A_G:729,0,867	0/1:17,7:24:99:0|1:1732_T_A:243,0,693	0/1:4,10:14:99:0|1:1806_A_G:404,0,180	0/0:16,0:16:45:.:.:0,45,675	0/0:8,1:9:17:.:.:0,17,188	0/0:12,0:12:24:.:.:0,24,259	0/0:34,0:34:90:.:.:0,90,1350	0/0:7,0:7:0:.:.:0,0,124	0/0:10,0:10:5:.:.:0,5,198	0/1:16,5:21:99:0|1:1806_A_G:156,0,700	0/1:22,10:32:99:0|1:1806_A_G:290,0,874	0/0:16,0:16:48:.:.:0,48,364	0/0:24,0:24:54:.:.:0,54,551	0/0:30,0:30:81:.:.:0,81,1215	0/1:27,19:46:99:0|1:1806_A_G:724,0,1016	0/0:9,0:9:24:.:.:0,24,360	0/0:4,0:4:9:.:.:0,9,135	0/0:6,0:6:18:.:.:0,18,137	0/1:13,8:21:99:0|1:1806_A_G:297,0,571
+chr1	1807	.	A	C	8673.06	.	AC=29;AF=0.604;AN=48;BaseQRankSum=-1.898e+00;ClippingRankSum=0.336;DP=508;FS=0.523;GQ_MEAN=149.75;GQ_STDDEV=193.34;InbreedingCoeff=-0.2792;MLEAC=31;MLEAF=0.646;MQ=52.24;MQ0=0;MQRankSum=-3.790e-01;NCC=0;QD=18.14;ReadPosRankSum=-3.520e-01;SOR=0.633;EFF=UPSTREAM(MODIFIER||1993||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:18,0:18:7:.:.:0,7,357	0/1:36,15:51:99:.:.:474,0,894	0/1:11,23:34:99:.:.:447,0,232	0/1:20,13:33:99:0|1:1807_A_C:464,0,759	0/0:4,0:4:0:.:.:0,0,3	0/1:22,19:41:99:0|1:1806_A_G:729,0,867	0/1:12,12:24:99:0|1:1732_T_A:447,0,427	1/1:0,14:14:45:.:.:654,45,0	0/1:6,10:16:99:.:.:254,0,103	1/1:0,9:9:27:.:.:224,27,0	1/1:1,11:12:10:1|1:1807_A_C:449,10,0	0/1:24,11:35:99:.:.:316,0,663	0/1:3,3:6:54:.:.:54,0,117	0/1:5,5:10:87:.:.:87,0,97	0/1:16,5:21:99:0|1:1806_A_G:156,0,700	1/1:0,31:31:93:.:.:941,93,0	1/1:0,16:16:48:.:.:380,48,0	0/1:22,2:24:15:0|1:1807_A_C:15,0,909	0/1:25,4:29:93:0|1:1807_A_C:93,0,1017	1/1:0,45:45:99:.:.:1733,137,0	1/1:0,3:3:9:.:.:72,9,0	1/1:0,3:3:9:.:.:77,9,0	0/0:6,0:6:0:.:.:0,0,104	0/1:3,18:21:59:.:.:704,0,59
+chr1	1810	.	C	G	2974.76	.	AC=7;AF=0.146;AN=48;BaseQRankSum=-6.100e-02;ClippingRankSum=-1.810e-01;DP=511;FS=8.366;GQ_MEAN=148.88;GQ_STDDEV=217.48;InbreedingCoeff=-0.2240;MLEAC=8;MLEAF=0.167;MQ=53.52;MQ0=0;MQRankSum=-1.810e-01;NCC=0;QD=15.18;ReadPosRankSum=-3.400e-01;SOR=0.751;EFF=UPSTREAM(MODIFIER||1990||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:17,0:17:48:.:.:0,48,720	0/0:49,0:49:99:.:.:0,120,1800	0/0:33,0:33:90:.:.:0,90,1350	0/0:34,0:34:99:.:.:0,99,1485	0/0:4,0:4:9:.:.:0,9,135	0/1:22,19:41:99:0|1:1806_A_G:729,0,867	0/1:17,7:24:99:0|1:1732_T_A:243,0,693	0/1:5,10:15:99:0|1:1806_A_G:404,0,180	0/0:15,0:15:42:.:.:0,42,630	0/0:12,0:12:15:.:.:0,15,239	0/0:12,0:12:33:.:.:0,33,495	0/0:34,0:34:93:.:.:0,93,1395	0/0:7,0:7:0:.:.:0,0,120	0/0:10,0:10:5:.:.:0,5,191	0/1:16,5:21:99:0|1:1806_A_G:162,0,657	0/1:21,9:30:99:0|1:1806_A_G:313,0,849	0/0:16,0:16:48:.:.:0,48,370	0/0:22,0:22:60:.:.:0,60,900	0/0:30,0:30:64:.:.:0,64,666	0/1:24,20:44:99:0|1:1806_A_G:819,0,939	0/0:9,0:9:2:.:.:0,2,159	0/0:5,0:5:0:.:.:0,0,63	0/0:6,0:6:18:.:.:0,18,145	0/1:13,8:21:99:0|1:1806_A_G:381,0,565
+chr1	1815	.	C	G	3019.35	.	AC=7;AF=0.146;AN=48;BaseQRankSum=-1.600e-01;ClippingRankSum=-1.130e-01;DP=521;FS=5.009;GQ_MEAN=150.33;GQ_STDDEV=216.21;InbreedingCoeff=-0.2175;MLEAC=8;MLEAF=0.167;MQ=51.45;MQ0=0;MQRankSum=-5.850e-01;NCC=0;QD=15.25;ReadPosRankSum=-1.760e-01;SOR=0.623;EFF=UPSTREAM(MODIFIER||1985||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:18,0:18:45:.:.:0,45,675	0/0:49,0:49:99:.:.:0,120,1800	0/0:30,0:30:81:.:.:0,81,1215	0/0:39,0:39:99:.:.:0,99,1485	0/0:5,0:5:12:.:.:0,12,180	0/1:21,18:39:99:0|1:1806_A_G:711,0,867	0/1:16,8:24:99:0|1:1732_T_A:288,0,648	0/1:5,11:16:99:0|1:1806_A_G:424,0,177	0/0:15,0:15:39:.:.:0,39,585	0/0:13,0:13:0:.:.:0,0,214	0/0:12,0:12:33:.:.:0,33,495	0/0:36,0:36:99:.:.:0,99,1485	0/0:8,0:8:0:.:.:0,0,140	0/0:8,0:8:24:.:.:0,24,189	0/1:16,6:22:99:0|1:1806_A_G:182,0,654	0/1:20,8:28:99:0|1:1806_A_G:284,0,939	0/0:18,0:18:51:.:.:0,51,765	0/0:22,0:22:60:.:.:0,60,900	0/0:29,0:29:62:.:.:0,62,633	0/1:24,23:47:99:0|1:1806_A_G:826,0,1065	0/0:9,0:9:1:.:.:0,1,157	0/0:5,0:5:12:.:.:0,12,180	0/0:7,0:7:21:.:.:0,21,165	0/1:12,10:22:99:0|1:1806_A_G:381,0,565
+chr1	1824	.	T	A	6754.6	.	AC=19;AF=0.396;AN=48;BaseQRankSum=-2.073e+00;ClippingRankSum=0.259;DP=505;FS=1.096;GQ_MEAN=182.00;GQ_STDDEV=246.19;InbreedingCoeff=-0.3694;MLEAC=20;MLEAF=0.417;MQ=53.38;MQ0=0;MQRankSum=0.212;NCC=0;QD=16.72;ReadPosRankSum=0.293;SOR=0.743;EFF=UPSTREAM(MODIFIER||1976||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:16,0:16:1:.:.:0,1,309	0/1:37,15:52:99:.:.:524,0,942	0/1:12,18:30:99:.:.:339,0,408	0/1:20,17:37:99:0|1:1807_A_C:695,0,783	1/1:0,5:5:15:1|1:1824_T_A:225,15,0	0/0:37,0:37:99:.:.:0,101,927	0/1:17,5:22:99:0|1:1732_T_A:156,0,741	0/1:8,4:12:99:0|1:1824_T_A:165,0,321	0/1:10,4:14:99:.:.:127,0,298	0/1:1,8:9:18:0|1:1824_T_A:333,0,18	0/1:2,11:13:12:0|1:1807_A_C:475,0,12	0/1:23,13:36:99:.:.:360,0,638	0/0:7,0:7:21:.:.:0,21,165	0/0:9,0:9:21:.:.:0,21,315	0/0:16,0:16:42:.:.:0,42,630	0/1:8,24:32:99:0|1:1824_T_A:994,0,258	1/1:0,19:19:63:1|1:1824_T_A:882,63,0	0/1:21,2:23:15:0|1:1807_A_C:15,0,965	0/1:23,4:27:99:0|1:1807_A_C:99,0,1054	0/1:24,28:52:99:0|1:1824_T_A:1093,0,954	0/0:3,0:3:9:0|1:1824_T_A:0,9,135	0/1:2,1:3:36:0|1:1824_T_A:36,0,68	0/0:8,0:8:0:.:.:0,0,103	0/1:13,8:21:99:0|1:1824_T_A:337,0,503
+chr1	1828	.	A	T	13534.58	.	AC=27;AF=0.563;AN=48;BaseQRankSum=0.033;ClippingRankSum=0.156;DP=509;FS=2.661;GQ_MEAN=205.21;GQ_STDDEV=243.09;InbreedingCoeff=-0.6069;MLEAC=27;MLEAF=0.563;MQ=52.32;MQ0=0;MQRankSum=0.054;NCC=0;QD=27.07;ReadPosRankSum=0.215;SOR=0.648;EFF=UPSTREAM(MODIFIER||1972||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,10:15:99:0|1:1828_A_T:341,0,150	0/1:6,46:52:7:.:.:1842,0,7	0/1:5,27:32:66:.:.:1073,0,66	0/1:20,16:36:99:0|1:1807_A_C:651,0,767	1/1:0,5:5:15:1|1:1824_T_A:225,15,0	0/1:16,19:35:99:0|1:1828_A_T:727,0,615	0/1:7,16:23:99:0|1:1732_T_A:651,0,246	0/1:8,4:12:99:0|1:1824_T_A:144,0,324	0/1:4,11:15:99:.:.:427,0,115	0/1:1,8:9:18:0|1:1824_T_A:333,0,18	0/1:2,12:14:12:0|1:1807_A_C:475,0,12	1/1:0,33:33:99:.:.:1473,102,0	0/1:2,4:6:72:0|1:1828_A_T:162,0,72	0/1:5,4:9:99:0|1:1828_A_T:127,0,166	0/1:10,6:16:99:0|1:1828_A_T:202,0,370	0/1:8,25:33:99:0|1:1824_T_A:994,0,258	1/1:0,21:21:63:1|1:1824_T_A:884,63,0	0/1:11,14:25:99:.:.:529,0,369	0/1:9,18:27:99:.:.:687,0,344	0/1:28,29:57:99:0|1:1824_T_A:1066,0,973	0/0:3,0:3:9:0|1:1824_T_A:0,9,135	0/1:3,1:4:33:0|1:1824_T_A:33,0,89	1/1:0,6:6:18:1|1:1828_A_T:270,18,0	0/1:11,8:19:99:0|1:1824_T_A:316,0,457
+chr1	1838	.	T	C	4382.67	.	AC=14;AF=0.292;AN=48;BaseQRankSum=-9.370e-01;ClippingRankSum=-5.290e-01;DP=526;FS=0.419;GQ_MEAN=177.96;GQ_STDDEV=188.44;InbreedingCoeff=-0.2892;MLEAC=15;MLEAF=0.313;MQ=53.03;MQ0=0;MQRankSum=0.135;NCC=0;QD=14.61;ReadPosRankSum=0.029;SOR=0.746;EFF=UPSTREAM(MODIFIER||1962||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,7:12:99:0|1:1828_A_T:279,0,159	0/1:22,30:52:99:.:.:542,0,820	0/1:26,7:33:99:.:.:174,0,632	0/0:37,0:37:99:.:.:0,101,905	0/0:6,0:6:0:.:.:0,0,99	0/1:18,20:38:99:0|1:1828_A_T:730,0,633	0/1:10,13:23:99:0|1:1732_T_A:435,0,340	0/0:12,0:12:30:.:.:0,30,450	0/1:7,7:14:99:.:.:240,0,187	0/0:14,0:14:0:.:.:0,0,242	0/0:15,0:15:21:.:.:0,21,315	0/1:16,21:37:99:.:.:389,0,515	0/1:2,4:6:72:0|1:1828_A_T:162,0,72	0/1:4,3:7:99:0|1:1828_A_T:114,0,148	0/1:9,8:17:99:0|1:1828_A_T:246,0,343	0/0:32,0:32:90:.:.:0,90,1350	0/0:22,0:22:60:.:.:0,60,900	0/1:16,11:27:99:.:.:414,0,554	0/1:14,14:28:99:.:.:483,0,566	0/0:53,0:53:99:.:.:0,120,1800	0/0:9,0:9:24:.:.:0,24,360	0/0:6,0:6:0:.:.:0,0,93	1/1:0,6:6:18:1|1:1828_A_T:270,18,0	0/0:20,0:20:54:.:.:0,54,810
+chr1	1858	.	C	G	4459.56	.	AC=21;AF=0.438;AN=48;BaseQRankSum=-5.970e-01;ClippingRankSum=0.158;DP=522;FS=4.027;GQ_MEAN=123.88;GQ_STDDEV=143.63;InbreedingCoeff=-0.4096;MLEAC=21;MLEAF=0.438;MQ=47.12;MQ0=0;MQRankSum=-4.880e-01;NCC=0;QD=10.54;ReadPosRankSum=0.043;SOR=0.640;EFF=UPSTREAM(MODIFIER||1942||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:7,2:9:19:.:.:19,0,246	0/1:33,13:46:99:.:.:347,0,656	0/1:11,21:32:99:.:.:404,0,341	0/1:20,19:39:99:.:.:333,0,360	1/1:0,5:5:15:.:.:119,15,0	0/0:37,0:37:99:.:.:0,102,885	0/1:15,8:23:99:0|1:1732_T_A:163,0,565	0/1:7,4:11:62:.:.:62,0,135	0/1:4,8:12:99:.:.:218,0,103	0/1:2,8:10:17:.:.:157,0,17	0/1:2,13:15:4:.:.:263,0,4	0/1:20,15:35:99:.:.:399,0,373	0/1:5,2:7:69:0|1:1858_C_G:69,0,204	0/1:1,6:7:24:0|1:1858_C_G:249,0,24	0/0:24,0:24:72:.:.:0,72,569	0/1:8,28:36:84:.:.:529,0,84	1/1:0,22:22:65:.:.:507,65,0	0/0:25,0:25:72:.:.:0,72,1080	0/1:25,4:29:6:.:.:6,0,847	0/1:30,29:59:99:.:.:501,0,537	0/0:2,0:2:6:.:.:0,6,90	0/1:4,2:6:16:.:.:16,0,140	0/0:7,0:7:21:.:.:0,21,303	0/1:9,11:20:99:.:.:201,0,158
+chr1	1861	.	G	A	276.77	.	AC=3;AF=0.063;AN=48;BaseQRankSum=1.38;ClippingRankSum=0.720;DP=530;FS=13.262;GQ_MEAN=57.58;GQ_STDDEV=36.44;InbreedingCoeff=-0.0745;MLEAC=3;MLEAF=0.063;MQ=40.68;MQ0=0;MQRankSum=0.742;NCC=0;QD=11.53;ReadPosRankSum=0.00;SOR=2.236;EFF=UPSTREAM(MODIFIER||1939||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:9,0:9:27:.:.:0,27,208	0/0:48,0:48:99:.:.:0,120,1800	0/0:30,0:30:72:.:.:0,72,1080	0/0:37,0:37:99:.:.:0,102,907	0/0:5,0:5:15:.:.:0,15,116	0/0:37,0:37:99:.:.:0,102,885	0/0:23,0:23:63:.:.:0,63,945	0/0:14,0:14:39:.:.:0,39,585	0/1:9,2:11:14:.:.:14,0,285	0/0:12,0:12:10:.:.:0,10,232	0/0:14,0:14:42:.:.:0,42,332	0/0:35,0:35:99:.:.:0,99,1485	0/1:4,2:6:69:0|1:1858_C_G:69,0,204	0/1:1,6:7:24:0|1:1858_C_G:249,0,24	0/0:24,0:24:72:.:.:0,72,569	0/0:37,0:37:99:.:.:0,99,1485	0/0:21,0:21:60:.:.:0,60,900	0/0:24,0:24:63:.:.:0,63,945	0/0:27,0:27:81:.:.:0,81,678	0/0:61,0:61:99:.:.:0,120,1800	0/0:9,0:9:21:.:.:0,21,315	0/0:9,0:9:3:.:.:0,3,159	0/0:10,0:10:30:.:.:0,30,218	0/0:20,0:20:35:.:.:0,35,425
+chr1	1875	.	G	A	2520.53	.	AC=15;AF=0.313;AN=48;BaseQRankSum=0.00;ClippingRankSum=0.025;DP=526;FS=0.000;GQ_MEAN=120.83;GQ_STDDEV=125.99;InbreedingCoeff=-0.4566;MLEAC=15;MLEAF=0.313;MQ=48.75;MQ0=0;MQRankSum=-7.920e-01;NCC=0;QD=8.24;ReadPosRankSum=0.462;SOR=0.686;EFF=UPSTREAM(MODIFIER||1925||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:6,3:9:45:.:.:45,0,159	0/1:22,28:50:99:.:.:505,0,615	0/1:19,5:24:50:.:.:50,0,388	0/0:36,0:36:84:.:.:0,84,823	0/0:5,0:5:15:.:.:0,15,116	0/1:18,18:36:99:.:.:326,0,702	0/1:11,12:23:99:0|1:1732_T_A:219,0,385	0/0:14,0:14:18:.:.:0,18,274	0/1:7,4:11:64:.:.:64,0,198	0/0:15,0:15:21:.:.:0,21,310	0/0:13,0:13:33:.:.:0,33,495	0/1:18,19:37:99:.:.:342,0,475	0/1:2,4:6:72:.:.:79,0,72	0/1:5,2:7:27:.:.:27,0,100	0/1:16,11:27:99:.:.:183,0,409	0/0:35,0:35:93:.:.:0,93,1395	0/0:19,0:19:51:.:.:0,51,765	0/1:15,10:25:99:.:.:153,0,288	0/1:14,14:28:99:.:.:257,0,336	0/0:61,0:61:99:.:.:0,120,1800	0/1:2,2:4:35:.:.:35,0,39	0/1:3,4:7:99:0|1:1875_G_A:146,0,114	0/1:3,9:12:28:.:.:188,0,28	0/0:19,0:19:45:.:.:0,45,675
+chr1	1887	.	G	A	3319.16	.	AC=10;AF=0.208;AN=48;BaseQRankSum=1.38;ClippingRankSum=0.491;DP=526;FS=8.195;GQ_MEAN=154.46;GQ_STDDEV=256.99;InbreedingCoeff=-0.3135;MLEAC=11;MLEAF=0.229;MQ=45.65;MQ0=0;MQRankSum=0.094;NCC=0;QD=13.22;ReadPosRankSum=0.303;SOR=1.038;EFF=UPSTREAM(MODIFIER||1913||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:8,0:8:21:.:.:0,21,315	0/0:52,0:52:99:.:.:0,120,1800	0/0:20,0:20:57:.:.:0,57,855	0/0:38,0:38:90:.:.:0,90,863	0/0:6,0:6:12:.:.:0,12,180	0/1:19,20:39:99:0|1:1887_G_A:825,0,735	0/1:18,4:22:99:0|1:1732_T_A:153,0,783	0/1:4,10:14:99:0|1:1887_G_A:426,0,177	0/0:10,0:10:27:.:.:0,27,405	0/1:8,3:11:99:0|1:1887_G_A:102,0,327	0/1:9,2:11:57:0|1:1887_G_A:57,0,352	0/0:34,0:34:99:.:.:0,99,808	0/0:8,0:8:0:.:.:0,0,144	0/0:9,0:9:2:.:.:0,2,165	0/1:24,5:29:99:0|1:1887_G_A:138,0,972	0/1:26,9:35:99:0|1:1887_G_A:300,0,1024	0/0:16,0:16:45:.:.:0,45,675	0/0:27,0:27:81:.:.:0,81,691	0/0:26,0:26:54:.:.:0,54,573	0/1:34,30:64:99:0|1:1887_G_A:1135,0,1360	0/0:6,0:6:0:.:.:0,0,93	0/1:5,4:9:99:0|1:1875_G_A:140,0,186	0/0:12,0:12:33:.:.:0,33,495	0/1:13,4:17:99:0|1:1887_G_A:129,0,492
+chr1	1892	.	T	C	3373.16	.	AC=9;AF=0.188;AN=48;BaseQRankSum=-2.227e+00;ClippingRankSum=0.00;DP=527;FS=8.341;GQ_MEAN=151.58;GQ_STDDEV=260.16;InbreedingCoeff=-0.2651;MLEAC=10;MLEAF=0.208;MQ=45.39;MQ0=0;MQRankSum=0.00;NCC=0;QD=13.82;ReadPosRankSum=-1.560e-01;SOR=1.061;EFF=UPSTREAM(MODIFIER||1908||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:8,0:8:21:.:.:0,21,315	0/0:52,0:52:99:.:.:0,120,1800	0/0:20,0:20:57:.:.:0,57,855	0/0:36,0:36:99:.:.:0,99,1485	0/0:7,0:7:18:.:.:0,18,270	0/1:19,23:42:99:0|1:1887_G_A:909,0,729	0/1:19,5:24:99:0|1:1732_T_A:153,0,783	0/1:5,12:17:99:0|1:1887_G_A:510,0,171	0/0:10,0:10:27:.:.:0,27,405	0/1:8,3:11:99:0|1:1887_G_A:102,0,327	0/1:8,2:10:60:0|1:1887_G_A:60,0,330	0/0:34,0:34:99:.:.:0,99,808	0/0:8,0:8:0:.:.:0,0,153	0/0:8,0:8:0:.:.:0,0,154	0/1:23,5:28:99:0|1:1887_G_A:141,0,951	0/1:25,9:34:99:0|1:1887_G_A:300,0,1044	0/0:17,0:17:45:.:.:0,45,675	0/0:26,0:26:72:.:.:0,72,1080	0/0:23,0:23:57:.:.:0,57,855	0/1:34,29:63:99:0|1:1887_G_A:1154,0,1379	0/0:6,0:6:15:.:.:0,15,225	0/0:15,0:15:39:.:.:0,39,585	0/0:12,0:12:30:.:.:0,30,450	0/1:11,4:15:99:0|1:1887_G_A:129,0,513
+chr1	1896	.	T	C	3343.55	.	AC=9;AF=0.188;AN=48;BaseQRankSum=-2.492e+00;ClippingRankSum=0.566;DP=511;FS=4.654;GQ_MEAN=152.79;GQ_STDDEV=253.69;InbreedingCoeff=-0.2611;MLEAC=9;MLEAF=0.188;MQ=42.72;MQ0=0;MQRankSum=0.178;NCC=0;QD=14.41;ReadPosRankSum=-2.680e-01;SOR=1.020;EFF=UPSTREAM(MODIFIER||1904||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:8,0:8:24:.:.:0,24,204	0/0:52,0:52:99:.:.:0,120,1800	0/0:19,0:19:54:.:.:0,54,810	0/0:36,0:36:99:.:.:0,99,1485	0/0:6,0:6:18:.:.:0,18,144	0/1:19,22:41:99:0|1:1887_G_A:909,0,729	0/1:16,6:22:99:0|1:1732_T_A:198,0,738	0/1:5,11:16:99:0|1:1887_G_A:486,0,194	0/0:11,0:11:33:.:.:0,33,259	0/1:8,3:11:99:0|1:1887_G_A:102,0,327	0/1:7,2:9:85:0|1:1887_G_A:85,0,285	0/0:34,0:34:99:.:.:0,99,808	0/0:8,0:8:2:.:.:0,2,151	0/0:8,0:8:0:.:.:0,0,152	0/1:22,4:26:96:0|1:1887_G_A:96,0,996	0/1:24,8:32:99:0|1:1887_G_A:303,0,1023	0/0:15,0:15:42:.:.:0,42,630	0/0:26,0:26:72:.:.:0,72,1080	0/0:23,0:23:57:.:.:0,57,855	0/1:33,28:61:99:0|1:1887_G_A:1115,0,1319	0/0:5,0:5:15:.:.:0,15,117	0/0:15,0:15:42:.:.:0,42,630	0/0:12,0:12:33:.:.:0,33,495	0/1:10,4:14:99:0|1:1887_G_A:135,0,431
+chr1	1903	.	A	T	3157.15	.	AC=9;AF=0.188;AN=48;BaseQRankSum=-1.943e+00;ClippingRankSum=-5.660e-01;DP=517;FS=6.477;GQ_MEAN=146.54;GQ_STDDEV=235.29;InbreedingCoeff=-0.2650;MLEAC=10;MLEAF=0.208;MQ=44.63;MQ0=0;MQRankSum=-1.580e-01;NCC=0;QD=13.49;ReadPosRankSum=0.163;SOR=1.071;EFF=UPSTREAM(MODIFIER||1897||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:9,0:9:21:.:.:0,21,315	0/0:52,0:52:99:.:.:0,120,1800	0/0:21,0:21:57:.:.:0,57,855	0/0:36,0:36:99:.:.:0,99,1485	0/0:7,0:7:18:.:.:0,18,270	0/1:17,23:40:99:0|1:1887_G_A:873,0,645	0/1:17,6:23:99:0|1:1732_T_A:201,0,675	0/1:6,10:16:99:0|1:1887_G_A:402,0,200	0/0:12,0:12:36:.:.:0,36,289	0/1:8,3:11:99:0|1:1887_G_A:102,0,327	0/1:8,3:11:82:0|1:1887_G_A:82,0,304	0/0:38,0:38:99:.:.:0,99,1485	0/0:5,0:5:15:.:.:0,15,126	0/0:8,0:8:0:.:.:0,0,152	0/1:22,4:26:99:0|1:1887_G_A:102,0,909	0/1:23,8:31:99:0|1:1887_G_A:267,0,922	0/0:15,0:15:42:.:.:0,42,630	0/0:26,0:26:72:.:.:0,72,1080	0/0:19,0:19:48:.:.:0,48,720	0/1:33,27:60:99:0|1:1887_G_A:1057,0,1280	0/0:6,0:6:0:.:.:0,0,101	0/0:16,0:16:45:.:.:0,45,675	0/0:12,0:12:33:.:.:0,33,495	0/1:11,5:16:99:0|1:1887_G_A:156,0,428
+chr1	1906	.	G	A	84.76	.	AC=1;AF=0.021;AN=48;BaseQRankSum=1.24;ClippingRankSum=0.00;DP=508;FS=2.632;GQ_MEAN=57.63;GQ_STDDEV=34.87;InbreedingCoeff=-0.0242;MLEAC=1;MLEAF=0.021;MQ=39.41;MQ0=0;MQRankSum=-2.890e-01;NCC=0;QD=7.06;ReadPosRankSum=0.289;SOR=1.492;EFF=UPSTREAM(MODIFIER||1894||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:6,0:6:15:.:.:0,15,225	0/0:52,0:52:99:.:.:0,120,1800	0/0:22,0:22:60:.:.:0,60,900	0/0:38,0:38:87:.:.:0,87,1305	0/0:8,0:8:21:.:.:0,21,315	0/0:39,0:39:99:.:.:0,101,934	0/0:25,0:25:72:.:.:0,72,589	0/0:17,0:17:48:.:.:0,48,720	0/0:13,0:13:39:.:.:0,39,310	0/0:13,0:13:36:.:.:0,36,540	0/0:10,0:10:30:.:.:0,30,239	0/0:38,0:38:99:.:.:0,99,1485	0/0:5,0:5:12:.:.:0,12,180	0/0:8,0:8:24:.:.:0,24,193	0/0:25,0:25:69:.:.:0,69,1035	0/0:29,0:29:84:.:.:0,84,1260	0/0:15,0:15:42:.:.:0,42,630	0/0:26,0:26:72:.:.:0,72,1080	0/0:19,0:19:45:.:.:0,45,675	0/0:53,0:53:99:.:.:0,108,1620	0/0:5,0:5:15:.:.:0,15,121	0/1:8,4:12:99:0|1:1875_G_A:122,0,257	0/0:12,0:12:33:.:.:0,33,495	0/0:16,0:16:29:.:.:0,29,341
+chr1	1926	.	G	C	3813.07	.	AC=12;AF=0.250;AN=48;BaseQRankSum=0.322;ClippingRankSum=0.336;DP=503;FS=0.000;GQ_MEAN=168.17;GQ_STDDEV=205.24;InbreedingCoeff=-0.3505;MLEAC=12;MLEAF=0.250;MQ=47.50;MQ0=0;MQRankSum=-2.450e+00;NCC=0;QD=13.19;ReadPosRankSum=-3.070e-01;SOR=0.669;EFF=UPSTREAM(MODIFIER||1874||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:6,0:6:18:.:.:0,18,142	0/1:23,31:54:99:0|1:1926_G_C:1044,0,809	0/1:15,5:20:99:.:.:108,0,317	0/0:35,0:35:90:.:.:0,90,1350	0/0:6,0:6:18:.:.:0,18,136	0/1:18,15:33:99:0|1:1926_G_C:554,0,708	0/1:18,12:30:99:0|1:1732_T_A:385,0,798	0/0:16,0:16:23:.:.:0,23,342	0/1:7,7:14:99:.:.:131,0,136	0/0:11,0:11:27:.:.:0,27,405	0/0:9,0:9:2:.:.:0,2,173	0/1:18,18:36:99:.:.:320,0,283	0/1:3,4:7:79:0|1:1926_G_C:159,0,79	0/1:5,3:8:99:0|1:1926_G_C:111,0,201	0/1:15,15:30:99:0|1:1926_G_C:454,0,516	0/0:26,0:26:72:.:.:0,72,1080	0/0:11,0:11:30:.:.:0,30,450	0/1:22,4:26:82:0|1:1926_G_C:82,0,762	0/1:10,11:21:99:0|1:1926_G_C:380,0,365	0/0:53,0:53:99:.:.:0,108,1620	0/0:5,0:5:15:.:.:0,15,110	0/0:18,0:18:51:.:.:0,51,765	0/1:5,5:10:99:0|1:1926_G_C:179,0,195	0/0:15,0:15:42:.:.:0,42,630
+chr1	1941	.	C	G	3751.05	.	AC=12;AF=0.250;AN=48;BaseQRankSum=-5.170e-01;ClippingRankSum=-4.050e-01;DP=492;FS=1.990;GQ_MEAN=159.25;GQ_STDDEV=193.38;InbreedingCoeff=-0.3428;MLEAC=12;MLEAF=0.250;MQ=50.15;MQ0=0;MQRankSum=-3.014e+00;NCC=0;QD=13.25;ReadPosRankSum=0.057;SOR=0.579;EFF=UPSTREAM(MODIFIER||1859||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:6,0:6:15:.:.:0,15,225	0/1:21,27:48:99:0|1:1926_G_C:995,0,775	0/1:16,6:22:99:.:.:110,0,328	0/0:29,0:29:72:.:.:0,72,1080	0/0:6,0:6:15:.:.:0,15,225	0/1:22,16:38:99:0|1:1926_G_C:539,0,918	0/1:20,10:30:99:.:.:320,0,772	0/0:16,0:16:23:.:.:0,23,320	0/1:6,7:13:99:.:.:172,0,125	0/0:12,0:12:21:.:.:0,21,315	0/0:11,0:11:9:.:.:0,9,219	0/1:16,16:32:99:.:.:291,0,278	0/1:2,7:9:70:0|1:1926_G_C:221,0,70	0/1:6,3:9:99:0|1:1926_G_C:108,0,243	0/1:18,11:29:99:0|1:1926_G_C:371,0,633	0/0:27,0:27:54:.:.:0,54,810	0/0:10,0:10:21:.:.:0,21,315	0/1:16,5:21:99:0|1:1926_G_C:143,0,631	0/1:10,11:21:99:0|1:1926_G_C:380,0,366	0/0:53,0:53:99:.:.:0,108,1620	0/0:5,0:5:12:.:.:0,12,180	0/0:17,0:17:42:.:.:0,42,630	0/1:5,6:11:99:0|1:1926_G_C:196,0,192	0/0:13,0:13:33:.:.:0,33,495
+chr1	1960	.	C	G	87.12	.	AC=2;AF=0.042;AN=48;BaseQRankSum=0.751;ClippingRankSum=0.572;DP=478;FS=2.114;GQ_MEAN=37.92;GQ_STDDEV=28.56;InbreedingCoeff=-0.0730;MLEAC=2;MLEAF=0.042;MQ=40.05;MQ0=0;MQRankSum=-5.720e-01;NCC=0;QD=5.12;ReadPosRankSum=-5.730e-01;SOR=1.675;EFF=UPSTREAM(MODIFIER||1840||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:10,0:10:27:.:.:0,27,405	0/0:46,0:46:99:.:.:0,111,1033	0/0:25,0:25:42:.:.:0,42,630	0/0:27,0:27:54:.:.:0,54,810	0/0:6,0:6:15:.:.:0,15,225	0/0:39,0:39:66:.:.:0,66,990	0/0:33,0:33:72:.:.:0,72,735	0/0:18,0:18:27:.:.:0,27,405	0/0:13,0:13:0:.:.:0,0,213	0/0:12,0:12:9:.:.:0,9,135	0/0:9,0:9:9:.:.:0,9,135	0/0:36,0:36:66:.:.:0,66,990	0/1:6,3:9:88:0|1:1960_C_G:88,0,243	0/1:6,2:8:46:.:.:46,0,243	0/0:23,0:23:51:.:.:0,51,765	0/0:26,0:26:24:.:.:0,24,360	0/0:11,0:11:15:.:.:0,15,225	0/0:19,0:19:42:.:.:0,42,630	0/0:20,0:20:54:.:.:0,54,810	0/0:48,0:48:42:.:.:0,42,630	0/0:4,0:4:9:.:.:0,9,135	0/0:8,1:9:3:.:.:0,3,149	0/0:9,0:9:18:.:.:0,18,270	0/0:15,0:15:20:.:.:0,20,312
+chr1	1961	.	C	A	1427.61	.	AC=9;AF=0.188;AN=48;BaseQRankSum=1.15;ClippingRankSum=0.181;DP=477;FS=0.000;GQ_MEAN=81.83;GQ_STDDEV=137.64;InbreedingCoeff=-0.2428;MLEAC=9;MLEAF=0.188;MQ=51.35;MQ0=0;MQRankSum=-7.800e-02;NCC=0;QD=6.96;ReadPosRankSum=0.267;SOR=0.706;EFF=UPSTREAM(MODIFIER||1839||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:10,0:10:27:.:.:0,27,405	0/0:46,0:46:99:.:.:0,111,1033	0/0:25,0:25:42:.:.:0,42,630	0/0:27,0:27:54:.:.:0,54,810	0/0:6,0:6:15:.:.:0,15,225	0/1:18,19:37:99:0|1:1961_C_A:658,0,741	0/1:24,8:32:81:.:.:81,0,775	0/1:7,11:18:99:.:.:218,0,135	0/0:13,0:13:27:.:.:0,27,405	0/0:12,0:12:9:.:.:0,9,135	0/1:7,2:9:23:.:.:23,0,141	0/0:36,0:36:66:.:.:0,66,990	0/0:9,0:9:21:.:.:0,21,315	0/1:8,1:9:18:.:.:18,0,311	0/1:17,5:22:99:0|1:1961_C_A:135,0,717	0/1:21,4:25:23:.:.:23,0,428	0/0:11,0:11:15:.:.:0,15,225	0/0:19,0:19:39:.:.:0,39,585	0/0:20,0:20:54:.:.:0,54,810	0/1:30,18:48:99:.:.:292,0,575	0/0:3,0:3:6:.:.:0,6,90	0/0:16,0:16:28:.:.:0,28,318	0/0:9,0:9:18:.:.:0,18,270	0/1:9,5:14:67:.:.:67,0,218
+chr1	1982	.	A	C	4732.26	.	AC=14;AF=0.350;AN=40;BaseQRankSum=-1.825e+00;ClippingRankSum=-6.840e-01;DP=493;FS=6.136;GQ_MEAN=198.50;GQ_STDDEV=239.12;InbreedingCoeff=-0.6230;MLEAC=15;MLEAF=0.375;MQ=52.41;MQ0=0;MQRankSum=-1.447e+00;NCC=4;QD=16.43;ReadPosRankSum=0.922;SOR=1.018;EFF=UPSTREAM(MODIFIER||1818||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:9,3:12:99:0|1:1982_A_C:99,0,369	0/1:20,30:50:99:0|1:1982_A_C:1179,0,728	0/1:25,6:31:99:0|1:1982_A_C:177,0,1012	0/0:31,0:31:36:.:.:0,36,540	./.:5,0:5	0/1:20,14:34:99:0|1:1982_A_C:507,0,798	0/1:16,17:33:99:0|1:1982_A_C:666,0,621	0/1:15,1:16:39:0|1:1982_A_C:39,0,624	0/1:3,5:8:99:0|1:1982_A_C:201,0,111	./.:8,0:8	0/0:13,0:13:3:.:.:0,3,45	0/1:20,18:38:99:0|1:1982_A_C:660,0,764	0/1:2,5:7:69:0|1:1982_A_C:194,0,69	0/1:6,4:10:99:0|1:1982_A_C:150,0,240	0/1:14,6:20:99:0|1:1982_A_C:175,0,570	./.:26,0:26	0/0:16,0:16:3:.:.:0,3,45	0/1:12,5:17:99:0|1:1982_A_C:171,0,509	0/1:11,9:20:99:0|1:1982_A_C:345,0,435	0/0:49,0:49:6:.:.:0,6,90	./.:6,0:6	0/0:16,0:16:4:.:.:0,4,273	0/1:2,6:8:60:0|1:1982_A_C:246,0,60	0/0:17,0:17:6:.:.:0,6,90
+chr1	1983	.	GC	G	11454.96	.	AC=30;AF=0.625;AN=48;BaseQRankSum=1.59;ClippingRankSum=0.185;DP=481;FS=3.375;GQ_MEAN=172.79;GQ_STDDEV=207.88;InbreedingCoeff=-0.2545;MLEAC=30;MLEAF=0.625;MQ=52.32;MQ0=0;MQRankSum=0.847;NCC=0;QD=26.39;ReadPosRankSum=-9.220e-01;SOR=0.466;EFF=UPSTREAM(MODIFIER||1816||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:9,3:12:99:.:.:99,0,369	0/1:39,9:48:99:.:.:258,0,1631	0/1:9,21:30:99:.:.:835,0,315	0/1:13,17:30:99:0|1:1983_GC_G:613,0,516	1/1:0,5:5:15:1|1:1983_GC_G:225,15,0	0/1:13,20:33:99:0|1:1961_C_A:777,0,528	0/1:17,16:33:99:.:.:621,0,666	0/1:2,14:16:36:.:.:625,0,36	0/1:5,3:8:99:.:.:111,0,201	1/1:0,9:9:30:1|1:1983_GC_G:431,30,0	1/1:0,12:12:39:1|1:1983_GC_G:585,39,0	0/1:18,19:37:99:.:.:700,0,710	0/1:5,2:7:69:0|1:1960_C_G:69,0,204	0/1:4,6:10:99:.:.:217,0,192	0/1:16,4:20:99:0|1:1961_C_A:114,0,722	1/1:0,26:26:84:1|1:1983_GC_G:1219,84,0	1/1:0,16:16:51:1|1:1983_GC_G:765,51,0	0/0:17,0:17:26:.:.:0,26,363	0/0:22,0:22:57:.:.:0,57,855	1/1:0,50:50:99:1|1:1983_GC_G:2295,154,0	1/1:0,3:3:9:1|1:1983_GC_G:135,9,0	1/1:0,6:6:18:1|1:1983_GC_G:270,18,0	0/1:6,2:8:60:.:.:60,0,246	0/1:2,13:15:45:0|1:1983_GC_G:540,0,45
+chr1	1986	.	C	T	17842.07	.	AC=40;AF=0.833;AN=48;BaseQRankSum=2.96;ClippingRankSum=0.076;DP=480;FS=3.844;GQ_MEAN=123.04;GQ_STDDEV=139.38;InbreedingCoeff=-0.2036;MLEAC=40;MLEAF=0.833;MQ=52.24;MQ0=0;MQRankSum=-7.490e-01;NCC=0;QD=30.97;ReadPosRankSum=0.152;SOR=0.865;EFF=UPSTREAM(MODIFIER||1814||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:6,6:12:99:0|1:1986_C_T:234,0,234	0/1:10,38:48:99:0|1:1986_C_T:1566,0,305	0/1:3,27:30:45:.:.:1105,0,45	0/1:14,17:31:99:0|1:1983_GC_G:613,0,516	1/1:0,5:5:15:1|1:1983_GC_G:225,15,0	1/1:0,32:32:96:1|1:1986_C_T:1440,96,0	1/1:0,33:33:99:1|1:1986_C_T:1530,102,0	1/1:0,16:16:57:1|1:1986_C_T:793,57,0	1/1:0,8:8:30:.:.:429,30,0	1/1:0,10:10:30:1|1:1983_GC_G:431,30,0	1/1:0,13:13:39:1|1:1983_GC_G:585,39,0	1/1:0,37:37:99:1|1:1986_C_T:1634,114,0	1/1:0,7:7:21:1|1:1986_C_T:305,21,0	1/1:0,10:10:33:1|1:1986_C_T:475,33,0	0/1:10,9:19:99:0|1:1986_C_T:370,0,390	1/1:0,28:28:84:1|1:1983_GC_G:1219,84,0	1/1:0,17:17:51:1|1:1983_GC_G:765,51,0	0/1:12,5:17:99:0|1:1982_A_C:174,0,489	0/1:11,9:20:99:0|1:1982_A_C:387,0,432	1/1:0,51:51:99:1|1:1983_GC_G:2295,154,0	1/1:0,3:3:12:1|1:1983_GC_G:161,12,0	1/1:0,6:6:18:.:.:270,18,0	1/1:0,8:8:24:.:.:360,24,0	0/1:2,13:15:42:0|1:1983_GC_G:561,0,42
+chr1	1987	.	C	T	4802.12	.	AC=14;AF=0.292;AN=48;BaseQRankSum=1.85;ClippingRankSum=-1.980e-01;DP=489;FS=8.044;GQ_MEAN=185.33;GQ_STDDEV=222.44;InbreedingCoeff=-0.4247;MLEAC=14;MLEAF=0.292;MQ=53.75;MQ0=0;MQRankSum=-1.495e+00;NCC=0;QD=16.17;ReadPosRankSum=0.673;SOR=1.091;EFF=UPSTREAM(MODIFIER||1813||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:9,3:12:99:0|1:1982_A_C:99,0,369	0/1:19,29:48:99:0|1:1982_A_C:1158,0,731	0/1:23,6:29:99:0|1:1982_A_C:180,0,990	0/0:30,0:30:81:.:.:0,81,1215	0/0:5,0:5:9:.:.:0,9,135	0/1:19,13:32:99:0|1:1982_A_C:489,0,759	0/1:16,17:33:99:0|1:1982_A_C:686,0,618	0/1:15,2:17:33:0|1:1982_A_C:33,0,708	0/1:4,6:10:99:0|1:1982_A_C:216,0,129	0/0:10,0:10:30:.:.:0,30,239	0/0:14,0:14:16:.:.:0,16,287	0/1:17,17:34:99:0|1:1982_A_C:680,0,761	0/1:2,5:7:69:0|1:1982_A_C:194,0,69	0/1:5,5:10:99:0|1:1982_A_C:192,0,237	0/1:15,5:20:99:0|1:1982_A_C:165,0,615	0/0:28,0:28:81:.:.:0,81,1215	0/0:17,0:17:42:.:.:0,42,630	0/1:12,5:17:99:0|1:1982_A_C:174,0,489	0/1:11,9:20:99:0|1:1982_A_C:387,0,432	0/0:48,0:48:99:.:.:0,120,1800	0/0:8,0:8:7:.:.:0,7,153	0/0:14,0:14:33:.:.:0,33,495	0/1:2,6:8:60:0|1:1982_A_C:246,0,60	0/0:16,0:16:23:.:.:0,23,323
+chr1	1997	.	T	G	15980.19	.	AC=40;AF=0.833;AN=48;BaseQRankSum=0.135;ClippingRankSum=0.092;DP=486;FS=5.061;GQ_MEAN=111.42;GQ_STDDEV=119.98;InbreedingCoeff=-0.2053;MLEAC=40;MLEAF=0.833;MQ=53.17;MQ0=0;MQRankSum=-1.228e+00;NCC=0;QD=33.15;ReadPosRankSum=0.156;SOR=0.906;EFF=UPSTREAM(MODIFIER||1803||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:7,5:12:99:0|1:1986_C_T:178,0,259	0/1:9,36:45:99:0|1:1986_C_T:1527,0,267	1/1:3,29:32:24:.:.:753,24,0	0/1:12,16:28:99:.:.:301,0,204	1/1:0,5:5:15:.:.:124,15,0	1/1:0,32:32:96:1|1:1986_C_T:1440,96,0	1/1:0,36:36:99:1|1:1986_C_T:1665,117,0	1/1:0,15:15:48:1|1:1986_C_T:637,48,0	1/1:0,8:8:24:.:.:318,24,0	1/1:0,12:12:36:.:.:287,36,0	1/1:0,17:17:51:1|1:1983_GC_G:684,51,0	1/1:0,31:31:96:1|1:1986_C_T:1420,96,0	1/1:0,6:6:18:1|1:1986_C_T:270,18,0	1/1:0,11:11:33:1|1:1986_C_T:495,33,0	0/1:11,12:23:99:0|1:1986_C_T:451,0,405	1/1:0,30:30:89:.:.:755,89,0	1/1:0,15:15:48:1|1:1983_GC_G:698,48,0	0/1:13,5:18:99:0|1:1982_A_C:190,0,550	0/1:12,13:25:99:0|1:1982_A_C:510,0,453	1/1:0,49:49:99:1|1:1983_GC_G:2186,147,0	1/1:0,3:3:9:.:.:116,9,0	1/1:0,7:7:21:1|1:1983_GC_G:295,21,0	0/1:1,6:7:60:0|1:1982_A_C:246,0,60	0/1:2,13:15:45:0|1:1983_GC_G:519,0,45
+chr1	2002	.	G	A	38.92	.	AC=2;AF=0.042;AN=48;BaseQRankSum=1.42;ClippingRankSum=0.720;DP=488;FS=0.000;GQ_MEAN=53.92;GQ_STDDEV=32.39;InbreedingCoeff=-0.0557;MLEAC=2;MLEAF=0.042;MQ=47.32;MQ0=0;MQRankSum=0.720;NCC=0;QD=6.49;ReadPosRankSum=0.720;SOR=0.765;EFF=UPSTREAM(MODIFIER||1798||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:11,0:11:30:.:.:0,30,450	0/0:39,0:39:99:.:.:0,102,1530	0/0:30,0:30:84:.:.:0,84,1260	0/0:30,0:30:75:.:.:0,75,1125	0/0:5,0:5:12:.:.:0,12,180	0/0:30,0:30:81:.:.:0,81,1215	0/0:38,0:38:90:.:.:0,90,858	0/0:15,0:15:45:.:.:0,45,355	0/0:8,0:8:24:.:.:0,24,360	0/0:14,0:14:39:.:.:0,39,585	0/0:18,0:18:51:.:.:0,51,765	0/0:29,0:29:81:.:.:0,81,1215	0/1:4,2:6:72:0|1:1960_C_G:72,0,162	0/1:10,1:11:12:0|1:2002_G_A:12,0,417	0/0:23,0:23:63:.:.:0,63,945	0/0:31,0:31:90:.:.:0,90,1350	0/0:14,0:14:42:.:.:0,42,331	0/0:19,0:19:54:.:.:0,54,810	0/0:26,0:26:63:.:.:0,63,615	0/0:49,0:49:99:.:.:0,120,1800	0/0:8,0:8:0:.:.:0,0,133	0/0:10,0:10:24:.:.:0,24,360	0/0:6,0:6:18:.:.:0,18,141	0/0:16,0:16:22:.:.:0,22,334
+chr1	2011	.	G	C	4195.55	.	AC=15;AF=0.313;AN=48;BaseQRankSum=0.143;ClippingRankSum=0.461;DP=500;FS=0.890;GQ_MEAN=148.92;GQ_STDDEV=155.14;InbreedingCoeff=-0.3150;MLEAC=16;MLEAF=0.333;MQ=53.95;MQ0=0;MQRankSum=-9.420e-01;NCC=0;QD=14.13;ReadPosRankSum=0.053;SOR=0.775;EFF=UPSTREAM(MODIFIER||1789||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:7,4:11:99:0|1:1982_A_C:124,0,303	0/1:11,24:35:99:0|1:1982_A_C:973,0,429	0/1:24,8:32:99:.:.:139,0,507	0/0:33,0:33:90:.:.:0,90,1350	0/0:5,0:5:0:.:.:0,0,73	0/1:21,13:34:99:0|1:1982_A_C:427,0,721	0/1:15,23:38:99:0|1:1982_A_C:758,0,477	0/1:13,3:16:67:0|1:1982_A_C:67,0,494	0/1:3,5:8:48:.:.:97,0,48	0/0:13,0:13:39:.:.:0,39,304	0/0:17,0:17:26:.:.:0,26,356	0/1:17,11:28:99:.:.:176,0,309	0/1:3,4:7:99:0|1:1982_A_C:156,0,116	0/1:5,6:11:99:0|1:1982_A_C:217,0,192	0/1:18,7:25:99:0|1:1982_A_C:175,0,692	0/0:31,0:31:81:.:.:0,81,1215	0/0:17,0:17:48:.:.:0,48,720	0/1:12,6:18:99:0|1:1982_A_C:193,0,488	0/1:14,14:28:99:0|1:1982_A_C:522,0,514	0/0:49,0:49:99:.:.:0,120,1800	0/0:10,0:10:0:.:.:0,0,144	0/0:9,0:9:24:.:.:0,24,360	1/1:0,6:6:18:1|1:1982_A_C:270,18,0	0/0:19,0:19:51:.:.:0,51,765
+chr1	2025	.	A	G	30.68	.	AC=2;AF=0.042;AN=48;BaseQRankSum=-1.327e+00;ClippingRankSum=-1.020e-01;DP=527;FS=4.688;GQ_MEAN=56.92;GQ_STDDEV=31.27;InbreedingCoeff=-0.0555;MLEAC=2;MLEAF=0.042;MQ=47.12;MQ0=0;MQRankSum=0.00;NCC=0;QD=1.46;ReadPosRankSum=-8.500e-02;SOR=1.550;EFF=UPSTREAM(MODIFIER||1775||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:16,0:16:42:.:.:0,42,630	0/0:33,0:33:90:.:.:0,90,1350	0/0:34,0:34:93:.:.:0,93,1395	0/0:32,0:32:90:.:.:0,90,1350	0/0:7,0:7:18:.:.:0,18,270	0/0:36,0:36:99:.:.:0,102,1530	0/0:35,0:35:90:.:.:0,90,1350	0/0:17,0:17:48:.:.:0,48,720	0/0:11,0:11:0:.:.:0,0,180	0/0:15,0:15:36:.:.:0,36,540	0/0:15,0:15:42:.:.:0,42,630	0/0:35,0:35:80:.:.:0,80,802	0/1:4,2:6:52:0|1:1960_C_G:52,0,123	0/1:13,2:15:26:0|1:2002_G_A:26,0,481	0/0:28,0:28:69:.:.:0,69,1035	0/0:31,0:31:81:.:.:0,81,1215	0/0:19,0:19:54:.:.:0,54,810	0/0:20,0:20:54:.:.:0,54,810	0/0:26,0:26:72:.:.:0,72,1080	0/0:49,0:49:99:.:.:0,120,1800	0/0:11,0:11:33:.:.:0,33,247	0/0:9,0:9:24:.:.:0,24,360	0/0:9,0:9:24:.:.:0,24,360	0/0:16,1:17:26:.:.:0,26,390
+chr1	2063	.	T	A	8793.94	.	AC=34;AF=0.708;AN=48;BaseQRankSum=0.108;ClippingRankSum=0.391;DP=565;FS=2.802;GQ_MEAN=100.54;GQ_STDDEV=98.89;InbreedingCoeff=-0.4182;MLEAC=34;MLEAF=0.708;MQ=53.38;MQ0=0;MQRankSum=0.144;NCC=0;QD=15.76;ReadPosRankSum=0.441;SOR=0.692;EFF=UPSTREAM(MODIFIER||1737||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:6,9:15:99:.:.:183,0,104	1/1:3,30:33:26:.:.:629,26,0	1/1:3,36:39:42:.:.:797,42,0	0/1:15,22:37:99:.:.:428,0,267	1/1:0,11:11:33:.:.:282,33,0	0/1:27,13:40:99:.:.:196,0,524	0/1:8,26:34:92:.:.:522,0,92	0/1:8,9:17:99:.:.:173,0,152	1/1:0,16:16:48:.:.:400,48,0	1/1:1,11:12:10:.:.:234,10,0	0/1:3,16:19:19:.:.:345,0,19	1/1:0,38:38:99:.:.:924,114,0	0/1:1,3:4:13:.:.:65,0,13	0/1:2,14:16:3:.:.:303,0,3	0/1:13,17:30:99:.:.:338,0,209	0/1:10,23:33:99:.:.:479,0,152	1/1:0,16:16:48:.:.:401,48,0	0/1:16,8:24:99:0|1:2063_T_A:248,0,609	0/1:11,18:29:99:.:.:446,0,191	0/1:22,33:55:99:.:.:647,0,355	1/1:1,8:9:1:.:.:175,1,0	0/1:2,2:4:35:.:.:35,0,35	1/1:0,12:12:36:.:.:290,36,0	1/1:1,14:15:19:.:.:347,19,0
+chr1	2079	.	A	T	223.64	.	AC=2;AF=0.042;AN=48;BaseQRankSum=2.06;ClippingRankSum=1.68;DP=539;FS=2.929;GQ_MEAN=64.17;GQ_STDDEV=47.43;InbreedingCoeff=-0.0583;MLEAC=2;MLEAF=0.042;MQ=55.91;MQ0=0;MQRankSum=0.117;NCC=0;QD=4.56;ReadPosRankSum=0.740;SOR=0.646;EFF=UPSTREAM(MODIFIER||1721||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:20,0:20:57:.:.:0,57,855	0/0:38,0:38:99:.:.:0,99,1485	0/0:38,0:38:99:.:.:0,105,1575	0/0:29,0:29:81:.:.:0,81,1215	0/0:14,0:14:42:.:.:0,42,338	0/0:37,0:37:99:.:.:0,105,1575	0/0:33,0:33:75:.:.:0,75,748	0/0:14,0:14:33:.:.:0,33,495	0/0:19,0:19:51:.:.:0,51,765	0/0:12,0:12:27:.:.:0,27,405	0/0:17,0:17:45:.:.:0,45,675	0/0:35,0:35:99:.:.:0,99,906	0/0:5,0:5:15:.:.:0,15,120	0/0:14,0:14:36:.:.:0,36,540	0/0:28,0:28:81:.:.:0,81,704	0/0:33,0:33:87:.:.:0,87,1305	0/0:15,0:15:39:.:.:0,39,585	0/1:15,6:21:99:0|1:2063_T_A:229,0,588	0/1:23,5:28:42:.:.:42,0,647	0/0:41,0:41:99:.:.:0,102,982	0/0:12,0:12:0:.:.:0,0,170	0/0:7,0:7:9:.:.:0,9,135	0/0:16,0:16:48:.:.:0,48,397	0/0:12,0:12:33:.:.:0,33,495
+chr1	2090	.	GCCT	G	47.44	.	AC=2;AF=0.042;AN=48;DP=536;FS=0.000;GQ_MEAN=57.96;GQ_STDDEV=31.10;InbreedingCoeff=0.6719;MLEAC=1;MLEAF=0.021;MQ=48.50;MQ0=0;NCC=0;QD=23.72;SOR=0.693;EFF=UPSTREAM(MODIFIER||1709||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/0:21,0:21:54:0,54,810	0/0:38,0:38:99:0,99,1485	0/0:38,0:38:99:0,99,1485	0/0:29,0:29:81:0,81,1215	0/0:17,0:17:42:0,42,630	0/0:37,0:37:99:0,105,1575	0/0:32,0:32:71:0,71,724	0/0:12,0:12:33:0,33,495	0/0:19,0:19:57:0,57,464	0/0:11,0:11:21:0,21,315	0/0:16,0:16:39:0,39,585	0/0:36,0:36:99:0,99,872	0/0:6,0:6:18:0,18,143	0/0:12,0:12:33:0,33,495	0/0:28,0:28:81:0,81,704	0/0:30,0:30:81:0,81,1215	0/0:18,0:18:51:0,51,765	0/0:22,0:22:57:0,57,855	0/0:27,0:27:66:0,66,990	0/0:41,0:41:99:0,102,982	0/0:10,0:10:0:0,0,126	1/1:0,2:2:6:90,6,0	0/0:18,0:18:54:0,54,443	0/0:14,0:14:42:0,42,335
+chr1	2120	.	G	A	3261.33	.	AC=13;AF=0.271;AN=48;BaseQRankSum=1.75;ClippingRankSum=-2.780e-01;DP=507;FS=0.000;GQ_MEAN=131.33;GQ_STDDEV=161.54;InbreedingCoeff=-0.2452;MLEAC=13;MLEAF=0.271;MQ=50.17;MQ0=0;MQRankSum=-8.950e-01;NCC=0;QD=13.10;ReadPosRankSum=-1.100e-01;SOR=0.708;EFF=UPSTREAM(MODIFIER||1680||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:18,0:18:48:.:.:0,48,720	0/0:35,0:35:99:.:.:0,99,843	0/0:30,0:30:78:.:.:0,78,1170	0/0:24,0:24:72:.:.:0,72,591	0/0:17,0:17:48:.:.:0,48,720	0/1:17,34:51:99:0|1:2120_G_A:1376,0,592	0/1:22,12:34:99:0|1:2120_G_A:480,0,822	0/1:5,5:10:99:0|1:2120_G_A:176,0,195	0/1:12,5:17:78:.:.:78,0,244	0/0:7,0:7:1:.:.:0,1,129	0/1:11,3:14:93:0|1:2120_G_A:93,0,409	0/0:38,0:38:78:.:.:0,78,1170	0/1:3,4:7:53:.:.:79,0,53	0/1:5,5:10:94:.:.:97,0,94	0/1:25,5:30:99:0|1:2120_G_A:115,0,954	0/1:27,8:35:99:0|1:2120_G_A:235,0,1069	0/0:17,0:17:42:.:.:0,42,630	0/0:19,0:19:48:.:.:0,48,720	0/0:23,0:23:60:.:.:0,60,900	0/1:18,13:31:99:0|1:2120_G_A:507,0,798	0/0:2,0:2:6:.:.:0,6,49	1/1:0,1:1:3:1|1:2120_G_A:34,3,0	0/0:22,0:22:60:.:.:0,60,900	0/1:7,3:10:86:.:.:86,0,128
+chr1	2123	.	GTAGGC	G	2921.18	.	AC=8;AF=0.167;AN=48;BaseQRankSum=-2.110e-01;ClippingRankSum=0.470;DP=512;FS=0.000;GQ_MEAN=127.21;GQ_STDDEV=174.31;InbreedingCoeff=-0.2315;MLEAC=8;MLEAF=0.167;MQ=50.39;MQ0=0;MQRankSum=-1.701e+00;NCC=0;QD=7.82;ReadPosRankSum=0.099;SOR=0.703;EFF=UPSTREAM(MODIFIER||1676||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:21,0:21:48:.:.:0,48,720	0/0:35,0:35:99:.:.:0,99,843	0/0:30,0:30:78:.:.:0,78,1170	0/0:24,0:24:72:.:.:0,72,591	0/0:18,0:18:54:.:.:0,54,438	0/1:18,34:52:99:0|1:2120_G_A:1370,0,676	0/1:21,13:34:99:0|1:2120_G_A:477,0,864	0/1:5,5:10:99:0|1:2120_G_A:176,0,195	0/0:17,0:17:48:.:.:0,48,720	0/0:7,0:7:18:.:.:0,18,270	0/1:10,3:13:96:0|1:2120_G_A:96,0,411	0/0:29,0:29:81:.:.:0,81,1215	0/0:6,0:6:18:.:.:0,18,144	0/0:11,0:11:30:.:.:0,30,450	0/1:26,4:30:99:0|1:2120_G_A:109,0,1058	0/1:26,8:34:99:0|1:2120_G_A:232,0,1111	0/0:15,0:15:39:.:.:0,39,585	0/0:18,0:18:45:.:.:0,45,675	0/0:23,0:23:60:.:.:0,60,900	0/1:22,14:36:99:0|1:2120_G_A:498,0,924	0/0:6,0:6:0:.:.:0,0,82	0/0:3,0:3:0:.:.:0,0,26	0/0:22,0:22:54:.:.:0,54,810	0/1:13,2:15:45:0|1:2123_GTAGGC_G:45,0,540
+chr1	2135	.	T	C	9703.31	.	AC=42;AF=0.875;AN=48;BaseQRankSum=-3.258e+00;ClippingRankSum=-4.200e-01;DP=506;FS=0.949;GQ_MEAN=64.46;GQ_STDDEV=45.89;InbreedingCoeff=-0.1531;MLEAC=42;MLEAF=0.875;MQ=53.38;MQ0=0;MQRankSum=-1.620e+00;NCC=0;QD=19.41;ReadPosRankSum=-3.750e-01;SOR=0.662;EFF=UPSTREAM(MODIFIER||1665||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:6,14:20:91:.:.:204,0,91	1/1:4,36:40:29:.:.:506,29,0	0/1:5,23:28:41:.:.:327,0,41	0/1:10,23:33:99:.:.:268,0,155	1/1:0,18:18:51:.:.:327,51,0	1/1:0,52:52:99:.:.:1839,153,0	1/1:0,32:32:96:.:.:993,96,0	1/1:0,7:7:21:.:.:216,21,0	1/1:0,17:17:49:.:.:443,49,0	1/1:0,7:7:20:.:.:137,20,0	1/1:0,13:13:37:.:.:316,37,0	1/1:0,29:29:80:.:.:455,80,0	1/1:0,7:7:19:.:.:109,19,0	1/1:0,9:9:25:.:.:142,25,0	0/1:9,21:30:99:.:.:368,0,137	1/1:0,33:33:94:.:.:757,94,0	1/1:0,14:14:39:.:.:247,39,0	0/1:4,10:14:59:.:.:127,0,59	0/1:8,14:22:99:.:.:197,0,133	1/1:0,34:34:99:.:.:978,103,0	1/1:0,3:3:8:.:.:42,8,0	1/1:0,2:2:6:1|1:2120_G_A:57,6,0	1/1:0,19:19:52:.:.:317,52,0	1/1:0,17:17:49:.:.:407,49,0
+chr1	2136	.	G	GTCACA	2907.83	.	AC=8;AF=0.167;AN=48;BaseQRankSum=-1.310e-01;ClippingRankSum=-1.220e-01;DP=509;FS=1.068;GQ_MEAN=125.29;GQ_STDDEV=176.80;InbreedingCoeff=-0.2320;MLEAC=8;MLEAF=0.167;MQ=50.39;MQ0=0;MQRankSum=-9.370e-01;NCC=0;QD=7.86;ReadPosRankSum=0.373;SOR=0.717;EFF=UPSTREAM(MODIFIER||1663||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:20,0:20:60:.:.:0,60,445	0/0:41,0:41:99:.:.:0,108,952	0/0:28,0:28:75:.:.:0,75,1125	0/0:31,0:31:84:.:.:0,84,1260	0/0:19,0:19:51:.:.:0,51,765	0/1:19,34:53:99:0|1:2120_G_A:1370,0,656	0/1:20,14:34:99:0|1:2120_G_A:528,0,778	0/1:4,3:7:99:0|1:2120_G_A:114,0,159	0/0:16,0:16:39:.:.:0,39,585	0/0:8,0:8:0:.:.:0,0,78	0/1:10,3:13:96:0|1:2120_G_A:96,0,376	0/0:29,0:29:81:.:.:0,81,1215	0/0:7,0:7:21:.:.:0,21,155	0/0:11,0:11:8:.:.:0,8,198	0/1:27,4:31:87:0|1:2120_G_A:87,0,1080	0/1:26,8:34:99:0|1:2120_G_A:276,0,1065	0/0:15,0:15:45:.:.:0,45,322	0/0:12,0:12:30:.:.:0,30,450	0/0:22,0:22:60:.:.:0,60,900	0/1:21,12:33:99:0|1:2120_G_A:480,0,898	0/0:5,0:5:12:.:.:0,12,180	0/0:3,0:3:3:.:.:0,3,45	0/0:19,0:19:54:.:.:0,54,810	0/1:15,2:17:39:0|1:2123_GTAGGC_G:39,0,594
+chr1	2159	.	C	T	85.64	.	AC=2;AF=0.042;AN=48;BaseQRankSum=1.75;ClippingRankSum=0.919;DP=476;FS=3.577;GQ_MEAN=53.50;GQ_STDDEV=30.16;InbreedingCoeff=-0.0584;MLEAC=2;MLEAF=0.042;MQ=46.63;MQ0=0;MQRankSum=0.429;NCC=0;QD=3.89;ReadPosRankSum=-2.480e-01;SOR=1.501;EFF=UPSTREAM(MODIFIER||1641||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/0:21,0:21:38:0,38,423	0/0:41,0:41:99:0,108,952	0/0:20,0:20:51:0,51,765	0/0:30,0:30:81:0,81,1215	0/0:21,0:21:60:0,60,451	0/0:40,0:40:99:0,108,1620	0/0:32,0:32:87:0,87,1305	0/0:14,0:14:39:0,39,585	0/1:10,5:15:79:79,0,138	0/0:11,0:11:33:0,33,251	0/0:10,0:10:27:0,27,405	0/0:26,0:26:72:0,72,1080	0/1:4,3:7:46:54,0,46	0/0:7,0:7:0:0,0,106	0/0:24,0:24:63:0,63,616	0/0:29,0:29:69:0,69,1035	0/0:18,0:18:51:0,51,765	0/0:8,0:8:24:0,24,172	0/0:17,0:17:45:0,45,675	0/0:38,0:38:99:0,102,855	0/0:5,0:5:15:0,15,110	0/0:3,0:3:9:0,9,61	0/0:17,0:17:42:0,42,630	0/0:20,1:21:35:0,35,379
+chr1	2190	.	A	T	7431.91	.	AC=31;AF=0.646;AN=48;BaseQRankSum=-6.600e-02;ClippingRankSum=0.245;DP=518;FS=1.271;GQ_MEAN=86.42;GQ_STDDEV=88.99;InbreedingCoeff=-0.4264;MLEAC=32;MLEAF=0.667;MQ=56.62;MQ0=0;MQRankSum=-3.510e-01;NCC=0;QD=14.60;ReadPosRankSum=0.208;SOR=0.848;EFF=UPSTREAM(MODIFIER||1610||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	1/1:2,18:20:12:384,12,0	1/1:6,44:50:33:902,33,0	1/1:2,16:18:5:329,5,0	0/1:16,23:39:99:425,0,267	1/1:0,16:16:48:383,48,0	0/1:23,18:41:99:308,0,407	0/1:9,26:35:96:484,0,96	0/1:5,10:15:76:195,0,76	0/1:5,11:16:71:208,0,71	1/1:1,10:11:9:217,9,0	0/1:1,6:7:3:122,0,3	1/1:0,24:24:72:563,72,0	0/1:4,5:9:71:95,0,71	0/1:2,8:10:19:163,0,19	0/1:12,17:29:99:308,0,201	0/1:10,17:27:99:329,0,160	1/1:0,18:18:53:419,53,0	0/1:7,5:12:83:83,0,134	0/1:9,18:27:99:355,0,138	0/1:16,30:46:99:551,0,248	0/1:1,5:6:7:100,0,7	0/0:3,0:3:0:0,0,23	1/1:0,12:12:36:292,36,0	0/1:5,16:21:58:310,0,58
+chr1	2263	.	G	A	3744.0	.	AC=20;AF=0.417;AN=48;BaseQRankSum=2.93;ClippingRankSum=-5.110e-01;DP=529;FS=0.364;GQ_MEAN=64.83;GQ_STDDEV=52.81;InbreedingCoeff=0.2468;MLEAC=20;MLEAF=0.417;MQ=53.67;MQ0=0;MQRankSum=0.423;NCC=0;QD=9.58;ReadPosRankSum=0.501;SOR=0.720;EFF=UPSTREAM(MODIFIER||1537||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/0:20,0:20:10:0,10,360	0/1:44,10:54:77:77,0,637	0/1:13,17:30:81:325,0,81	0/1:12,14:26:99:272,0,110	0/1:2,9:11:1:191,0,1	0/0:36,0:36:99:0,99,951	0/1:23,6:29:54:54,0,321	0/1:10,3:13:38:38,0,116	0/1:14,9:23:99:158,0,138	0/1:7,4:11:67:67,0,92	0/1:4,11:15:36:228,0,36	0/1:14,19:33:99:367,0,149	0/0:6,0:6:15:0,15,225	0/0:11,0:11:0:0,0,158	0/0:21,0:21:60:0,60,676	0/1:13,22:35:99:439,0,148	1/1:0,15:15:45:371,45,0	0/0:19,0:19:54:0,54,810	0/0:24,0:24:47:0,47,466	0/1:17,31:48:99:612,0,192	1/1:1,3:4:2:65,2,0	1/1:0,12:12:35:252,35,0	0/1:10,8:18:90:150,0,90	0/1:5,9:14:8:181,0,8
+chr1	2328	.	A	G	8025.81	.	AC=42;AF=0.875;AN=48;BaseQRankSum=-2.927e+00;ClippingRankSum=-7.300e-02;DP=523;FS=6.892;GQ_MEAN=66.75;GQ_STDDEV=51.01;InbreedingCoeff=-0.1834;MLEAC=43;MLEAF=0.896;MQ=52.45;MQ0=0;MQRankSum=-5.790e-01;NCC=0;QD=15.86;ReadPosRankSum=0.115;SOR=0.540;EFF=UPSTREAM(MODIFIER||1472||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,8:13:86:.:.:109,0,86	1/1:2,39:41:66:.:.:583,66,0	1/1:1,25:26:50:.:.:547,50,0	0/1:15,12:27:99:.:.:109,0,293	1/1:0,7:7:20:.:.:135,20,0	1/1:0,41:41:99:.:.:793,115,0	1/1:0,27:27:80:.:.:596,80,0	1/1:0,19:19:54:1|1:2328_A_G:490,54,0	1/1:0,25:25:72:1|1:2328_A_G:646,72,0	1/1:0,8:8:23:.:.:169,23,0	1/1:0,13:13:36:.:.:209,36,0	1/1:0,41:41:99:.:.:659,113,0	1/1:0,6:6:17:.:.:113,17,0	1/1:0,13:13:37:.:.:236,37,0	0/1:10,19:29:99:.:.:263,0,164	1/1:0,28:28:79:.:.:504,79,0	1/1:0,17:17:45:.:.:219,45,0	0/0:15,0:15:0:.:.:0,0,231	0/1:11,16:27:99:.:.:225,0,193	1/1:0,52:52:99:.:.:833,143,0	1/1:0,4:4:11:.:.:64,11,0	1/1:0,14:14:37:.:.:187,37,0	1/1:0,16:16:43:.:.:228,43,0	1/1:1,11:12:9:.:.:179,9,0
+chr1	2373	.	A	G	2136.96	.	AC=14;AF=0.292;AN=48;BaseQRankSum=-3.413e+00;ClippingRankSum=0.520;DP=492;FS=17.474;GQ_MEAN=88.75;GQ_STDDEV=75.86;InbreedingCoeff=-0.4065;MLEAC=15;MLEAF=0.313;MQ=51.06;MQ0=0;MQRankSum=-1.032e+00;NCC=0;QD=6.66;ReadPosRankSum=0.136;SOR=1.380;EFF=UPSTREAM(MODIFIER||1427||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:4,5:9:71:.:.:80,0,71	0/1:12,24:36:99:.:.:270,0,322	0/1:19,12:31:99:.:.:109,0,399	0/0:35,0:35:99:.:.:0,99,940	0/0:8,0:8:21:.:.:0,21,315	0/1:27,12:39:99:.:.:111,0,539	0/1:20,12:32:99:.:.:135,0,480	0/1:12,5:17:67:0|1:2328_A_G:67,0,367	0/1:7,18:25:99:0|1:2328_A_G:346,0,100	0/0:9,0:9:3:.:.:0,3,174	0/0:10,0:10:27:.:.:0,27,405	0/1:20,22:42:99:.:.:216,0,368	0/1:1,7:8:1:.:.:115,0,1	0/1:4,2:6:72:0|1:2373_A_G:72,0,121	0/1:11,10:21:99:.:.:119,0,276	0/0:20,0:20:51:.:.:0,51,765	0/0:21,0:21:60:.:.:0,60,900	0/1:8,8:16:99:.:.:192,0,151	0/1:11,14:25:99:.:.:259,0,280	0/0:42,0:42:72:.:.:0,72,1080	0/0:5,0:5:0:.:.:0,0,77	0/0:7,0:7:0:.:.:0,0,75	0/1:5,9:14:86:.:.:136,0,86	0/0:13,0:13:30:.:.:0,30,450
+chr1	2387	.	GGCAT	G	7756.41	.	AC=19;AF=0.396;AN=48;BaseQRankSum=-2.340e-01;ClippingRankSum=-2.240e-01;DP=479;FS=7.383;GQ_MEAN=208.29;GQ_STDDEV=199.82;InbreedingCoeff=-0.5170;MLEAC=20;MLEAF=0.417;MQ=49.46;MQ0=0;MQRankSum=-1.239e+00;NCC=0;QD=15.19;ReadPosRankSum=-4.280e-01;SOR=0.894;EFF=UPSTREAM(MODIFIER||1412||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:0:.:.:0,0,28	0/1:13,26:39:99:.:.:1008,0,468	0/1:16,12:28:99:.:.:456,0,636	0/0:35,0:35:99:.:.:0,99,940	0/0:6,0:6:18:.:.:0,18,139	1/1:0,32:32:99:.:.:1485,99,0	0/1:13,19:32:99:.:.:739,0,489	0/1:6,10:16:99:0|1:2328_A_G:381,0,222	0/1:16,6:22:99:0|1:2328_A_G:204,0,640	0/1:5,3:8:89:.:.:89,0,201	0/1:9,2:11:57:.:.:57,0,372	0/1:21,19:40:99:.:.:726,0,812	0/1:3,3:6:99:.:.:117,0,117	0/1:4,2:6:69:0|1:2373_A_G:69,0,184	0/1:2,15:17:59:.:.:554,0,59	0/1:11,5:16:99:.:.:177,0,447	0/0:21,0:21:60:.:.:0,60,900	0/1:9,8:17:99:.:.:253,0,354	0/1:11,12:23:99:.:.:471,0,413	0/1:25,15:40:99:.:.:534,0,1004	0/0:4,0:4:12:.:.:0,12,89	0/0:7,0:7:18:.:.:0,18,270	0/1:4,8:12:99:.:.:319,0,144	0/1:12,6:18:99:.:.:216,0,473
+chr1	2417	.	T	C	14790.72	.	AC=37;AF=0.804;AN=46;BaseQRankSum=-2.191e+00;ClippingRankSum=0.052;DP=448;FS=0.843;GQ_MEAN=87.09;GQ_STDDEV=118.28;InbreedingCoeff=0.4096;MLEAC=38;MLEAF=0.826;MQ=47.12;MQ0=0;MQRankSum=-3.204e+00;NCC=1;QD=33.85;ReadPosRankSum=0.367;SOR=0.783;EFF=UPSTREAM(MODIFIER||1383||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:3,0:3:9:.:.:0,9,75	0/1:3,41:44:1:.:.:1021,0,1	0/1:2,22:24:60:.:.:875,0,60	0/1:16,18:34:99:0|1:2417_T_C:677,0,554	1/1:0,5:5:15:.:.:124,15,0	1/1:0,37:37:99:.:.:1484,111,0	1/1:0,41:41:99:.:.:1811,123,0	1/1:0,11:11:36:1|1:2328_A_G:497,36,0	1/1:0,14:14:48:1|1:2328_A_G:660,48,0	1/1:0,6:6:18:.:.:270,18,0	1/1:0,9:9:27:.:.:373,27,0	1/1:0,31:31:99:1|1:2417_T_C:1311,99,0	1/1:0,5:5:15:.:.:144,15,0	1/1:0,9:9:27:1|1:2417_T_C:394,27,0	0/1:7,7:14:99:.:.:220,0,180	1/1:0,16:16:48:.:.:628,48,0	1/1:0,22:22:66:1|1:2417_T_C:868,66,0	0/1:10,7:17:99:.:.:204,0,187	0/1:10,9:19:99:.:.:192,0,201	1/1:0,42:42:99:.:.:1729,126,0	./.:3,0:3	1/1:0,3:3:9:1|1:2417_T_C:114,9,0	1/1:0,13:13:39:1|1:2417_T_C:585,39,0	0/1:3,18:21:13:.:.:694,0,13
+chr1	2418	.	T	C	710.95	.	AC=6;AF=0.130;AN=46;BaseQRankSum=-2.564e+00;ClippingRankSum=-5.310e-01;DP=446;FS=8.143;GQ_MEAN=63.78;GQ_STDDEV=76.58;InbreedingCoeff=-0.1622;MLEAC=6;MLEAF=0.130;MQ=42.94;MQ0=0;MQRankSum=-1.179e+00;NCC=1;QD=5.19;ReadPosRankSum=0.350;SOR=0.802;EFF=UPSTREAM(MODIFIER||1382||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:12:.:.:0,12,100	0/0:44,0:44:99:.:.:0,120,1800	0/0:23,0:23:69:.:.:0,69,544	0/0:35,0:35:96:.:.:0,96,1440	0/0:5,0:5:12:.:.:0,12,180	0/1:11,26:37:99:.:.:322,0,337	0/0:35,6:41:8:.:.:0,8,1030	0/1:9,3:12:55:0|1:2328_A_G:55,0,349	0/0:15,0:15:39:.:.:0,39,585	0/0:6,0:6:17:.:.:0,17,120	0/1:7,2:9:51:.:.:51,0,268	0/0:28,0:28:72:.:.:0,72,1080	0/0:5,0:5:12:.:.:0,12,180	0/0:9,0:9:27:.:.:0,27,211	0/0:11,2:13:9:.:.:0,9,525	0/1:13,2:15:10:.:.:10,0,480	0/0:21,0:21:54:.:.:0,54,810	0/0:16,0:16:42:.:.:0,42,630	0/0:20,0:20:57:.:.:0,57,855	0/1:26,16:42:99:.:.:236,0,514	./.:3,0:3	0/0:5,0:5:12:.:.:0,12,180	0/0:14,0:14:25:.:.:0,25,299	0/1:14,8:22:99:.:.:110,0,351
+chr1	2430	.	T	A	3004.67	.	AC=13;AF=0.271;AN=48;BaseQRankSum=1.11;ClippingRankSum=-4.530e-01;DP=462;FS=16.142;GQ_MEAN=122.33;GQ_STDDEV=126.76;InbreedingCoeff=-0.4436;MLEAC=15;MLEAF=0.313;MQ=49.96;MQ0=0;MQRankSum=-7.430e-01;NCC=0;QD=10.40;ReadPosRankSum=0.731;SOR=1.378;EFF=UPSTREAM(MODIFIER||1370||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:5,0:5:15:.:.:0,15,109	0/1:11,36:47:99:.:.:734,0,186	0/1:17,7:24:98:.:.:98,0,404	0/0:30,0:30:78:.:.:0,78,1170	0/0:3,0:3:3:.:.:0,3,45	0/1:27,10:37:99:0|1:2430_T_A:339,0,1081	0/1:20,23:43:99:.:.:430,0,498	0/1:10,4:14:97:0|1:2328_A_G:97,0,408	0/1:12,5:17:93:0|1:2328_A_G:93,0,341	0/0:9,0:9:2:.:.:0,2,172	0/0:9,0:9:27:.:.:0,27,213	0/1:17,15:32:99:.:.:268,0,315	0/1:4,1:5:27:0|1:2430_T_A:27,0,165	0/1:7,2:9:63:0|1:2430_T_A:63,0,268	0/1:10,5:15:99:0|1:2430_T_A:180,0,405	0/0:20,0:20:57:.:.:0,57,855	0/0:19,0:19:39:.:.:0,39,585	0/1:11,7:18:99:0|1:2430_T_A:258,0,461	0/1:11,9:20:99:0|1:2430_T_A:387,0,432	0/0:39,0:39:99:.:.:0,107,932	0/0:4,0:4:0:.:.:0,0,41	0/0:4,0:4:0:.:.:0,0,35	0/1:6,7:13:99:.:.:119,0,139	0/0:22,0:22:63:.:.:0,63,945
+chr1	2433	.	G	A	13463.67	.	AC=30;AF=0.652;AN=46;BaseQRankSum=2.74;ClippingRankSum=0.286;DP=470;FS=0.583;GQ_MEAN=146.09;GQ_STDDEV=154.29;InbreedingCoeff=-0.3658;MLEAC=30;MLEAF=0.652;MQ=47.81;MQ0=0;MQRankSum=-6.540e-01;NCC=1;QD=29.53;ReadPosRankSum=0.028;SOR=0.751;EFF=UPSTREAM(MODIFIER||1367||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:5,0:5:15:.:.:0,15,109	1/1:3,47:50:21:1|1:2433_G_A:2029,21,0	0/1:3,21:24:63:0|1:2433_G_A:873,0,63	0/1:13,17:30:99:0|1:2417_T_C:664,0,495	1/1:0,2:2:6:1|1:2433_G_A:90,6,0	0/1:26,10:36:99:0|1:2430_T_A:342,0,1059	0/1:6,37:43:99:0|1:2433_G_A:1557,0,129	0/1:4,9:13:99:0|1:2328_A_G:363,0,162	1/1:0,16:16:51:1|1:2328_A_G:725,51,0	0/1:2,6:8:19:0|1:2433_G_A:223,0,19	0/1:2,8:10:57:0|1:2433_G_A:372,0,57	1/1:0,33:33:99:1|1:2417_T_C:1510,102,0	0/1:2,4:6:13:.:.:121,0,13	1/1:0,9:9:27:1|1:2417_T_C:394,27,0	0/1:11,5:16:99:0|1:2430_T_A:171,0,486	0/1:5,13:18:99:0|1:2433_G_A:553,0,168	1/1:0,18:18:54:1|1:2417_T_C:790,54,0	0/1:13,7:20:99:0|1:2430_T_A:252,0,524	0/1:11,10:21:99:0|1:2430_T_A:387,0,432	0/1:14,29:43:99:0|1:2433_G_A:1141,0,451	./.:4,0:4	1/1:0,2:2:6:1|1:2417_T_C:90,6,0	1/1:0,13:13:39:1|1:2417_T_C:585,39,0	0/1:16,9:25:99:0|1:2433_G_A:330,0,534
+chr1	2438	.	T	G	12793.22	.	AC=28;AF=0.609;AN=46;BaseQRankSum=-1.408e+00;ClippingRankSum=-3.220e-01;DP=467;FS=0.000;GQ_MEAN=159.09;GQ_STDDEV=157.90;InbreedingCoeff=-0.4887;MLEAC=28;MLEAF=0.609;MQ=48.09;MQ0=0;MQRankSum=-1.231e+00;NCC=1;QD=28.18;ReadPosRankSum=-1.120e-01;SOR=0.697;EFF=UPSTREAM(MODIFIER||1362||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:5,0:5:15:.:.:0,15,109	1/1:3,50:53:24:1|1:2433_G_A:2071,24,0	0/1:3,22:25:57:0|1:2433_G_A:935,0,57	0/1:14,15:29:99:0|1:2417_T_C:661,0,537	1/1:0,2:2:6:1|1:2433_G_A:90,6,0	0/1:26,10:36:99:0|1:2430_T_A:342,0,1059	0/1:6,36:42:99:0|1:2433_G_A:1536,0,132	0/1:4,10:14:99:0|1:2328_A_G:408,0,138	0/1:5,9:14:78:0|1:2328_A_G:256,0,78	0/1:3,5:8:19:0|1:2433_G_A:223,0,19	0/1:2,9:11:57:0|1:2433_G_A:372,0,57	1/1:0,32:32:99:1|1:2417_T_C:1485,99,0	0/1:3,2:5:51:0|1:2430_T_A:51,0,141	0/1:4,5:9:99:.:.:177,0,153	0/1:10,5:15:99:.:.:180,0,352	0/1:6,14:20:99:0|1:2433_G_A:550,0,210	1/1:0,15:15:51:1|1:2417_T_C:745,51,0	0/1:14,8:22:99:0|1:2430_T_A:294,0,511	0/1:10,9:19:99:0|1:2430_T_A:348,0,393	0/1:15,30:45:99:0|1:2433_G_A:1158,0,490	./.:4,0:4	1/1:0,2:2:6:1|1:2417_T_C:90,6,0	1/1:0,12:12:39:1|1:2417_T_C:585,39,0	0/1:15,9:24:99:0|1:2433_G_A:333,0,503
+chr1	2454	.	G	A	4568.99	.	AC=13;AF=0.283;AN=46;BaseQRankSum=2.92;ClippingRankSum=0.358;DP=473;FS=6.870;GQ_MEAN=141.57;GQ_STDDEV=142.21;InbreedingCoeff=-0.4475;MLEAC=14;MLEAF=0.304;MQ=51.13;MQ0=0;MQRankSum=-1.231e+00;NCC=1;QD=14.93;ReadPosRankSum=-3.200e-01;SOR=1.035;EFF=UPSTREAM(MODIFIER||1346||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:9:.:.:0,9,135	0/1:12,46:58:99:.:.:1864,0,306	0/1:17,8:25:99:.:.:286,0,521	0/0:28,0:28:66:.:.:0,66,990	./.:0,0:0	0/1:27,10:37:99:.:.:313,0,374	0/1:17,26:43:99:.:.:502,0,459	0/1:12,3:15:92:0|1:2328_A_G:92,0,435	0/1:14,4:18:66:0|1:2328_A_G:66,0,397	0/0:12,0:12:0:.:.:0,0,171	0/0:9,0:9:24:.:.:0,24,360	0/1:16,18:34:99:.:.:667,0,477	0/1:3,2:5:34:.:.:34,0,41	0/1:6,3:9:88:0|1:2430_T_A:88,0,243	0/1:11,4:15:99:.:.:158,0,356	0/0:25,0:25:69:.:.:0,69,1035	0/0:14,0:14:33:.:.:0,33,495	0/1:15,6:21:99:0|1:2454_G_A:245,0,648	0/1:9,5:14:99:0|1:2454_G_A:163,0,363	0/0:45,0:45:99:.:.:0,120,1800	0/0:3,0:3:0:.:.:0,0,24	0/0:3,0:3:9:.:.:0,9,54	0/1:6,6:12:99:.:.:179,0,202	0/0:21,0:21:60:.:.:0,60,463
+chr1	2461	.	G	T	17821.71	.	AC=36;AF=0.818;AN=44;BaseQRankSum=1.95;ClippingRankSum=-6.270e-01;DP=467;FS=5.612;GQ_MEAN=110.77;GQ_STDDEV=133.52;InbreedingCoeff=0.0526;MLEAC=36;MLEAF=0.818;MQ=45.58;MQ0=0;MQRankSum=-3.055e+00;NCC=2;QD=28.00;ReadPosRankSum=-1.197e+00;SOR=0.288;EFF=UPSTREAM(MODIFIER||1339||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:12:.:.:0,12,87	1/1:2,54:56:37:1|1:2461_G_T:2295,37,0	0/1:3,21:24:63:0|1:2461_G_T:873,0,63	0/1:14,15:29:99:0|1:2417_T_C:585,0,585	./.:0,0:0	1/1:0,33:33:99:1|1:2461_G_T:1630,111,0	1/1:0,40:40:99:1|1:2461_G_T:1800,120,0	1/1:0,15:15:48:1|1:2328_A_G:720,48,0	1/1:0,18:18:54:1|1:2328_A_G:810,54,0	1/1:0,12:12:36:1|1:2461_G_T:540,36,0	1/1:0,9:9:27:1|1:2461_G_T:383,27,0	1/1:0,34:34:99:1|1:2417_T_C:1620,108,0	1/1:0,4:4:12:1|1:2461_G_T:180,12,0	1/1:0,9:9:27:1|1:2461_G_T:405,27,0	0/1:8,10:18:99:0|1:2461_G_T:393,0,348	1/1:0,25:25:75:1|1:2461_G_T:1125,75,0	1/1:0,13:13:45:1|1:2417_T_C:675,45,0	0/1:16,6:22:99:0|1:2454_G_A:204,0,654	0/1:9,5:14:99:0|1:2454_G_A:180,0,405	1/1:0,48:48:99:1|1:2461_G_T:2160,144,0	./.:2,0:2	1/1:0,2:2:6:1|1:2417_T_C:90,6,0	1/1:0,10:10:36:1|1:2417_T_C:540,36,0	0/1:5,17:22:99:0|1:2461_G_T:699,0,159
+chr1	2462	.	C	T	4614.22	.	AC=18;AF=0.409;AN=44;BaseQRankSum=0.141;ClippingRankSum=0.245;DP=472;FS=11.301;GQ_MEAN=151.27;GQ_STDDEV=163.04;InbreedingCoeff=-0.3802;MLEAC=18;MLEAF=0.409;MQ=41.08;MQ0=0;MQRankSum=-3.620e-01;NCC=2;QD=12.61;ReadPosRankSum=-1.770e-01;SOR=0.581;EFF=UPSTREAM(MODIFIER||1338||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:12:.:.:0,12,87	0/1:47,9:56:99:.:.:174,0,1978	0/1:11,13:24:99:.:.:394,0,423	0/1:14,15:29:99:0|1:2417_T_C:585,0,585	./.:0,0:0	0/0:35,0:35:90:.:.:0,90,1350	0/1:31,9:40:99:.:.:153,0,1222	0/1:9,6:15:99:0|1:2328_A_G:194,0,317	0/1:11,7:18:99:0|1:2328_A_G:115,0,281	0/1:5,7:12:99:.:.:131,0,103	0/1:1,7:8:63:0|1:2433_G_A:268,0,63	0/1:17,19:36:99:.:.:547,0,616	0/0:4,0:4:0:.:.:0,0,60	0/1:7,2:9:63:.:.:63,0,288	0/0:19,0:19:48:.:.:0,48,720	0/1:7,18:25:99:.:.:348,0,113	1/1:0,13:13:45:1|1:2417_T_C:675,45,0	0/0:23,0:23:44:.:.:0,44,509	0/0:15,0:15:21:.:.:0,21,307	0/1:15,33:48:99:.:.:645,0,264	./.:2,0:2	1/1:0,2:2:6:1|1:2417_T_C:90,6,0	0/1:4,5:9:99:.:.:205,0,172	0/1:15,7:22:99:.:.:122,0,395
+chr1	2468	.	G	A	17573.72	.	AC=36;AF=0.818;AN=44;BaseQRankSum=2.26;ClippingRankSum=-6.500e-02;DP=463;FS=5.301;GQ_MEAN=116.41;GQ_STDDEV=137.85;InbreedingCoeff=0.0524;MLEAC=36;MLEAF=0.818;MQ=46.21;MQ0=0;MQRankSum=-3.168e+00;NCC=2;QD=36.30;ReadPosRankSum=-4.950e-01;SOR=0.341;EFF=UPSTREAM(MODIFIER||1332||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:12:.:.:0,12,87	1/1:1,55:56:82:1|1:2461_G_T:2385,82,0	0/1:3,16:19:75:0|1:2461_G_T:705,0,75	0/1:14,15:29:99:0|1:2417_T_C:585,0,585	./.:0,0:0	1/1:0,37:37:99:1|1:2461_G_T:1714,117,0	1/1:0,37:37:99:1|1:2461_G_T:1654,111,0	1/1:0,14:14:48:1|1:2328_A_G:700,48,0	1/1:0,17:17:57:1|1:2328_A_G:855,57,0	1/1:0,11:11:39:1|1:2461_G_T:565,39,0	1/1:0,8:8:27:1|1:2461_G_T:385,27,0	1/1:0,35:35:99:1|1:2417_T_C:1620,108,0	1/1:0,4:4:12:1|1:2461_G_T:180,12,0	1/1:0,9:9:27:1|1:2461_G_T:405,27,0	0/1:10,10:20:99:0|1:2461_G_T:390,0,390	1/1:0,23:23:72:1|1:2461_G_T:1080,72,0	1/1:0,13:13:39:1|1:2417_T_C:585,39,0	0/1:16,6:22:99:0|1:2454_G_A:204,0,654	0/1:11,6:17:99:0|1:2454_G_A:219,0,444	1/1:0,49:49:99:1|1:2461_G_T:2250,151,0	./.:2,0:2	1/1:0,2:2:6:1|1:2417_T_C:90,6,0	1/1:0,8:8:24:1|1:2417_T_C:360,24,0	0/1:5,18:23:99:0|1:2461_G_T:728,0,156
+chr1	2470	.	T	C	17335.06	.	AC=36;AF=0.818;AN=44;BaseQRankSum=-1.216e+00;ClippingRankSum=0.634;DP=466;FS=4.071;GQ_MEAN=115.68;GQ_STDDEV=131.37;InbreedingCoeff=0.3787;MLEAC=37;MLEAF=0.841;MQ=46.14;MQ0=0;MQRankSum=-2.870e+00;NCC=2;QD=30.48;ReadPosRankSum=-3.520e-01;SOR=0.343;EFF=UPSTREAM(MODIFIER||1330||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:9:.:.:0,9,135	1/1:1,55:56:99:1|1:2461_G_T:2430,124,0	0/1:3,16:19:78:0|1:2461_G_T:663,0,78	0/1:13,14:27:99:0|1:2417_T_C:588,0,543	./.:1,0:1	1/1:0,39:39:99:1|1:2461_G_T:1714,117,0	1/1:0,37:37:99:1|1:2461_G_T:1723,117,0	1/1:0,15:15:45:1|1:2328_A_G:655,45,0	1/1:0,17:17:51:1|1:2328_A_G:765,51,0	1/1:0,11:11:36:1|1:2461_G_T:520,36,0	1/1:0,9:9:27:1|1:2461_G_T:385,27,0	1/1:0,35:35:99:1|1:2417_T_C:1575,105,0	1/1:0,4:4:12:1|1:2461_G_T:180,12,0	1/1:0,9:9:27:1|1:2461_G_T:405,27,0	0/1:10,10:20:99:0|1:2461_G_T:390,0,390	1/1:0,23:23:69:1|1:2461_G_T:1035,69,0	1/1:0,12:12:39:1|1:2417_T_C:585,39,0	0/1:16,6:22:99:0|1:2454_G_A:204,0,654	0/1:11,6:17:99:0|1:2454_G_A:219,0,444	1/1:0,49:49:99:1|1:2461_G_T:2205,147,0	./.:3,0:3	1/1:0,2:2:6:1|1:2417_T_C:90,6,0	1/1:0,8:8:24:1|1:2417_T_C:360,24,0	0/1:5,18:23:99:0|1:2461_G_T:728,0,156
+chr1	2496	.	T	G	1326.96	.	AC=8;AF=0.167;AN=48;BaseQRankSum=-1.408e+00;ClippingRankSum=0.171;DP=459;FS=6.901;GQ_MEAN=75.00;GQ_STDDEV=102.41;MLEAC=8;MLEAF=0.167;MQ=50.96;MQ0=0;MQRankSum=1.38;NCC=0;QD=6.74;ReadPosRankSum=0.717;SOR=0.954;EFF=UPSTREAM(MODIFIER||1304||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:3,0:3:6:.:.:0,6,90	0/0:54,0:54:54:.:.:0,54,810	0/0:20,0:20:39:.:.:0,39,585	0/0:25,0:25:72:.:.:0,72,1080	0/0:2,0:2:6:.:.:0,6,46	0/1:13,26:39:99:.:.:510,0,468	0/1:30,4:34:56:.:.:56,0,1175	0/1:7,8:15:99:0|1:2328_A_G:243,0,270	0/0:20,0:20:51:.:.:0,51,765	0/1:6,5:11:89:.:.:89,0,237	0/0:7,0:7:15:.:.:0,15,225	0/0:34,0:34:57:.:.:0,57,855	0/1:2,4:6:72:.:.:80,0,72	0/0:10,0:10:5:.:.:0,5,204	0/0:20,2:22:16:.:.:0,16,589	0/1:16,9:25:99:.:.:133,0,604	0/0:14,0:14:30:.:.:0,30,450	0/0:20,0:20:45:.:.:0,45,675	0/0:19,0:19:27:.:.:0,27,405	0/1:32,12:44:99:.:.:147,0,1331	0/0:3,0:3:6:.:.:0,6,90	0/0:2,0:2:6:.:.:0,6,45	0/0:4,0:4:6:.:.:0,6,90	0/1:14,9:23:99:.:.:151,0,380
+chr1	2499	.	T	A	4739.06	.	AC=13;AF=0.271;AN=48;BaseQRankSum=0.152;ClippingRankSum=0.041;DP=454;FS=0.906;GQ_MEAN=136.38;GQ_STDDEV=158.53;InbreedingCoeff=-0.4043;MLEAC=13;MLEAF=0.271;MQ=52.24;MQ0=0;MQRankSum=-7.600e-01;NCC=0;QD=16.34;ReadPosRankSum=0.00;SOR=0.636;EFF=UPSTREAM(MODIFIER||1301||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:3,0:3:6:.:.:0,6,90	0/1:12,40:52:99:0|1:2499_T_A:1632,0,419	0/1:13,8:21:99:0|1:2499_T_A:297,0,512	0/0:25,0:25:66:.:.:0,66,990	0/0:3,0:3:9:.:.:0,9,69	0/1:26,13:39:99:0|1:2499_T_A:465,0,1095	0/1:7,24:31:99:0|1:2499_T_A:952,0,222	0/1:13,2:15:45:0|1:2328_A_G:45,0,540	0/1:17,3:20:72:0|1:2328_A_G:72,0,747	0/0:12,0:12:11:.:.:0,11,243	0/0:7,0:7:15:.:.:0,15,225	0/1:21,14:35:99:0|1:2499_T_A:564,0,835	0/1:4,2:6:59:0|1:2499_T_A:59,0,162	0/1:7,3:10:84:0|1:2499_T_A:84,0,287	0/1:16,6:22:99:0|1:2499_T_A:204,0,632	0/0:24,0:24:63:.:.:0,63,945	0/0:11,0:11:27:.:.:0,27,405	0/1:13,6:19:99:0|1:2499_T_A:213,0,528	0/1:14,6:20:99:0|1:2499_T_A:210,0,497	0/0:45,0:45:99:.:.:0,120,1800	0/0:3,0:3:6:.:.:0,6,90	0/0:2,0:2:6:.:.:0,6,45	0/1:2,1:3:36:0|1:2499_T_A:36,0,81	0/0:22,0:22:54:.:.:0,54,810
+chr1	2502	.	C	A	5094.18	.	AC=19;AF=0.413;AN=46;BaseQRankSum=2.14;ClippingRankSum=0.449;DP=455;FS=3.511;GQ_MEAN=121.70;GQ_STDDEV=140.88;InbreedingCoeff=-0.2200;MLEAC=19;MLEAF=0.413;MQ=50.49;MQ0=0;MQRankSum=-6.190e-01;NCC=1;QD=15.03;ReadPosRankSum=-4.710e-01;SOR=0.537;EFF=UPSTREAM(MODIFIER||1298||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:2,0:2:6:.:.:0,6,43	0/1:42,9:51:99:.:.:199,0,1871	0/1:12,10:22:99:.:.:176,0,493	0/1:10,15:25:99:0|1:2502_C_A:481,0,292	1/1:0,3:3:9:.:.:74,9,0	0/0:38,0:38:72:.:.:0,72,1080	0/1:27,3:30:17:.:.:17,0,1176	0/1:10,5:15:99:0|1:2328_A_G:121,0,394	0/1:3,18:21:72:0|1:2328_A_G:747,0,72	0/1:5,9:14:99:.:.:265,0,161	1/1:0,7:7:21:1|1:2502_C_A:237,21,0	0/1:15,21:36:99:0|1:2502_C_A:647,0,567	0/0:6,0:6:12:.:.:0,12,180	0/1:3,5:8:99:0|1:2502_C_A:159,0,121	0/0:22,0:22:45:.:.:0,45,675	0/1:9,16:25:99:.:.:429,0,306	1/1:0,10:10:30:1|1:2502_C_A:370,30,0	0/0:20,0:20:34:.:.:0,34,394	0/0:19,0:19:30:.:.:0,30,450	0/1:11,36:47:99:.:.:1114,0,342	./.:4,0:4	0/0:1,0:1:3:0|1:2502_C_A:0,3,45	0/1:2,2:4:34:.:.:34,0,120	0/1:16,5:21:99:.:.:129,0,488
+chr1	2503	.	G	A	5100.87	.	AC=13;AF=0.283;AN=46;BaseQRankSum=1.07;ClippingRankSum=-2.550e-01;DP=453;FS=0.432;GQ_MEAN=156.35;GQ_STDDEV=181.39;InbreedingCoeff=-0.4176;MLEAC=13;MLEAF=0.283;MQ=52.65;MQ0=0;MQRankSum=-1.067e+00;NCC=1;QD=17.29;ReadPosRankSum=0.479;SOR=0.655;EFF=UPSTREAM(MODIFIER||1297||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:2,0:2:6:.:.:0,6,43	0/1:12,39:51:99:0|1:2499_T_A:1695,0,416	0/1:14,9:23:99:0|1:2499_T_A:333,0,617	0/0:24,0:24:66:.:.:0,66,990	0/0:3,0:3:9:.:.:0,9,70	0/1:25,13:38:99:0|1:2499_T_A:555,0,1005	0/1:8,23:31:99:0|1:2499_T_A:949,0,288	0/1:13,2:15:45:0|1:2328_A_G:45,0,540	0/1:17,3:20:72:0|1:2328_A_G:72,0,747	0/0:16,0:16:22:.:.:0,22,325	0/0:7,0:7:15:.:.:0,15,225	0/1:21,15:36:99:0|1:2499_T_A:645,0,892	0/1:6,2:8:53:0|1:2499_T_A:53,0,246	0/1:6,2:8:63:0|1:2499_T_A:63,0,290	0/1:16,6:22:99:0|1:2499_T_A:198,0,716	0/0:22,0:22:60:.:.:0,60,900	0/0:10,0:10:27:.:.:0,27,405	0/1:14,6:20:99:0|1:2499_T_A:210,0,570	0/1:11,7:18:99:0|1:2499_T_A:255,0,473	0/0:44,0:44:99:.:.:0,120,1800	./.:4,0:4	0/0:2,0:2:6:.:.:0,6,41	0/1:2,3:5:75:0|1:2499_T_A:120,0,75	0/0:20,0:20:57:.:.:0,57,855
+chr1	2507	.	GATATTA	G	5087.01	.	AC=13;AF=0.271;AN=48;BaseQRankSum=-3.170e-01;ClippingRankSum=0.671;DP=474;FS=2.513;GQ_MEAN=159.58;GQ_STDDEV=196.59;InbreedingCoeff=-0.4163;MLEAC=14;MLEAF=0.292;MQ=51.77;MQ0=0;MQRankSum=-1.267e+00;NCC=0;QD=8.07;ReadPosRankSum=0.041;SOR=0.552;EFF=UPSTREAM(MODIFIER||1292||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:2,0:2:3:.:.:0,3,45	0/1:13,40:53:99:0|1:2499_T_A:1625,0,506	0/1:17,9:26:99:0|1:2499_T_A:327,0,724	0/0:24,0:24:66:.:.:0,66,990	0/0:4,0:4:12:.:.:0,12,93	0/1:26,13:39:99:0|1:2499_T_A:552,0,1047	0/1:9,22:31:99:0|1:2499_T_A:939,0,334	0/1:15,2:17:36:0|1:2328_A_G:36,0,645	0/1:18,3:21:72:0|1:2328_A_G:72,0,747	0/0:15,0:15:45:.:.:0,45,354	0/0:6,0:6:18:.:.:0,18,144	0/1:25,19:44:99:0|1:2499_T_A:723,0,993	0/1:7,2:9:50:0|1:2499_T_A:50,0,288	0/1:5,2:7:69:0|1:2499_T_A:69,0,228	0/1:17,6:23:99:0|1:2499_T_A:201,0,696	0/0:22,0:22:60:.:.:0,60,900	0/0:12,0:12:33:.:.:0,33,495	0/1:14,6:20:99:0|1:2499_T_A:210,0,570	0/1:13,7:20:99:0|1:2499_T_A:255,0,525	0/0:44,0:44:99:.:.:0,120,1800	0/0:4,0:4:0:.:.:0,0,41	0/0:2,0:2:6:.:.:0,6,41	0/1:2,3:5:75:0|1:2499_T_A:120,0,75	0/0:20,0:20:57:.:.:0,57,855
+chr1	2520	.	A	G	4046.59	.	AC=18;AF=0.375;AN=48;BaseQRankSum=-2.693e+00;ClippingRankSum=-3.470e-01;DP=479;FS=0.384;GQ_MEAN=115.50;GQ_STDDEV=154.69;InbreedingCoeff=-0.3157;MLEAC=20;MLEAF=0.417;MQ=51.77;MQ0=0;MQRankSum=-4.820e-01;NCC=0;QD=12.15;ReadPosRankSum=-4.920e-01;SOR=0.738;EFF=UPSTREAM(MODIFIER||1280||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:4,0:4:0:.:.:0,0,8	0/1:41,11:52:99:.:.:239,0,1738	0/1:14,13:27:99:.:.:132,0,527	0/1:13,14:27:99:0|1:2502_C_A:468,0,354	0/1:1,5:6:7:.:.:101,0,7	0/0:38,0:38:99:.:.:0,99,1485	0/0:24,3:27:28:.:.:0,28,1163	0/1:9,5:14:99:0|1:2328_A_G:140,0,382	0/1:3,16:19:75:0|1:2328_A_G:705,0,75	0/1:6,10:16:93:.:.:93,0,103	1/1:0,8:8:23:1|1:2502_C_A:229,23,0	0/1:19,25:44:99:0|1:2502_C_A:712,0,721	0/0:8,0:8:0:.:.:0,0,149	0/1:3,4:7:99:0|1:2502_C_A:139,0,103	0/0:21,0:21:60:.:.:0,60,900	0/1:10,13:23:99:.:.:131,0,304	1/1:0,16:16:47:1|1:2502_C_A:468,47,0	0/0:22,0:22:45:.:.:0,45,500	0/0:21,0:21:43:.:.:0,43,468	0/1:13,34:47:99:.:.:394,0,247	0/0:3,0:3:0:.:.:0,0,24	0/1:1,2:3:24:0|1:2502_C_A:24,0,36	0/1:3,2:5:34:.:.:34,0,120	0/1:13,6:19:99:.:.:136,0,316
+chr1	2552	.	G	T	6879.78	.	AC=30;AF=0.625;AN=48;BaseQRankSum=2.37;ClippingRankSum=0.00;DP=460;FS=1.202;GQ_MEAN=82.92;GQ_STDDEV=75.66;InbreedingCoeff=-0.3673;MLEAC=32;MLEAF=0.667;MQ=58.24;MQ0=0;MQRankSum=-6.830e-01;NCC=0;QD=15.36;ReadPosRankSum=-5.300e-02;SOR=0.831;EFF=UPSTREAM(MODIFIER||1248||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:4,5:9:56:.:.:97,0,56	1/1:3,44:47:66:.:.:1012,66,0	1/1:3,28:31:21:.:.:610,21,0	0/1:15,15:30:99:.:.:289,0,269	1/1:0,10:10:30:.:.:240,30,0	0/1:20,16:36:99:.:.:263,0,373	0/1:7,24:31:76:.:.:494,0,76	0/1:5,3:8:54:0|1:2328_A_G:54,0,82	1/1:0,12:12:36:1|1:2328_A_G:328,36,0	0/1:5,9:14:77:.:.:184,0,77	1/1:0,9:9:27:.:.:228,27,0	1/1:0,42:42:99:.:.:1302,132,0	0/0:6,0:6:0:.:.:0,0,94	0/1:2,8:10:17:.:.:172,0,17	0/1:17,8:25:99:.:.:126,0,374	0/1:8,8:16:99:.:.:155,0,129	1/1:0,13:13:39:.:.:328,39,0	0/1:7,7:14:99:.:.:133,0,124	0/1:12,10:22:99:.:.:182,0,218	0/1:11,27:38:99:.:.:538,0,135	0/0:3,0:3:0:.:.:0,0,26	0/1:1,2:3:15:.:.:38,0,15	1/1:0,4:4:12:.:.:99,12,0	0/1:17,7:24:99:.:.:104,0,333
+chr1	2580	.	G	A	4162.44	.	AC=14;AF=0.292;AN=48;BaseQRankSum=1.88;ClippingRankSum=-1.980e-01;DP=452;FS=3.789;GQ_MEAN=162.00;GQ_STDDEV=201.45;InbreedingCoeff=0.1762;MLEAC=15;MLEAF=0.313;MQ=60.00;MQ0=0;MQRankSum=-2.410e-01;NCC=0;QD=13.97;ReadPosRankSum=-1.460e-01;SOR=0.805;EFF=UPSTREAM(MODIFIER||1220||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:9,2:11:18:.:.:18,0,267	0/1:17,30:47:99:0|1:2580_G_A:1105,0,689	0/1:21,14:35:99:0|1:2580_G_A:477,0,913	0/0:23,0:23:63:.:.:0,63,945	0/1:10,2:12:34:.:.:34,0,414	0/1:24,18:42:99:.:.:293,0,451	0/1:9,16:25:99:0|1:2580_G_A:605,0,327	0/0:8,0:8:0:.:.:0,0,140	0/1:5,4:9:99:0|1:2580_G_A:153,0,156	0/0:13,0:13:39:.:.:0,39,313	0/0:9,0:9:27:.:.:0,27,210	0/1:22,17:39:99:0|1:2580_G_A:648,0,873	0/0:7,0:7:0:.:.:0,0,117	0/1:5,2:7:46:.:.:46,0,98	0/1:11,11:22:99:0|1:2580_G_A:366,0,473	0/0:16,0:16:48:.:.:0,48,369	0/0:13,0:13:39:.:.:0,39,310	0/1:8,7:15:99:.:.:131,0,148	0/1:14,10:24:99:.:.:180,0,306	0/0:37,0:37:99:.:.:0,99,966	0/0:3,0:3:0:.:.:0,0,22	0/1:2,2:4:37:.:.:37,0,78	0/1:3,3:6:99:0|1:2580_G_A:159,0,114	0/0:22,0:22:60:.:.:0,60,900
+chr1	2585	.	A	C	6549.52	.	AC=21;AF=0.438;AN=48;BaseQRankSum=-1.826e+00;ClippingRankSum=-3.860e-01;DP=463;FS=15.505;GQ_MEAN=175.21;GQ_STDDEV=206.78;InbreedingCoeff=-0.4740;MLEAC=22;MLEAF=0.458;MQ=54.34;MQ0=0;MQRankSum=-1.070e-01;NCC=0;QD=17.80;ReadPosRankSum=-4.640e-01;SOR=0.764;EFF=UPSTREAM(MODIFIER||1215||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:7,4:11:99:.:.:147,0,285	0/1:34,13:47:99:0|1:2585_A_C:435,0,1486	0/1:16,18:34:99:1|0:2580_G_A:770,0,669	0/1:11,12:23:99:0|1:2585_A_C:460,0,407	0/1:2,10:12:54:.:.:383,0,54	0/0:40,0:40:81:.:.:0,81,1215	0/1:24,3:27:51:0|1:2585_A_C:51,0,1041	0/1:6,2:8:66:0|1:2328_A_G:66,0,246	0/1:5,3:8:89:0|1:2585_A_C:89,0,177	0/1:4,9:13:99:0|1:2585_A_C:366,0,141	1/1:0,11:11:33:1|1:2585_A_C:495,33,0	0/1:17,22:39:99:1|0:2580_G_A:873,0,648	0/0:7,0:7:21:.:.:0,21,166	0/0:5,0:5:0:.:.:0,0,77	0/0:22,0:22:60:.:.:0,60,549	0/1:7,11:18:99:0|1:2585_A_C:431,0,261	1/1:0,13:13:39:1|1:2585_A_C:562,39,0	0/0:17,0:17:27:.:.:0,27,383	0/1:22,2:24:18:0|1:2585_A_C:18,0,904	0/1:15,26:41:99:0|1:2585_A_C:1059,0,546	0/1:1,2:3:36:0|1:2585_A_C:70,0,36	0/1:4,2:6:69:0|1:2585_A_C:69,0,131	0/1:4,3:7:99:0|1:2585_A_C:104,0,159	0/1:16,7:23:99:0|1:2585_A_C:203,0,631
+chr1	2591	.	G	A	6759.81	.	AC=23;AF=0.479;AN=48;BaseQRankSum=1.30;ClippingRankSum=-2.590e-01;DP=474;FS=18.379;GQ_MEAN=184.25;GQ_STDDEV=215.17;InbreedingCoeff=-0.5920;MLEAC=23;MLEAF=0.479;MQ=55.21;MQ0=0;MQRankSum=0.011;NCC=0;QD=17.42;ReadPosRankSum=0.181;SOR=0.788;EFF=UPSTREAM(MODIFIER||1209||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:9,4:13:99:.:.:141,0,350	0/1:34,14:48:99:0|1:2585_A_C:466,0,1418	0/1:17,19:36:99:1|0:2580_G_A:786,0,753	0/1:10,13:23:99:0|1:2585_A_C:482,0,404	0/1:2,9:11:54:.:.:384,0,54	0/0:37,0:37:72:.:.:0,72,1080	0/1:25,3:28:51:0|1:2585_A_C:51,0,1041	0/1:6,2:8:66:.:.:66,0,246	0/1:6,2:8:66:0|1:2585_A_C:66,0,246	0/1:4,9:13:99:0|1:2585_A_C:366,0,141	1/1:1,11:12:10:1|1:2585_A_C:469,10,0	0/1:17,20:37:99:1|0:2580_G_A:831,0,651	0/1:4,3:7:94:0|1:2591_G_A:94,0,201	0/1:3,2:5:75:.:.:75,0,79	0/0:23,0:23:57:.:.:0,57,855	0/1:7,11:18:99:0|1:2585_A_C:431,0,261	1/1:0,13:13:39:1|1:2585_A_C:562,39,0	0/0:17,0:17:26:.:.:0,26,366	0/1:21,2:23:15:0|1:2585_A_C:15,0,945	0/1:15,30:45:99:0|1:2585_A_C:1101,0,540	0/1:1,2:3:36:0|1:2585_A_C:70,0,36	0/1:4,2:6:72:0|1:2585_A_C:72,0,89	0/1:4,3:7:99:0|1:2585_A_C:104,0,159	0/1:16,8:24:99:0|1:2585_A_C:228,0,628
+chr1	2601	.	A	T	5507.81	.	AC=14;AF=0.292;AN=48;BaseQRankSum=-8.950e-01;ClippingRankSum=0.231;DP=489;FS=5.951;GQ_MEAN=207.46;GQ_STDDEV=238.79;InbreedingCoeff=-0.4314;MLEAC=14;MLEAF=0.292;MQ=60.00;MQ0=0;MQRankSum=-1.980e-01;NCC=0;QD=17.77;ReadPosRankSum=0.416;SOR=1.006;EFF=UPSTREAM(MODIFIER||1199||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:12,3:15:90:0|1:2601_A_T:90,0,499	0/1:20,30:50:99:0|1:2580_G_A:1199,0,815	0/1:23,15:38:99:0|1:2580_G_A:590,0,1011	0/0:25,0:25:60:.:.:0,60,900	0/1:10,2:12:51:0|1:2601_A_T:51,0,436	0/1:26,15:41:99:0|1:2601_A_T:546,0,1038	0/1:10,15:25:99:0|1:2580_G_A:600,0,375	0/0:11,0:11:8:.:.:0,8,217	0/1:3,7:10:99:0|1:2580_G_A:282,0,127	0/0:12,0:12:21:.:.:0,21,315	0/0:16,0:16:21:.:.:0,21,315	0/1:18,15:33:99:0|1:2580_G_A:632,0,747	0/1:5,4:9:99:0|1:2591_G_A:136,0,198	0/1:2,5:7:50:0|1:2601_A_T:204,0,50	0/1:12,10:22:99:0|1:2580_G_A:384,0,498	0/0:17,0:17:39:.:.:0,39,585	0/0:13,0:13:27:.:.:0,27,405	0/1:9,9:18:99:0|1:2601_A_T:351,0,351	0/1:13,10:23:99:0|1:2601_A_T:380,0,521	0/0:47,0:47:87:.:.:0,87,1305	0/0:2,0:2:6:.:.:0,6,42	0/0:8,0:8:9:.:.:0,9,135	0/1:3,4:7:99:0|1:2580_G_A:159,0,114	0/0:23,0:23:60:.:.:0,60,900
+chr1	2602	.	C	T	5465.84	.	AC=14;AF=0.292;AN=48;BaseQRankSum=1.75;ClippingRankSum=0.198;DP=488;FS=5.185;GQ_MEAN=205.33;GQ_STDDEV=235.96;InbreedingCoeff=-0.4317;MLEAC=14;MLEAF=0.292;MQ=60.00;MQ0=0;MQRankSum=-3.530e-01;NCC=0;QD=17.75;ReadPosRankSum=0.155;SOR=0.976;EFF=UPSTREAM(MODIFIER||1198||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:12,3:15:90:0|1:2601_A_T:90,0,499	0/1:20,29:49:99:0|1:2580_G_A:1199,0,815	0/1:22,15:37:99:0|1:2580_G_A:590,0,1011	0/0:25,0:25:60:.:.:0,60,900	0/1:11,2:13:51:0|1:2601_A_T:51,0,436	0/1:26,15:41:99:0|1:2601_A_T:546,0,1038	0/1:10,15:25:99:0|1:2580_G_A:600,0,375	0/0:11,0:11:8:.:.:0,8,217	0/1:3,6:9:99:0|1:2580_G_A:282,0,127	0/0:12,0:12:21:.:.:0,21,315	0/0:16,0:16:21:.:.:0,21,315	0/1:17,16:33:99:0|1:2580_G_A:590,0,750	0/1:5,4:9:99:0|1:2591_G_A:136,0,198	0/1:2,5:7:50:0|1:2601_A_T:204,0,50	0/1:12,10:22:99:0|1:2580_G_A:384,0,498	0/0:17,0:17:39:.:.:0,39,585	0/0:14,0:14:21:.:.:0,21,315	0/1:9,9:18:99:0|1:2601_A_T:351,0,351	0/1:13,10:23:99:0|1:2601_A_T:380,0,521	0/0:47,0:47:87:.:.:0,87,1305	0/0:2,0:2:6:.:.:0,6,42	0/0:8,0:8:9:.:.:0,9,135	0/1:3,4:7:99:0|1:2580_G_A:159,0,114	0/0:23,0:23:57:.:.:0,57,855
+chr1	2632	.	A	AC	14721.81	.	AC=42;AF=0.875;AN=48;BaseQRankSum=0.906;ClippingRankSum=-1.400e-01;DP=480;FS=1.843;GQ_MEAN=82.88;GQ_STDDEV=90.26;InbreedingCoeff=-0.1592;MLEAC=42;MLEAF=0.875;MQ=54.94;MQ0=0;MQRankSum=-6.340e-01;NCC=0;QD=31.19;ReadPosRankSum=0.097;SOR=0.535;EFF=UPSTREAM(MODIFIER||1167||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:11,7:18:99:.:.:205,0,379	1/1:4,44:48:3:.:.:1211,3,0	1/1:1,36:37:85:1|1:2580_G_A:1560,85,0	0/1:12,16:28:99:.:.:519,0,375	1/1:0,12:12:36:.:.:457,36,0	1/1:0,38:38:99:.:.:1168,114,0	1/1:0,23:23:75:1|1:2580_G_A:1007,75,0	1/1:0,12:12:36:.:.:489,36,0	1/1:0,11:11:33:1|1:2580_G_A:470,33,0	1/1:0,13:13:39:.:.:483,39,0	1/1:0,14:14:42:.:.:460,42,0	1/1:0,29:29:90:1|1:2580_G_A:1281,90,0	1/1:0,6:6:18:.:.:193,18,0	1/1:0,5:5:15:.:.:153,15,0	0/1:2,12:14:33:.:.:478,0,33	1/1:0,21:21:63:.:.:836,63,0	1/1:0,12:12:36:.:.:442,36,0	0/1:11,11:22:99:.:.:286,0,259	0/1:8,15:23:99:.:.:405,0,175	1/1:0,45:45:99:.:.:1507,135,0	1/1:0,2:2:6:.:.:75,6,0	1/1:0,9:9:27:.:.:343,27,0	1/1:0,7:7:21:.:.:202,21,0	0/1:5,18:23:68:.:.:567,0,68
+chr1	2644	.	A	G	1303.23	.	AC=11;AF=0.229;AN=48;BaseQRankSum=-2.044e+00;ClippingRankSum=0.085;DP=459;FS=1.654;GQ_MEAN=63.67;GQ_STDDEV=48.33;InbreedingCoeff=-0.2896;MLEAC=11;MLEAF=0.229;MQ=55.21;MQ0=0;MQRankSum=0.669;NCC=0;QD=5.77;ReadPosRankSum=-5.500e-01;SOR=0.822;EFF=UPSTREAM(MODIFIER||1156||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:20,0:20:57:.:.:0,57,855	0/0:42,0:42:99:.:.:0,117,1755	0/0:32,0:32:90:.:.:0,90,1350	0/0:25,0:25:66:.:.:0,66,990	0/0:9,0:9:24:.:.:0,24,360	0/1:10,24:34:99:.:.:465,0,140	0/1:19,3:22:1:0|1:2580_G_A:1,0,439	0/1:4,10:14:58:.:.:188,0,58	0/1:10,3:13:31:0|1:2580_G_A:31,0,211	0/1:7,7:14:99:.:.:125,0,133	0/1:9,3:12:37:.:.:37,0,190	0/0:24,0:24:60:.:.:0,60,900	0/1:3,4:7:52:.:.:73,0,52	0/0:3,0:3:0:.:.:0,0,27	0/1:14,6:20:72:.:.:72,0,311	0/1:15,7:22:99:.:.:107,0,297	0/0:12,0:12:33:.:.:0,33,495	0/0:23,0:23:60:.:.:0,60,900	0/0:22,0:22:63:.:.:0,63,945	0/1:34,14:48:99:.:.:197,0,702	0/0:4,0:4:0:.:.:0,0,4	0/0:9,0:9:27:.:.:0,27,204	0/0:6,0:6:18:.:.:0,18,148	0/1:13,7:20:93:.:.:93,0,328
+chr1	2697	.	C	T	3146.8	.	AC=20;AF=0.417;AN=48;BaseQRankSum=1.67;ClippingRankSum=0.138;DP=416;FS=0.845;GQ_MEAN=97.17;GQ_STDDEV=82.50;InbreedingCoeff=-0.3730;MLEAC=20;MLEAF=0.417;MQ=60.00;MQ0=0;MQRankSum=-8.760e-01;NCC=0;QD=9.80;ReadPosRankSum=0.533;SOR=0.639;EFF=UPSTREAM(MODIFIER||1103||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:8,6:14:94:.:.:94,0,152	0/1:28,12:40:99:.:.:172,0,549	0/1:14,15:29:99:0|1:2580_G_A:284,0,283	0/1:11,12:23:99:.:.:233,0,198	0/1:1,7:8:0:.:.:151,0,0	0/0:27,0:27:81:.:.:0,81,657	0/1:11,7:18:99:0|1:2580_G_A:118,0,211	0/1:9,5:14:85:.:.:85,0,173	0/1:4,5:9:70:0|1:2580_G_A:100,0,70	0/1:8,8:16:99:.:.:153,0,147	0/1:2,7:9:20:.:.:146,0,20	0/1:11,17:28:99:0|1:2580_G_A:337,0,185	0/0:5,0:5:12:.:.:0,12,180	0/0:2,0:2:0:.:.:0,0,1	0/0:20,0:20:51:.:.:0,51,765	0/1:13,15:28:99:.:.:276,0,227	1/1:0,9:9:27:.:.:227,27,0	0/0:22,0:22:41:.:.:0,41,486	0/0:17,0:17:25:.:.:0,25,362	0/1:14,26:40:99:.:.:526,0,219	1/1:0,1:1:3:.:.:25,3,0	0/1:3,4:7:36:.:.:74,0,36	0/1:8,5:13:90:.:.:90,0,157	0/1:8,8:16:99:.:.:153,0,148
+chr1	2748	.	A	C	5507.19	.	AC=16;AF=0.381;AN=42;BaseQRankSum=0.156;ClippingRankSum=0.143;DP=455;FS=0.369;GQ_MEAN=164.81;GQ_STDDEV=163.56;InbreedingCoeff=-0.4812;MLEAC=17;MLEAF=0.405;MQ=54.80;MQ0=0;MQRankSum=0.359;NCC=3;QD=14.34;ReadPosRankSum=-2.980e-01;SOR=0.728;EFF=UPSTREAM(MODIFIER||1052||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:7,0:7:12:.:.:0,12,180	0/1:15,34:49:99:.:.:655,0,258	0/1:26,12:38:99:0|1:2580_G_A:160,0,647	0/0:29,0:29:48:.:.:0,48,720	0/0:8,0:8:6:.:.:0,6,90	1/1:0,31:31:96:1|1:2748_A_C:1337,96,0	0/1:10,19:29:99:0|1:2580_G_A:403,0,153	0/1:6,11:17:99:.:.:380,0,177	./.:7,0:7	0/1:11,3:14:51:.:.:51,0,370	0/1:7,3:10:83:.:.:83,0,264	0/1:18,16:34:99:0|1:2580_G_A:284,0,331	./.:0,0:0	0/0:4,0:4:0:.:.:0,0,48	0/1:5,15:20:99:0|1:2748_A_C:532,0,410	0/1:14,14:28:99:.:.:504,0,500	0/0:9,0:9:9:.:.:0,9,135	0/1:8,7:15:99:0|1:2748_A_C:292,0,748	0/1:9,12:21:99:0|1:2748_A_C:227,0,818	0/1:30,19:49:99:.:.:539,0,1068	./.:1,0:1	0/0:4,0:4:9:.:.:0,9,135	0/1:5,6:11:86:.:.:86,0,91	0/1:15,3:18:61:.:.:61,0,545
+chr1	2762	.	A	AGT	16260.67	.	AC=36;AF=0.818;AN=44;BaseQRankSum=0.270;ClippingRankSum=0.208;DP=440;FS=2.830;GQ_MEAN=141.36;GQ_STDDEV=166.49;InbreedingCoeff=-0.2305;MLEAC=36;MLEAF=0.818;MQ=53.03;MQ0=0;MQRankSum=-1.480e+00;NCC=2;QD=30.48;ReadPosRankSum=0.346;SOR=0.709;EFF=UPSTREAM(MODIFIER||1037||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:3,5:8:99:0|1:2762_A_AGT:201,0,111	0/1:5,38:43:93:0|1:2762_A_AGT:1601,0,93	0/1:7,28:35:99:0|1:2580_G_A:1092,0,210	0/1:16,14:30:99:0|1:2762_A_AGT:540,0,609	1/1:0,7:7:21:1|1:2762_A_AGT:296,21,0	1/1:0,33:33:99:1|1:2748_A_C:1533,105,0	1/1:0,29:29:87:1|1:2580_G_A:1305,87,0	1/1:0,13:13:42:1|1:2762_A_AGT:587,42,0	1/1:0,10:10:30:1|1:2580_G_A:450,30,0	1/1:0,9:9:30:1|1:2762_A_AGT:450,30,0	1/1:0,11:11:33:1|1:2762_A_AGT:495,33,0	1/1:0,34:34:99:1|1:2580_G_A:1644,111,0	./.:2,0:2	1/1:0,4:4:12:1|1:2762_A_AGT:171,12,0	0/1:5,11:16:99:0|1:2748_A_C:489,0,415	1/1:0,27:27:87:1|1:2762_A_AGT:1221,87,0	1/1:0,11:11:33:1|1:2762_A_AGT:476,33,0	0/1:6,8:14:99:0|1:2748_A_C:318,0,707	0/1:9,14:23:99:0|1:2748_A_C:561,0,915	1/1:0,45:45:99:1|1:2762_A_AGT:2047,144,0	./.:1,0:1	1/1:0,3:3:9:1|1:2762_A_AGT:128,9,0	1/1:0,4:4:12:1|1:2762_A_AGT:180,12,0	0/1:3,13:16:99:0|1:2762_A_AGT:557,0,106
+chr1	2768	.	T	C	12457.24	.	AC=29;AF=0.659;AN=44;BaseQRankSum=-2.533e+00;ClippingRankSum=0.118;DP=419;FS=0.577;GQ_MEAN=199.36;GQ_STDDEV=195.77;InbreedingCoeff=-0.5297;MLEAC=29;MLEAF=0.659;MQ=52.05;MQ0=0;MQRankSum=-9.560e-01;NCC=2;QD=30.09;ReadPosRankSum=0.039;SOR=0.751;EFF=UPSTREAM(MODIFIER||1032||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:3,5:8:99:0|1:2762_A_AGT:201,0,111	0/1:5,37:42:90:0|1:2762_A_AGT:1629,0,90	0/1:7,26:33:99:0|1:2580_G_A:1103,0,213	0/1:15,14:29:99:0|1:2762_A_AGT:582,0,606	1/1:0,6:6:24:1|1:2762_A_AGT:319,24,0	0/1:19,14:33:99:0|1:2748_A_C:528,0,776	0/1:3,24:27:51:0|1:2580_G_A:1019,0,51	0/1:8,4:12:99:0|1:2768_T_C:144,0,324	1/1:0,10:10:30:1|1:2580_G_A:450,30,0	0/1:2,7:9:60:0|1:2768_T_C:308,0,60	0/1:2,9:11:57:0|1:2768_T_C:372,0,57	1/1:0,36:36:99:1|1:2580_G_A:1690,114,0	./.:2,0:2	1/1:0,3:3:12:1|1:2762_A_AGT:171,12,0	0/1:9,7:16:99:0|1:2748_A_C:267,0,806	0/1:12,16:28:99:0|1:2768_T_C:621,0,453	1/1:0,9:9:30:1|1:2762_A_AGT:449,30,0	0/1:5,7:12:99:0|1:2748_A_C:279,0,689	0/1:9,13:22:99:0|1:2748_A_C:519,0,921	0/1:13,30:43:99:0|1:2768_T_C:1241,0,453	./.:1,0:1	1/1:0,3:3:9:1|1:2762_A_AGT:128,9,0	1/1:0,4:4:12:1|1:2762_A_AGT:180,12,0	0/1:9,9:18:99:0|1:2768_T_C:348,0,373
+chr1	2769	.	C	A	12392.52	.	AC=29;AF=0.659;AN=44;BaseQRankSum=1.92;ClippingRankSum=-5.650e-01;DP=420;FS=0.579;GQ_MEAN=202.05;GQ_STDDEV=198.38;InbreedingCoeff=-0.5325;MLEAC=29;MLEAF=0.659;MQ=52.05;MQ0=0;MQRankSum=-1.134e+00;NCC=2;QD=29.86;ReadPosRankSum=-3.220e-01;SOR=0.766;EFF=UPSTREAM(MODIFIER||1031||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:3,5:8:99:0|1:2762_A_AGT:201,0,111	0/1:5,38:43:99:0|1:2762_A_AGT:1585,0,114	0/1:7,26:33:99:0|1:2580_G_A:1103,0,213	0/1:15,15:30:99:0|1:2762_A_AGT:585,0,585	1/1:0,6:6:24:1|1:2762_A_AGT:319,24,0	0/1:19,14:33:99:0|1:2748_A_C:528,0,776	0/1:3,24:27:51:0|1:2580_G_A:1019,0,51	0/1:8,4:12:99:0|1:2768_T_C:144,0,324	1/1:0,10:10:30:1|1:2580_G_A:450,30,0	0/1:2,8:10:60:0|1:2768_T_C:308,0,60	0/1:2,9:11:57:0|1:2768_T_C:372,0,57	1/1:0,36:36:99:1|1:2580_G_A:1690,114,0	./.:2,0:2	1/1:0,3:3:9:1|1:2762_A_AGT:135,9,0	0/1:8,7:15:99:0|1:2748_A_C:267,0,806	0/1:12,16:28:99:0|1:2768_T_C:621,0,453	1/1:0,9:9:30:1|1:2762_A_AGT:449,30,0	0/1:5,7:12:99:0|1:2748_A_C:279,0,689	0/1:9,13:22:99:0|1:2748_A_C:551,0,918	0/1:13,30:43:99:0|1:2768_T_C:1221,0,456	./.:1,0:1	1/1:0,2:2:9:1|1:2762_A_AGT:128,9,0	1/1:0,4:4:12:1|1:2762_A_AGT:180,12,0	0/1:9,9:18:99:0|1:2768_T_C:348,0,373
+chr1	2775	.	A	T	15828.54	.	AC=34;AF=0.739;AN=46;BaseQRankSum=-1.880e-01;ClippingRankSum=0.919;DP=430;FS=2.906;GQ_MEAN=134.52;GQ_STDDEV=166.45;InbreedingCoeff=-0.0052;MLEAC=35;MLEAF=0.761;MQ=54.37;MQ0=0;MQRankSum=-1.282e+00;NCC=1;QD=32.56;ReadPosRankSum=-9.300e-02;SOR=0.876;EFF=UPSTREAM(MODIFIER||1025||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:3,4:7:99:0|1:2762_A_AGT:201,0,111	0/1:6,38:44:99:0|1:2762_A_AGT:1617,0,111	0/1:6,27:33:99:0|1:2580_G_A:1106,0,171	0/1:14,16:30:99:0|1:2762_A_AGT:606,0,582	1/1:0,8:8:24:1|1:2762_A_AGT:319,24,0	1/1:0,33:33:99:1|1:2748_A_C:1499,105,0	1/1:0,31:31:93:1|1:2580_G_A:1336,93,0	1/1:0,13:13:42:1|1:2762_A_AGT:589,42,0	1/1:0,10:10:30:1|1:2580_G_A:450,30,0	1/1:0,10:10:30:1|1:2762_A_AGT:450,30,0	1/1:0,11:11:33:1|1:2762_A_AGT:495,33,0	1/1:0,37:37:99:1|1:2580_G_A:1678,114,0	./.:2,0:2	1/1:0,3:3:9:1|1:2762_A_AGT:135,9,0	0/1:5,10:15:99:0|1:2748_A_C:405,0,425	1/1:0,29:29:87:1|1:2762_A_AGT:1200,87,0	1/1:0,9:9:27:1|1:2762_A_AGT:385,27,0	0/1:4,7:11:99:0|1:2748_A_C:282,0,603	0/1:10,13:23:99:0|1:2748_A_C:555,0,938	1/1:0,45:45:99:1|1:2762_A_AGT:1968,135,0	0/0:1,0:1:3:.:.:0,3,24	0/0:3,0:3:6:.:.:0,6,90	1/1:0,3:3:9:1|1:2762_A_AGT:135,9,0	0/1:4,13:17:99:0|1:2762_A_AGT:512,0,130
+chr1	2792	.	A	G	1915.78	.	AC=9;AF=0.196;AN=46;BaseQRankSum=-3.241e+00;ClippingRankSum=-2.370e-01;DP=453;FS=4.386;GQ_MEAN=102.17;GQ_STDDEV=123.62;InbreedingCoeff=-0.2486;MLEAC=10;MLEAF=0.217;MQ=59.92;MQ0=0;MQRankSum=-1.102e+00;NCC=1;QD=7.95;ReadPosRankSum=0.546;SOR=0.969;EFF=UPSTREAM(MODIFIER||1008||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:8,0:8:21:.:.:0,21,315	0/1:14,33:47:99:.:.:485,0,303	0/1:23,9:32:78:0|1:2580_G_A:78,0,590	0/0:32,0:32:90:.:.:0,90,1350	0/0:9,0:9:27:.:.:0,27,212	0/1:20,14:34:99:0|1:2748_A_C:493,0,735	0/1:14,19:33:99:0|1:2580_G_A:285,0,305	0/0:19,0:19:33:.:.:0,33,421	0/1:7,3:10:14:0|1:2580_G_A:14,0,144	0/0:11,0:11:33:.:.:0,33,252	0/0:9,0:9:24:.:.:0,24,360	0/1:19,16:35:99:0|1:2580_G_A:163,0,363	./.:3,0:3	0/0:4,0:4:12:.:.:0,12,94	0/1:9,6:15:99:0|1:2748_A_C:225,0,695	0/0:34,0:34:99:.:.:0,99,1485	0/0:11,0:11:30:.:.:0,30,450	0/1:7,5:12:99:0|1:2748_A_C:189,0,675	0/1:15,8:23:66:0|1:2748_A_C:66,0,1205	0/0:42,0:42:99:.:.:0,108,1085	0/0:4,0:4:12:.:.:0,12,94	0/0:3,0:3:0:.:.:0,0,27	0/0:2,0:2:0:.:.:0,0,4	0/0:19,0:19:45:.:.:0,45,675
+chr1	2847	.	G	T	37.87	.	AC=1;AF=0.021;AN=48;BaseQRankSum=1.23;ClippingRankSum=-3.580e-01;DP=408;FS=3.979;GQ_MEAN=47.96;GQ_STDDEV=30.89;InbreedingCoeff=-0.0294;MLEAC=1;MLEAF=0.021;MQ=48.05;MQ0=0;MQRankSum=1.23;NCC=0;QD=7.57;ReadPosRankSum=-3.580e-01;SOR=0.061;EFF=UPSTREAM(MODIFIER||953||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:12,0:12:36:.:.:0,36,265	0/0:46,0:46:99:.:.:0,119,1098	0/0:20,0:20:54:.:.:0,54,810	0/0:22,0:22:60:.:.:0,60,544	0/0:4,0:4:9:.:.:0,9,135	0/0:32,0:32:90:.:.:0,90,1350	0/0:31,0:31:81:.:.:0,81,1215	0/0:12,0:12:36:.:.:0,36,256	0/0:14,0:14:36:.:.:0,36,540	0/0:9,0:9:27:.:.:0,27,205	0/0:11,0:11:27:.:.:0,27,405	0/0:23,0:23:60:.:.:0,60,900	0/0:7,0:7:18:.:.:0,18,270	0/0:5,0:5:15:.:.:0,15,106	0/0:11,0:11:33:.:.:0,33,228	0/0:26,0:26:72:.:.:0,72,1080	0/0:11,0:11:33:.:.:0,33,240	0/0:12,0:12:30:.:.:0,30,450	0/0:26,0:26:72:.:.:0,72,1080	0/0:42,0:42:99:.:.:0,108,1085	0/0:9,0:9:27:.:.:0,27,199	0/1:3,2:5:75:0|1:2847_G_T:75,0,120	0/0:7,0:7:6:.:.:0,6,117	0/0:10,0:10:27:.:.:0,27,405
+chr1	2859	.	TG	T	4631.08	.	AC=13;AF=0.271;AN=48;BaseQRankSum=0.322;ClippingRankSum=-1.900e-02;DP=421;FS=0.000;GQ_MEAN=130.08;GQ_STDDEV=147.35;InbreedingCoeff=-0.3844;MLEAC=13;MLEAF=0.271;MQ=57.46;MQ0=0;MQRankSum=0.097;NCC=0;QD=19.06;ReadPosRankSum=-2.630e-01;SOR=0.675;EFF=UPSTREAM(MODIFIER||940||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:11,3:14:90:0|1:2859_TG_T:90,0,494	0/1:14,44:58:99:0|1:2859_TG_T:1786,0,522	0/1:13,5:18:99:0|1:2859_TG_T:171,0,531	0/0:22,0:22:60:.:.:0,60,544	0/0:3,0:3:9:.:.:0,9,74	0/1:20,12:32:99:0|1:2859_TG_T:436,0,830	0/1:17,9:26:99:0|1:2859_TG_T:327,0,687	0/0:15,0:15:19:.:.:0,19,323	0/1:4,9:13:99:0|1:2859_TG_T:366,0,141	0/0:10,0:10:6:.:.:0,6,200	0/0:10,0:10:30:.:.:0,30,240	0/1:15,8:23:99:0|1:2859_TG_T:291,0,593	0/1:2,4:6:72:0|1:2859_TG_T:162,0,72	0/1:1,4:5:30:0|1:2859_TG_T:165,0,30	0/0:12,0:12:36:.:.:0,36,297	0/0:27,0:27:72:.:.:0,72,1080	0/0:11,0:11:33:.:.:0,33,240	0/1:9,3:12:96:0|1:2859_TG_T:96,0,411	0/1:10,14:24:99:0|1:2859_TG_T:558,0,378	0/0:42,0:42:99:.:.:0,108,1085	0/0:9,0:9:27:.:.:0,27,199	0/1:3,2:5:75:0|1:2847_G_T:75,0,120	0/1:2,5:7:69:0|1:2859_TG_T:204,0,69	0/0:10,0:10:24:.:.:0,24,360
+chr1	2862	.	T	TC	4675.82	.	AC=13;AF=0.271;AN=48;BaseQRankSum=0.627;ClippingRankSum=0.254;DP=429;FS=0.979;GQ_MEAN=129.54;GQ_STDDEV=147.60;InbreedingCoeff=-0.3986;MLEAC=13;MLEAF=0.271;MQ=57.36;MQ0=0;MQRankSum=0.318;NCC=0;QD=18.93;ReadPosRankSum=-2.050e-01;SOR=0.621;EFF=UPSTREAM(MODIFIER||937||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:12,3:15:90:0|1:2859_TG_T:90,0,494	0/1:16,44:60:99:0|1:2859_TG_T:1786,0,522	0/1:13,5:18:99:0|1:2859_TG_T:171,0,531	0/0:22,0:22:60:.:.:0,60,544	0/0:3,0:3:3:.:.:0,3,45	0/1:21,12:33:99:0|1:2859_TG_T:436,0,830	0/1:17,9:26:99:0|1:2859_TG_T:327,0,687	0/0:16,0:16:3:.:.:0,3,304	0/1:4,9:13:99:0|1:2859_TG_T:409,0,135	0/0:9,0:9:24:.:.:0,24,360	0/0:11,0:11:33:.:.:0,33,262	0/1:14,8:22:99:0|1:2859_TG_T:291,0,593	0/1:2,4:6:72:0|1:2859_TG_T:162,0,72	0/1:1,4:5:30:0|1:2859_TG_T:165,0,30	0/0:14,0:14:21:.:.:0,21,301	0/0:27,0:27:72:.:.:0,72,1080	0/0:12,0:12:36:.:.:0,36,284	0/1:10,3:13:96:0|1:2859_TG_T:96,0,411	0/1:10,14:24:99:0|1:2859_TG_T:558,0,378	0/0:42,0:42:99:.:.:0,108,1085	0/0:10,0:10:30:.:.:0,30,238	0/1:3,2:5:75:0|1:2847_G_T:75,0,120	0/1:2,5:7:69:0|1:2859_TG_T:204,0,69	0/0:12,0:12:27:.:.:0,27,405
+chr1	2885	.	A	T	2255.25	.	AC=11;AF=0.239;AN=46;BaseQRankSum=-1.246e+00;ClippingRankSum=-7.880e-01;DP=448;FS=0.457;GQ_MEAN=92.83;GQ_STDDEV=97.94;InbreedingCoeff=-0.3818;MLEAC=12;MLEAF=0.261;MQ=60.00;MQ0=0;MQRankSum=0.132;NCC=1;QD=8.67;ReadPosRankSum=-5.150e-01;SOR=0.661;EFF=UPSTREAM(MODIFIER||915||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:12,6:18:92:.:.:92,0,248	0/1:18,43:61:99:.:.:817,0,417	0/1:13,6:19:99:0|1:2859_TG_T:152,0,508	0/0:24,0:24:57:.:.:0,57,855	./.:2,0:2	0/1:21,11:32:99:.:.:165,0,410	0/1:16,13:29:99:.:.:217,0,314	0/0:17,0:17:0:.:.:0,0,293	0/1:10,8:18:99:.:.:145,0,200	0/0:9,0:9:24:.:.:0,24,360	0/0:11,0:11:30:.:.:0,30,450	0/1:12,10:22:99:.:.:179,0,228	0/1:3,2:5:34:.:.:34,0,61	0/0:4,0:4:0:.:.:0,0,49	0/0:17,0:17:0:.:.:0,0,228	0/0:20,0:20:54:.:.:0,54,810	0/0:10,0:10:30:.:.:0,30,229	0/1:12,4:16:99:0|1:2859_TG_T:113,0,433	0/1:11,18:29:99:.:.:357,0,190	0/0:42,0:42:99:.:.:0,108,1085	0/0:9,0:9:24:.:.:0,24,360	0/0:9,0:9:6:.:.:0,6,152	0/1:7,4:11:68:.:.:68,0,144	0/0:11,0:11:30:.:.:0,30,450
+chr1	2905	.	A	C	63.46	.	AC=2;AF=0.042;AN=48;BaseQRankSum=-7.360e-01;ClippingRankSum=0.736;DP=462;FS=0.000;GQ_MEAN=50.54;GQ_STDDEV=30.75;InbreedingCoeff=-0.0424;MLEAC=2;MLEAF=0.042;MQ=56.86;MQ0=0;MQRankSum=0.736;NCC=0;QD=2.88;ReadPosRankSum=0.736;SOR=1.085;EFF=UPSTREAM(MODIFIER||895||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/0:19,0:19:54:0,54,810	0/0:60,0:60:99:0,120,1800	0/0:14,0:14:36:0,36,540	0/0:21,0:21:60:0,60,900	0/0:2,0:2:6:0,6,44	0/0:31,0:31:90:0,90,1350	0/0:29,0:29:69:0,69,1035	0/0:21,0:21:63:0,63,481	0/1:13,6:19:72:72,0,411	0/0:10,0:10:30:0,30,238	0/0:15,0:15:45:0,45,363	0/0:21,0:21:60:0,60,487	0/0:4,0:4:9:0,9,135	0/1:1,2:3:17:39,0,17	0/0:21,0:21:54:0,54,810	0/0:27,0:27:70:0,70,675	0/0:15,0:15:42:0,42,630	0/0:15,0:15:42:0,42,630	0/0:34,0:34:81:0,81,1215	0/0:42,0:42:99:0,108,1085	0/0:8,0:8:18:0,18,270	0/0:9,0:9:4:0,4,159	0/0:12,0:12:33:0,33,495	0/0:10,0:10:30:0,30,236
+chr1	2911	.	G	A	2598.39	.	AC=12;AF=0.250;AN=48;BaseQRankSum=0.00;ClippingRankSum=-5.360e-01;DP=475;FS=0.892;GQ_MEAN=85.96;GQ_STDDEV=71.77;InbreedingCoeff=-0.3722;MLEAC=13;MLEAF=0.271;MQ=59.54;MQ0=0;MQRankSum=0.057;NCC=0;QD=8.99;ReadPosRankSum=0.211;SOR=0.753;EFF=UPSTREAM(MODIFIER||889||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PL	0/1:12,8:20:99:133,0,213	0/1:20,45:65:99:869,0,269	0/1:8,9:17:99:169,0,142	0/0:21,0:21:54:0,54,810	0/0:2,0:2:0:0,0,3	0/1:22,11:33:99:164,0,412	0/1:10,15:25:99:270,0,165	0/0:21,0:21:0:0,0,353	0/1:12,7:19:99:110,0,319	0/0:12,0:12:33:0,33,495	0/0:16,0:16:39:0,39,585	0/1:12,11:23:99:195,0,217	0/1:2,2:4:36:36,0,36	0/0:1,0:1:3:0,3,24	0/1:14,6:20:87:87,0,277	0/0:27,0:27:70:0,70,675	0/0:15,0:15:42:0,42,630	0/1:9,7:16:99:120,0,169	0/1:11,23:34:99:449,0,161	0/0:42,0:42:99:0,108,1085	0/0:5,0:5:12:0,12,180	0/0:9,0:9:3:0,3,157	0/1:8,5:13:84:84,0,143	0/0:11,0:11:33:0,33,261
+chr1	2946	.	T	A	4938.86	.	AC=21;AF=0.438;AN=48;BaseQRankSum=0.697;ClippingRankSum=0.527;DP=496;FS=0.776;GQ_MEAN=125.25;GQ_STDDEV=129.48;InbreedingCoeff=-0.2028;MLEAC=22;MLEAF=0.458;MQ=49.74;MQ0=0;MQRankSum=-5.930e-01;NCC=0;QD=13.07;ReadPosRankSum=0.00;SOR=0.770;EFF=UPSTREAM(MODIFIER||854||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:21,0:21:37:.:.:0,37,469	0/1:42,15:57:99:0|1:2946_T_A:500,0,1527	0/1:12,6:18:99:0|1:2946_T_A:213,0,416	0/1:10,8:18:99:0|1:2946_T_A:308,0,374	0/0:3,0:3:0:.:.:0,0,27	0/0:35,0:35:90:.:.:0,90,1350	0/1:17,10:27:99:0|1:2946_T_A:162,0,528	0/1:20,5:25:49:.:.:49,0,465	0/1:11,11:22:99:0|1:2946_T_A:390,0,319	0/1:4,6:10:72:.:.:107,0,72	1/1:0,13:13:39:1|1:2946_T_A:544,39,0	0/1:14,9:23:99:0|1:2946_T_A:296,0,442	0/0:4,0:4:12:.:.:0,12,95	1/1:0,2:2:6:1|1:2946_T_A:71,6,0	0/0:23,0:23:56:.:.:0,56,536	0/1:9,17:26:99:.:.:344,0,137	1/1:0,17:17:51:1|1:2946_T_A:705,51,0	0/0:21,0:21:60:.:.:0,60,900	0/1:33,3:36:24:0|1:2946_T_A:24,0,1268	0/1:14,35:49:99:.:.:709,0,197	0/0:3,0:3:0:.:.:0,0,20	1/1:0,4:4:12:1|1:2946_T_A:155,12,0	0/1:7,9:16:99:0|1:2946_T_A:283,0,221	0/1:6,9:15:99:.:.:185,0,145
+chr1	2957	.	T	C	15180.04	.	AC=39;AF=0.848;AN=46;BaseQRankSum=-3.674e+00;ClippingRankSum=0.950;DP=511;FS=1.771;GQ_MEAN=81.48;GQ_STDDEV=68.03;InbreedingCoeff=0.3001;MLEAC=39;MLEAF=0.848;MQ=52.24;MQ0=0;MQRankSum=-5.200e-01;NCC=1;QD=30.24;ReadPosRankSum=0.925;SOR=0.519;EFF=UPSTREAM(MODIFIER||843||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:8,11:19:99:.:.:149,0,143	0/1:7,50:57:7:.:.:1145,0,7	1/1:0,22:22:66:.:.:942,66,0	0/1:11,8:19:99:0|1:2946_T_A:300,0,461	1/1:0,3:3:9:.:.:71,9,0	1/1:0,36:36:99:.:.:1244,106,0	1/1:0,32:32:99:1|1:2946_T_A:1426,102,0	1/1:0,24:24:75:.:.:1048,75,0	1/1:0,20:20:63:1|1:2946_T_A:945,63,0	1/1:0,9:9:27:1|1:2957_T_C:405,27,0	1/1:0,12:12:36:1|1:2946_T_A:518,36,0	1/1:0,22:22:63:.:.:613,63,0	1/1:0,5:5:15:.:.:147,15,0	1/1:0,2:2:6:1|1:2946_T_A:60,6,0	0/1:10,16:26:99:.:.:329,0,174	1/1:0,28:28:87:1|1:2957_T_C:1259,87,0	1/1:0,19:19:57:1|1:2946_T_A:855,57,0	0/1:15,11:26:99:.:.:128,0,295	0/1:9,32:41:99:.:.:493,0,106	1/1:0,47:47:99:1|1:2957_T_C:2148,147,0	./.:3,0:3	1/1:0,4:4:12:1|1:2946_T_A:155,12,0	1/1:0,17:17:49:.:.:485,49,0	0/1:3,9:12:96:0|1:2957_T_C:392,0,96
+chr1	2958	.	G	A	9109.13	.	AC=28;AF=0.609;AN=46;BaseQRankSum=2.74;ClippingRankSum=0.150;DP=512;FS=1.108;GQ_MEAN=121.22;GQ_STDDEV=133.85;InbreedingCoeff=-0.1575;MLEAC=29;MLEAF=0.630;MQ=51.01;MQ0=0;MQRankSum=0.030;NCC=1;QD=20.29;ReadPosRankSum=0.151;SOR=0.791;EFF=UPSTREAM(MODIFIER||842||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:20,0:20:35:.:.:0,35,397	0/1:38,18:56:99:0|1:2946_T_A:553,0,1440	0/1:14,7:21:99:0|1:2946_T_A:230,0,441	0/1:11,8:19:99:0|1:2946_T_A:303,0,438	0/0:4,0:4:0:.:.:0,0,39	0/1:12,23:35:68:.:.:447,0,68	0/1:17,12:29:99:0|1:2946_T_A:414,0,189	1/1:2,23:25:41:.:.:618,41,0	0/1:15,6:21:99:0|1:2946_T_A:187,0,499	1/1:0,9:9:27:1|1:2957_T_C:405,27,0	1/1:0,11:11:36:1|1:2946_T_A:518,36,0	0/1:13,9:22:99:0|1:2946_T_A:299,0,404	0/1:3,2:5:29:.:.:35,0,29	1/1:0,2:2:6:1|1:2946_T_A:60,6,0	0/1:18,7:25:81:.:.:81,0,538	1/1:0,28:28:87:1|1:2957_T_C:1259,87,0	1/1:0,19:19:57:1|1:2946_T_A:855,57,0	0/0:26,0:26:51:.:.:0,51,765	0/1:39,3:42:9:0|1:2946_T_A:9,0,1356	1/1:0,48:48:99:1|1:2957_T_C:2148,147,0	./.:3,0:3	1/1:0,4:4:12:1|1:2946_T_A:155,12,0	0/1:9,7:16:99:0|1:2946_T_A:245,0,276	0/1:3,9:12:96:0|1:2957_T_C:392,0,96
+chr1	2964	.	C	A	69.02	.	AC=1;AF=0.022;AN=46;BaseQRankSum=2.41;ClippingRankSum=1.09;DP=503;FS=5.454;GQ_MEAN=36.52;GQ_STDDEV=29.46;InbreedingCoeff=-0.0302;MLEAC=1;MLEAF=0.022;MQ=50.30;MQ0=0;MQRankSum=-1.559e+00;NCC=1;QD=3.45;ReadPosRankSum=0.992;SOR=1.483;EFF=UPSTREAM(MODIFIER||836||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:20,0:20:30:.:.:0,30,450	0/0:56,0:56:60:.:.:0,60,900	0/0:22,0:22:18:.:.:0,18,270	0/0:22,0:22:42:.:.:0,42,630	0/0:3,0:3:3:.:.:0,3,45	0/0:33,0:33:63:.:.:0,63,945	0/0:35,0:35:54:.:.:0,54,810	0/0:24,0:24:63:.:.:0,63,945	0/1:16,4:20:99:0|1:2946_T_A:105,0,651	0/0:11,0:11:7:.:.:0,7,210	0/0:12,0:12:10:.:.:0,10,233	0/0:18,0:18:15:.:.:0,15,225	0/0:5,0:5:9:.:.:0,9,135	./.:2,0:2	0/0:25,0:25:57:.:.:0,57,855	0/0:29,0:29:51:.:.:0,51,765	0/0:17,0:17:24:.:.:0,24,360	0/0:22,0:22:42:.:.:0,42,630	0/0:45,0:45:75:.:.:0,75,1125	0/0:44,0:44:81:.:.:0,81,1215	0/0:3,0:3:0:.:.:0,0,10	0/0:8,0:8:1:.:.:0,1,132	0/0:16,0:16:18:.:.:0,18,270	0/0:11,0:11:12:.:.:0,12,180
+chr1	2986	.	ATT	A	12060.74	.	AC=32;AF=0.696;AN=46;BaseQRankSum=-3.970e-01;ClippingRankSum=0.143;DP=489;FS=0.571;GQ_MEAN=157.91;GQ_STDDEV=149.44;InbreedingCoeff=-0.4468;MLEAC=32;MLEAF=0.696;MQ=50.39;MQ0=0;MQRankSum=-6.080e-01;NCC=1;QD=25.88;ReadPosRankSum=0.383;SOR=0.599;EFF=UPSTREAM(MODIFIER||813||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,8:13:99:.:.:321,0,167	0/1:8,45:53:99:.:.:1613,0,147	1/1:0,23:23:69:.:.:967,69,0	0/1:12,15:27:99:0|1:2986_ATT_A:594,0,438	1/1:0,3:3:9:.:.:115,9,0	0/1:21,11:32:99:.:.:298,0,654	0/1:7,24:31:99:0|1:2946_T_A:909,0,123	0/1:18,4:22:99:0|1:2986_ATT_A:104,0,687	1/1:0,19:19:60:1|1:2946_T_A:841,60,0	0/1:3,9:12:83:.:.:301,0,83	1/1:1,12:13:17:1|1:2986_ATT_A:540,17,0	1/1:0,14:14:45:.:.:601,45,0	0/1:3,2:5:63:.:.:63,0,99	1/1:0,6:6:18:.:.:260,18,0	0/1:17,7:24:99:.:.:243,0,627	0/1:9,21:30:99:0|1:2986_ATT_A:812,0,315	1/1:0,16:16:48:1|1:2986_ATT_A:657,48,0	0/1:11,9:20:99:.:.:279,0,351	0/1:11,29:40:99:.:.:1021,0,293	0/1:16,18:34:99:0|1:2986_ATT_A:626,0,570	./.:2,0:2	1/1:0,4:4:12:1|1:2986_ATT_A:159,12,0	1/1:0,14:14:42:.:.:552,42,0	0/1:5,6:11:99:0|1:2986_ATT_A:279,0,189
+chr1	3000	.	C	G	164.35	.	AC=1;AF=0.022;AN=46;BaseQRankSum=1.80;ClippingRankSum=-1.096e+00;DP=456;FS=0.000;GQ_MEAN=58.70;GQ_STDDEV=43.14;InbreedingCoeff=-0.0380;MLEAC=1;MLEAF=0.022;MQ=46.35;MQ0=0;MQRankSum=-1.710e+00;NCC=1;QD=8.65;ReadPosRankSum=-2.061e+00;SOR=0.527;EFF=UPSTREAM(MODIFIER||800||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:13,0:13:39:.:.:0,39,311	0/0:53,0:53:99:.:.:0,120,1800	0/0:25,0:25:72:.:.:0,72,1080	0/0:27,0:27:81:.:.:0,81,645	0/0:3,0:3:9:.:.:0,9,70	0/0:28,0:28:81:.:.:0,81,1215	0/0:32,0:32:84:.:.:0,84,1260	0/0:17,0:17:45:.:.:0,45,675	0/1:13,6:19:99:0|1:2946_T_A:201,0,514	0/0:9,0:9:21:.:.:0,21,315	0/0:14,0:14:33:.:.:0,33,495	0/0:20,0:20:57:.:.:0,57,855	0/0:4,0:4:12:.:.:0,12,96	0/0:6,0:6:0:.:.:0,0,95	0/0:22,0:22:60:.:.:0,60,900	0/0:25,0:25:66:.:.:0,66,990	0/0:13,0:13:36:.:.:0,36,540	0/0:21,0:21:60:.:.:0,60,495	0/0:36,0:36:99:.:.:0,99,1485	0/0:31,0:31:72:.:.:0,72,1080	./.:2,0:2	0/0:9,0:9:24:.:.:0,24,360	0/0:15,0:15:42:.:.:0,42,630	0/0:12,0:12:36:.:.:0,36,288
+chr1	3007	.	A	G	6148.72	.	AC=19;AF=0.413;AN=46;BaseQRankSum=-1.666e+00;ClippingRankSum=-2.450e-01;DP=462;FS=0.387;GQ_MEAN=176.91;GQ_STDDEV=183.89;InbreedingCoeff=-0.1886;MLEAC=19;MLEAF=0.413;MQ=45.26;MQ0=0;MQRankSum=-1.495e+00;NCC=1;QD=18.92;ReadPosRankSum=0.228;SOR=0.730;EFF=UPSTREAM(MODIFIER||793||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:14,0:14:39:.:.:0,39,585	0/1:41,14:55:99:0|1:3007_A_G:416,0,1661	0/1:12,13:25:99:0|1:3007_A_G:497,0,361	0/1:15,14:29:99:0|1:2986_ATT_A:543,0,588	0/0:3,0:3:9:.:.:0,9,70	0/0:28,0:28:81:.:.:0,81,1215	0/1:21,11:32:99:0|1:2946_T_A:396,0,767	0/1:13,3:16:87:0|1:2986_ATT_A:87,0,537	0/1:11,10:21:99:0|1:2946_T_A:366,0,312	0/1:2,6:8:34:0|1:3007_A_G:246,0,34	1/1:0,12:12:42:1|1:2986_ATT_A:623,42,0	0/1:9,12:21:99:0|1:3007_A_G:466,0,294	0/0:5,0:5:12:.:.:0,12,180	0/1:2,5:7:50:0|1:3007_A_G:144,0,50	0/0:22,0:22:60:.:.:0,60,900	0/1:9,16:25:99:0|1:2986_ATT_A:645,0,330	1/1:0,13:13:39:1|1:2986_ATT_A:585,39,0	0/0:21,0:21:57:.:.:0,57,855	0/0:32,2:34:12:0|1:3007_A_G:0,12,1191	0/1:14,15:29:99:0|1:2986_ATT_A:582,0,608	./.:4,0:4	1/1:0,4:4:12:1|1:2986_ATT_A:180,12,0	0/1:11,4:15:99:0|1:3007_A_G:118,0,341	0/1:5,8:13:99:0|1:2986_ATT_A:363,0,183
+chr1	3016	.	G	A	5935.67	.	AC=19;AF=0.413;AN=46;BaseQRankSum=2.76;ClippingRankSum=-1.900e-02;DP=453;FS=0.000;GQ_MEAN=165.57;GQ_STDDEV=184.55;InbreedingCoeff=-0.1455;MLEAC=20;MLEAF=0.435;MQ=45.47;MQ0=0;MQRankSum=-9.370e-01;NCC=1;QD=18.26;ReadPosRankSum=0.322;SOR=0.698;EFF=UPSTREAM(MODIFIER||784||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:16,0:16:36:.:.:0,36,540	0/1:44,13:57:99:0|1:3007_A_G:389,0,1691	0/1:10,15:25:99:0|1:3007_A_G:541,0,376	0/1:14,16:30:99:0|1:2986_ATT_A:630,0,540	0/0:4,0:4:0:.:.:0,0,42	0/0:28,0:28:81:.:.:0,81,1215	0/1:22,11:33:99:0|1:2946_T_A:396,0,751	0/1:10,4:14:99:0|1:2986_ATT_A:132,0,492	0/1:16,3:19:75:0|1:2946_T_A:75,0,532	0/1:1,6:7:14:0|1:3007_A_G:249,0,14	1/1:0,11:11:33:1|1:2986_ATT_A:495,33,0	0/1:11,13:24:99:0|1:3007_A_G:448,0,276	0/0:4,0:4:12:.:.:0,12,86	0/1:3,5:8:57:0|1:3007_A_G:142,0,57	0/0:19,0:19:51:.:.:0,51,765	0/1:7,16:23:99:0|1:2986_ATT_A:648,0,288	1/1:0,13:13:39:1|1:2986_ATT_A:585,39,0	0/0:19,0:19:54:.:.:0,54,810	0/0:26,2:28:0:0|1:3007_A_G:0,0,1070	0/1:14,16:30:99:0|1:2986_ATT_A:618,0,708	./.:4,0:4	1/1:0,4:4:12:1|1:2986_ATT_A:180,12,0	0/1:9,5:14:99:0|1:3007_A_G:146,0,303	0/1:4,9:13:99:0|1:2986_ATT_A:363,0,183
+chr1	3028	.	C	A	13045.0	.	AC=29;AF=0.659;AN=44;BaseQRankSum=2.11;ClippingRankSum=-1.530e-01;DP=464;FS=2.768;GQ_MEAN=164.95;GQ_STDDEV=170.95;InbreedingCoeff=-0.4947;MLEAC=29;MLEAF=0.659;MQ=52.24;MQ0=0;MQRankSum=-3.580e-01;NCC=2;QD=29.31;ReadPosRankSum=-5.920e-01;SOR=0.503;EFF=UPSTREAM(MODIFIER||772||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:6,12:18:99:0|1:3028_C_A:416,0,188	0/1:7,52:59:99:0|1:3028_C_A:2031,0,150	0/1:2,24:26:9:0|1:3028_C_A:1012,0,9	0/1:14,15:29:99:0|1:2986_ATT_A:627,0,536	./.:4,0:4	0/1:15,15:30:99:0|1:3028_C_A:506,0,624	0/1:7,22:29:99:0|1:2946_T_A:975,0,222	0/1:10,3:13:93:0|1:2986_ATT_A:93,0,453	1/1:0,18:18:54:1|1:2946_T_A:771,54,0	0/1:1,6:7:2:.:.:128,0,2	1/1:0,13:13:45:1|1:2986_ATT_A:635,45,0	1/1:0,24:24:72:1|1:3028_C_A:1080,72,0	0/1:2,3:5:55:0|1:3028_C_A:120,0,55	1/1:0,9:9:27:1|1:3028_C_A:405,27,0	0/1:15,4:19:79:0|1:3028_C_A:79,0,627	0/1:5,16:21:99:0|1:2986_ATT_A:642,0,204	1/1:0,16:16:48:1|1:2986_ATT_A:720,48,0	0/1:10,9:19:99:0|1:3028_C_A:344,0,343	0/1:8,18:26:99:0|1:3028_C_A:693,0,258	0/1:19,14:33:99:0|1:2986_ATT_A:531,0,756	./.:7,0:7	1/1:0,4:4:12:1|1:2986_ATT_A:180,12,0	1/1:0,17:17:54:1|1:3028_C_A:780,54,0	0/1:3,7:10:99:0|1:2986_ATT_A:366,0,141
+chr1	3039	.	G	C	12321.71	.	AC=30;AF=0.682;AN=44;BaseQRankSum=1.45;ClippingRankSum=0.248;DP=461;FS=3.599;GQ_MEAN=161.05;GQ_STDDEV=176.76;InbreedingCoeff=-0.4631;MLEAC=30;MLEAF=0.682;MQ=51.33;MQ0=0;MQRankSum=0.031;NCC=2;QD=28.07;ReadPosRankSum=-2.230e-01;SOR=0.479;EFF=UPSTREAM(MODIFIER||761||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:6,9:15:99:0|1:3028_C_A:349,0,193	0/1:7,49:56:99:0|1:3028_C_A:1971,0,156	0/1:2,25:27:6:0|1:3028_C_A:1007,0,6	0/1:17,15:32:99:0|1:2986_ATT_A:602,0,577	./.:6,0:6	0/1:16,13:29:99:0|1:3028_C_A:466,0,633	0/1:8,23:31:99:0|1:2946_T_A:951,0,264	0/1:11,3:14:90:0|1:2986_ATT_A:90,0,495	1/1:0,17:17:54:1|1:2946_T_A:769,54,0	1/1:0,6:6:18:.:.:131,18,0	1/1:0,15:15:45:1|1:2986_ATT_A:635,45,0	1/1:0,23:23:69:1|1:3028_C_A:1035,69,0	0/1:1,3:4:33:0|1:3028_C_A:123,0,33	1/1:0,8:8:24:1|1:3028_C_A:360,24,0	0/1:18,2:20:30:0|1:3028_C_A:30,0,697	0/1:5,15:20:99:0|1:2986_ATT_A:603,0,165	1/1:0,15:15:45:1|1:2986_ATT_A:675,45,0	0/1:9,10:19:99:0|1:3028_C_A:347,0,322	0/1:8,16:24:99:0|1:3028_C_A:628,0,268	0/1:20,16:36:99:0|1:2986_ATT_A:553,0,792	./.:9,0:9	1/1:0,3:3:9:1|1:2986_ATT_A:135,9,0	1/1:0,16:16:48:1|1:3028_C_A:709,48,0	0/1:3,6:9:99:0|1:2986_ATT_A:243,0,108
+chr1	3061	.	G	T	1583.96	.	AC=6;AF=0.130;AN=46;BaseQRankSum=2.00;ClippingRankSum=-7.250e-01;DP=443;FS=1.399;GQ_MEAN=85.57;GQ_STDDEV=133.73;InbreedingCoeff=-0.2207;MLEAC=7;MLEAF=0.152;MQ=57.93;MQ0=0;MQRankSum=-7.250e-01;NCC=1;QD=11.48;ReadPosRankSum=-8.250e-01;SOR=0.868;EFF=UPSTREAM(MODIFIER||739||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/0:11,0:11:15:.:.:0,15,225	0/0:52,0:52:63:.:.:0,63,945	0/0:21,0:21:42:.:.:0,42,630	0/0:31,0:31:72:.:.:0,72,1080	0/0:7,0:7:15:.:.:0,15,225	0/1:12,12:24:99:0|1:3061_G_T:443,0,510	0/1:25,6:31:99:0|1:2946_T_A:122,0,1158	0/1:2,9:11:99:0|1:3061_G_T:281,0,141	0/0:20,0:20:39:.:.:0,39,585	0/0:5,0:5:0:.:.:0,0,57	0/0:17,0:17:45:.:.:0,45,675	0/0:29,0:29:51:.:.:0,51,765	0/0:4,0:4:0:.:.:0,0,45	0/0:10,0:10:4:.:.:0,4,190	0/1:12,7:19:99:0|1:3061_G_T:198,0,483	0/1:17,4:21:98:0|1:3061_G_T:98,0,702	0/0:8,0:8:24:.:.:0,24,182	0/0:13,0:13:18:.:.:0,18,270	0/0:22,0:22:45:.:.:0,45,675	0/1:18,14:32:99:0|1:3061_G_T:511,0,714	0/0:15,0:15:0:.:.:0,0,175	0/0:15,0:15:1:.:.:0,1,246	0/0:13,0:13:21:.:.:0,21,315	./.:12,0:12
+chr1	3066	.	GT	G,GTT	5439.12	.	AC=13,5;AF=0.271,0.104;AN=48;BaseQRankSum=0.285;ClippingRankSum=0.331;DP=439;FS=1.385;GQ_MEAN=162.25;GQ_STDDEV=170.93;InbreedingCoeff=-0.4610;MLEAC=14,5;MLEAF=0.292,0.104;MQ=56.78;MQ0=0;MQRankSum=-2.160e-01;NCC=0;QD=17.27;ReadPosRankSum=0.00;SOR=0.791;EFF=UPSTREAM(MODIFIER||733||F7__3_of_3_|protein_coding|CODING|ENSDART00000109479|)	GT:AD:DP:GQ:PGT:PID:PL	0/1:5,6,0:11:99:0|1:3066_GT_G:237,0,192,252,210,462	0/1:17,31,0:48:99:0|1:3066_GT_G:1184,0,564,1235,660,1895	0/1:15,5,0:20:99:0|1:3066_GT_G:147,0,577,192,592,783	0/0:25,0,0:25:60:.:.:0,60,900,60,900,900	0/1:3,2,0:5:75:0|1:3066_GT_G:75,0,115,84,121,205	1/2:0,12,12:24:99:.:.:1023,528,489,483,0,465	0/1:14,10,5:29:99:.:.:342,0,548,170,344,847	0/2:3,0,8:11:99:0|1:3061_G_T:267,276,402,0,126,102	0/1:12,9,0:21:99:0|1:2946_T_A:287,0,449,323,476,799	0/0:4,0,0:4:0:.:.:0,0,49,0,49,49	0/0:15,0,0:15:42:.:.:0,42,630,42,630,630	0/1:17,13,0:30:99:0|1:3066_GT_G:469,0,635,520,675,1195	0/1:2,2,0:4:31:0|1:3066_GT_G:78,0,31,84,37,121	0/1:7,2,0:9:62:0|1:3066_GT_G:62,0,252,83,258,341	0/2:9,2,6:17:99:.:.:181,124,496,0,294,402	0/2:16,0,4:20:98:0|1:3061_G_T:98,149,841,0,693,681	0/0:8,0,0:8:24:.:.:0,24,182,24,182,182	0/1:4,6,0:10:99:0|1:3066_GT_G:240,0,146,252,164,416	0/1:10,3,0:13:99:0|1:3066_GT_G:110,0,399,143,411,554	0/2:18,0,14:32:99:0|1:3061_G_T:508,565,1363,0,798,756	0/0:15,0,0:15:0:.:.:0,0,165,0,165,165	0/0:17,0,0:17:29:.:.:0,29,334,29,334,334	0/1:5,6,0:11:99:0|1:3066_GT_G:218,0,189,233,207,440	0/0:14,0,0:14:0:.:.:0,0,99,0,99,99

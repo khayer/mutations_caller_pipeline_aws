@@ -10,3 +10,9 @@ index_fa: "/path/to/hg19_genome.fa"
 index_vcf: "/path/to/dbsnp_132.hg19.vcf"
 snpeff: "/path/to/snpEff.jar"
 snpeff_ind: "Zv9.76"
+parent_strain1: "Wik"
+parent_strain2: "TLF"
+# For homozygosity plots/score
+window_size: "100"
+# Quality is the minimum number of reads
+quality: "5"

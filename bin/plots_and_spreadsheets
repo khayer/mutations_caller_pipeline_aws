@@ -6,11 +6,11 @@ require 'yaml'
 require 'csv'
 require 'logger'
 =begin
-  * Name: Part2
+  * Name: PlotsAndSpreadsheets
   * This script generates spreadsheets and homozygosity scores plots
-  * from a given file of raw vcf files.
+  * from a given file of processed vcf files.
   * Author: Katharina Hayer
-  * Date: 2/1/2015
+  * Date: 3/1/2015
   * License: GNU General Public License (GPL-2.0)
 =end
 
@@ -33,7 +33,7 @@ end
 $usage =<<EOF
 _________________________________________________________________________________________________
 
-  #{$0} sample_name config.yml vcf_by_chromosome_folder [OPTIONS]
+  #{$0} sample_name config.yml [OPTIONS]
 _________________________________________________________________________________________________
 
   #{$0} ...
@@ -46,7 +46,8 @@ ________________________________________________________________________________
   # config.yml
   parent_strain1: "Wik"
   parent_strain2: "TLF"
-
+  window_size: "100"
+  quality: "5"
 _________________________________________________________________________________________________
 
 EOF
@@ -57,7 +58,7 @@ def setup_options(args)
     #:bwa => nil,
     #:vcf => nil,
     :debug => false,
-    #:pre_num => 0,
+    :pre_num => 0,
     #:lsf => false,
     #:threads => 1,
     :log_level => "info",
@@ -193,16 +194,45 @@ def wait(running_jobs)
 end
 
 def run(argv)
+  home  = File.expand_path(File.dirname(__FILE__)).sub(/\/bin$/,"")
+  #puts home
+  running_jobs ={}
   options = setup_options(argv)
   setup_logger(options[:log_level])
 
   $logger.debug(options)
   $logger.info(argv)
-  exit
-  ### Split by chromosome
-  `mkdir #{options[:folder_name]}`
+  sample_name = argv[0]
+  ### Start scoring
+  scoring_dir = "scores_#{sample_name}_ws#{options[:window_size]}_q#{options[:quality]}_slider"
+  id = rand(100000)+1
+  if options[:pre_num] != 0
+    id = options[:pre_num]
+  end
+
+  begin
+    Dir.mkdir(scoring_dir)
+  rescue Exception => e
+    $logger.warn("Directory #{scoring_dir} does already exist.")
+  end
+
+  # Determine sample numbers
+  l = `grep -v ^\#\# #{options[:folder_name]}/chr1.vcf | head -1`
+  fields = l.chomp.split("\t")
+  puts l
+  puts options[:parent_strain2]
+  tlf_number = fields.index(options[:parent_strain2])-8
+  wik_number = fields.index(options[:parent_strain1])-8
+  begin
+      sample_number = fields.index(sample_name)-8
+  rescue Exception => e
+      $logger.error("Sample_name #{sample_name} was not found in #{options[:folder_name]}/chr1.vcf.")
+      exit 1
+  end
+
   [(1..25).to_a,"M"].flatten.each do |i|
-    cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
+    #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
+    cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_3_7_13_sliding_window #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} \> #{scoring_dir}/chr#{i}_#{sample_name}"
     if options[:debug]
       puts cmd
     else
@@ -212,6 +242,7 @@ def run(argv)
     end
   end
   wait(running_jobs)
+
   $logger.info("ALL DONE!")
 end
 
