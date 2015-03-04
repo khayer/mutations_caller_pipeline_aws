@@ -48,6 +48,7 @@ ________________________________________________________________________________
   parent_strain2: "TLF"
   window_size: "100"
   quality: "5"
+  phast_cons: "path/to/phastConsElements8way.txt"
 _________________________________________________________________________________________________
 
 EOF
@@ -154,7 +155,7 @@ def setup_options(args)
       exit 1
     end
     options.merge!(Hash[YAML::load(open(args[1])).map { |k, v| [k.to_sym, v] }])
-    mandatory = [:gatk, :snpeff,:snpeff_ind]
+    mandatory = [:parent_strain1, :parent_strain2, :window_size, :quality, :phast_cons]
     missing = mandatory.select{ |param| options[param].nil? }
     if !missing.empty?
       puts "\nMissing options given or missing in config_file: \n\t#{missing.join(",\n\t")}"
@@ -203,12 +204,13 @@ def run(argv)
   $logger.debug(options)
   $logger.info(argv)
   sample_name = argv[0]
+  sibling_number = 0
 
   # Determine sample numbers
   l = `grep -v ^\#\# #{options[:folder_name]}/chr1.vcf | head -1`
   fields = l.chomp.split("\t")
-  puts l
-  puts options[:parent_strain2]
+  #puts l
+  #puts options[:parent_strain2]
   tlf_number = fields.index(options[:parent_strain2])-8
   wik_number = fields.index(options[:parent_strain1])-8
   begin
@@ -217,8 +219,28 @@ def run(argv)
       $logger.error("Sample_name #{sample_name} was not found in #{options[:folder_name]}/chr1.vcf.")
       exit 1
   end
-
-
+  if options[:sibling] != "none"
+    begin
+      sibling_number = fields.index(options[:sibling])-8
+    rescue Exception => e
+      $logger.error("Sibling_name #{options[:sibling]} was not found in #{options[:folder_name]}/chr1.vcf.")
+      exit 1
+    end
+  end
+  remaining_numbers = []
+  (9..fields.length).to_a.each do |i|
+    puts i
+    case i-8
+    when tlf_number, wik_number, sibling_number, sample_number
+    
+    else
+      next if fields[i] =~ /_sib$/
+      remaining_numbers << i - 8
+    end
+  end
+  remaining_numbers = remaining_numbers.join(",")
+  #puts remaining_numbers
+  sibling_number = "" if sibling_number == 0
   ### Start scoring
   scoring_dir = "scores_#{sample_name}_ws#{options[:window_size]}_q#{options[:quality]}_slider"
   id = rand(100000)+1
@@ -248,8 +270,42 @@ def run(argv)
   wait(running_jobs)
 
   # Generate Plots
+  # Rscript quick_generic.r scores_$sample_name\_ws$window_size\_q$quality\_slider $sample_name $window_size
+  unless File.size?("#{scoring_dir}/chrM_poly.png")
+    cmd = "bsub -o #{scoring_dir}/#{id}_rscript_%J_o.log -e #{scoring_dir}/#{id}_rscript_%J_e.log Rscript #{home}/scripts/quick_generic.r #{scoring_dir} #{sample_name} #{options[:window_size]}"
+    if options[:debug]
+      puts cmd
+    else
+      l = `#{cmd}`
+      l =~ /\<(\d*)\>/
+      running_jobs[$1] = cmd
+    end
+  end
 
+  wait(running_jobs)
 
+  # create spreadsheets
+  # ~/tools/scripts/create_spreadsheet_125FBGB snpEff_chr$i.Zv9.74.vcf xls_sheets_125FBGB/125FBGB_Chr$i\_HIGH.xls 4 1,2,3,5,6,7,9,11,12,13,14 18 19 ~/index/phastConsElements8way.txt scores_125FBGB_ws100_q10/chr$i\_125FBGB
+  spreatsheet_dir="xls_sheets_#{sample_name}"
+  begin
+    Dir.mkdir(spreatsheet_dir)
+  rescue Exception => e
+    $logger.warn("Directory #{scoring_dir} does already exist.")
+  end
+  [(1..25).to_a,"M"].flatten.each do |i|
+    #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
+    next if File.size?("#{spreatsheet_dir}/chr#{i}.xls")
+    #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
+    cmd = "bsub -o #{spreatsheet_dir}/#{id}_xls_chr#{i}_%J_o.log -e #{spreatsheet_dir}/#{id}_xls_chr#{i}_%J_e.log #{home}/scripts/create_spreadsheet_125FBGB #{options[:folder_name]}/chr#{i}.vcf #{spreatsheet_dir}/chr#{i}.xls #{sample_number} #{remaining_numbers} #{tlf_number} #{wik_number} #{options[:phast_cons]} #{scoring_dir}/chr#{i}_#{sample_name}"
+    if options[:debug]
+      puts cmd
+    else
+      l = `#{cmd}`
+      l =~ /\<(\d*)\>/
+      running_jobs[$1] = cmd
+    end
+  end
+  wait(running_jobs)
   $logger.info("ALL DONE!")
 end
 

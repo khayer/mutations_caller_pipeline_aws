@@ -16,3 +16,4 @@ parent_strain2: "TLF"
 window_size: "100"
 # Quality is the minimum number of reads
 quality: "5"
+phast_cons: "path/to/phastConsElements8way.txt"
