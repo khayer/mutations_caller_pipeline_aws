@@ -293,7 +293,7 @@ File.open(vcf_file).each do |line|
     #puts snp_eff
     #Effect ( Effect_Impact | Functional_Class | Codon_Change | Amino_Acid_change| Gene_Name | Transcript_BioType | Gene_Coding | Transcript_ID | Exon [ | ERRORS | WARNINGS ] )
     #INTRON(MODIFIER||||BOD1L1|protein_coding|CODING|ENSDART00000129095|7|WARNING_TRANSCRIPT_NO_STOP_CODON
-    effect,functional_class,codon_change,aa_change,gene_name,transcript_bio_type,gene_coding,snpeff_transcript_id,exon_rank,genotype_number= snp_eff[0].split(/[|()]/)
+    impact,functional_class,codon_change,aa_change,gene_name,transcript_bio_type,gene_coding,snpeff_transcript_id,exon_rank,genotype_number= snp_eff[0].split(/[|()]/)
     #impact = info.split("SNPEFF_IMPACT=")[-1].split(";")[0]
     #gene_name = info.split("SNPEFF_GENE_NAME=")[-1].split(";")[0].gsub(/Multi/,"(x of x)")
     #effect = info.split("SNPEFF_EFFECT=")[-1].split(";")[0]
