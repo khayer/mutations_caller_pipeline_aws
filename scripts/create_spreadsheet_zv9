@@ -305,7 +305,7 @@ File.open(vcf_file).each do |line|
     else
       link_transcript_id = make_link_refSeq(snpeff_transcript_id)
     end
-    codon_change = "n/a"
+    #codon_change ||= "n/a"
     amino_change = "n/a"
     #aa_change = ""
     if effect == "NON_SYNONYMOUS_CODING" || effect == "STOP_GAINED"
