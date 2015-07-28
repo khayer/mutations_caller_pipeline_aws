@@ -233,7 +233,7 @@ def run(argv)
     #puts i
     case i-8
     when tlf_number, wik_number, sibling_number, sample_number
-    
+
     else
       next if fields[i] =~ /_sib$/
       remaining_numbers << i - 8
@@ -298,7 +298,7 @@ def run(argv)
     #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
     next if File.size?("#{spreatsheet_dir}/chr#{i}.xls")
     #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
-    cmd = "bsub -o #{spreatsheet_dir}/#{id}_xls_chr#{i}_%J_o.log -e #{spreatsheet_dir}/#{id}_xls_chr#{i}_%J_e.log #{home}/scripts/create_spreadsheet_125FBGB #{options[:folder_name]}/chr#{i}.vcf #{spreatsheet_dir}/chr#{i}.xls #{sample_number} #{remaining_numbers} #{tlf_number} #{wik_number} #{options[:phast_cons]} #{scoring_dir}/chr#{i}_#{sample_name}"
+    cmd = "bsub -o #{spreatsheet_dir}/#{id}_xls_chr#{i}_%J_o.log -e #{spreatsheet_dir}/#{id}_xls_chr#{i}_%J_e.log #{home}/scripts/create_spreadsheet_zv9 #{options[:folder_name]}/chr#{i}.vcf #{spreatsheet_dir}/chr#{i}.xls #{sample_number} #{remaining_numbers} #{tlf_number} #{wik_number} #{options[:phast_cons]} #{scoring_dir}/chr#{i}_#{sample_name}"
     if options[:debug]
       puts cmd
     else
