@@ -215,7 +215,7 @@ sheet1 = book.create_worksheet
 sheet1.row(0).push '#CHROM','POS','Zv9 base'
 sheet1.row(0).push 'TLF base', 'TLF GT','TLF AD','TLF GTQ'
 sheet1.row(0).push 'Wik base', 'Wik GT','Wik AD','Wik GTQ'
-sheet1.row(0).push "#{target_name[0]} base",'Impact','Effect', 'Codon Change','Amino Change', 'Gen Name','Phast Cons','Score'
+sheet1.row(0).push "#{target_name[0]} base",'Impact','Effect', 'Codon Change','Amino Change','Amino Change Detail', 'Gen Name','Phast Cons','Score'
 sheet1.row(0).push "#{target_name[0]} GT","#{target_name[0]} AD", "#{target_name[0]} GTQ"
 if sib_number
   sib_name = get_names(vcf_file,[sib_number])
@@ -307,7 +307,8 @@ File.open(vcf_file).each do |line|
     end
     codon_change = "n/a"
     amino_change = "n/a"
-    if effect == "NON_SYNONYMOUS_CODING"
+    #aa_change = ""
+    if effect == "NON_SYNONYMOUS_CODING" || effect == "STOP_GAINED"
       #codon_change = info.split("SNPEFF_CODON_CHANGE=")[-1].split(";")[0]
       codons = codon_change.split("/")
       amino_change = []
@@ -316,9 +317,9 @@ File.open(vcf_file).each do |line|
       end
       amino_change = amino_change.join("/")
     end
-    sheet1.row(i).push impact,effect,codon_change,amino_change,Spreadsheet::Link.new(link_transcript_id,gene_name)
+    sheet1.row(i).push impact,effect,codon_change,amino_change,aa_change,Spreadsheet::Link.new(link_transcript_id,gene_name)
   else
-    sheet1.row(i).push 'n/a','n/a','n/a','n/a','n/a'
+    sheet1.row(i).push 'n/a','n/a','n/a','n/a','n/a','n/a'
   end
   phast_cons_score = get_phast_cons_score(phast_cons,fields[0],fields[1].to_i)
   homozygosity_score = get_homozygosity_score(homo_score,fields[1].to_i)
