@@ -292,7 +292,7 @@ def run(argv)
   begin
     Dir.mkdir(spreatsheet_dir)
   rescue Exception => e
-    $logger.warn("Directory #{scoring_dir} does already exist.")
+    $logger.warn("Directory #{spreatsheet_dir} does already exist.")
   end
   [(1..25).to_a,"M"].flatten.each do |i|
     #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
