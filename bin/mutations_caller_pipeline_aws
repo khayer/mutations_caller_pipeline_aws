@@ -73,7 +73,8 @@ def setup_options(args)
     :samplesheet => nil,
     :lsf => false,
     :threads => 1,
-    :resume => false
+    :resume => false,
+    :first => true
   }
   #:cluster => false,
   #:samtools => nil,
@@ -176,6 +177,10 @@ end
 
 # Methods
 def execute(cmd,options)
+  if options[:first]
+    cmd.sub!(/-w "done\(.*\)"/,"")
+    options[:first] = false
+  end
   if options[:log_level] == "debug"
     puts cmd
   else
