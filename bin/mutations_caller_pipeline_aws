@@ -142,7 +142,7 @@ def setup_options(args)
       options[:sample_name] = i
     end
 
-    opts.on("-r", "--resume", :REQUIRED, String, "Resume a previous failed job") do
+    opts.on("-r", "--resume", "Resume a previous failed job") do
       options[:resume] = true
     end
 
@@ -184,6 +184,7 @@ def execute(cmd,options)
   if options[:log_level] == "debug"
     puts cmd
   else
+    puts cmd
     status = system(cmd)
     raise cmd unless status
   end
