@@ -187,7 +187,7 @@ end
 def check_if_success(cmd,options)
   cmd =~ /-o\s(log\/\S*)\s/
   log_file = $1
-  return true if !File.exists(log_file)
+  return false if !File.exists?(log_file)
   k = `grep Subject #{log_file}`
   k.chomp!
   options[:job_number] = k.scan(/<*_(\d*)>/).last[0].to_i
