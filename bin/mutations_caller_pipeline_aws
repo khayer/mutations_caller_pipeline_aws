@@ -72,7 +72,8 @@ def setup_options(args)
     :coverage => false,
     :samplesheet => nil,
     :lsf => false,
-    :threads => 1
+    :threads => 1,
+    :resume => false
   }
   #:cluster => false,
   #:samtools => nil,
@@ -140,6 +141,10 @@ def setup_options(args)
       options[:sample_name] = i
     end
 
+    opts.on("-r", "--resume", :REQUIRED, String, "Resume a previous failed job") do
+      options[:resume] = true
+    end
+
 
     opts.on("-d", "--debug", "Run in debug mode") do
       options[:log_level] = "debug"
@@ -177,6 +182,14 @@ def execute(cmd,options)
     status = system(cmd)
     raise cmd unless status
   end
+end
+
+def check_if_success(cmd)
+  cmd =~ /-o\s(log\/\S*)\s/
+  log_file = $1
+  k = `grep Subject #{log_file}`
+  k.chomp!
+  k =~ /Done$/
 end
 
 def run(argv)
@@ -219,44 +232,110 @@ def run(argv)
 
   # BWA : MEM
   cmd = BwaCaller.call_mem(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   # Indexing + Marking Duplicates
   cmd = PicardCaller.convert(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   cmd = PicardCaller.rg_and_sorting(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   cmd = PicardCaller.mark_duplicates(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   cmd = PicardCaller.build_index(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   # Realigne
   cmd = GatkCaller.prepare_realigne(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   cmd = GatkCaller.realigne(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   # Recalibration
   cmd = GatkCaller.recalibrate_bam(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   cmd = GatkCaller.table_calibration(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   # GATK: finding mutations
   cmd = GatkCaller.call_haplo(options)
-  execute(cmd,options)
+  if options[:resume]
+    if !check_if_success(cmd)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
 
   # GATK : coverage
   if options[:coverage]
     options[:outfile_prefix] = options[:vcf].gsub(/.vcf/,"_coverage")
     cmd = GatkCaller.coverage(options)
-    execute(cmd,options)
+    if options[:resume]
+      if !check_if_success(cmd)
+        execute(cmd,options)
+      end
+    else
+      execute(cmd,options)
+    end
   end
 end
 
