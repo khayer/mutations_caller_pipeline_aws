@@ -181,7 +181,7 @@ def execute(cmd,options)
     cmd.sub!(/-w "done\(.*\)"/,"")
     options[:first] = false
   end
-  cmd.gsub!(options[:job_number], options[:job_number_new])
+  cmd.gsub!(options[:job_number].to_s, options[:job_number_new].to_s)
   if options[:log_level] == "debug"
     puts cmd
   else
