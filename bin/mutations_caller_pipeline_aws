@@ -181,6 +181,7 @@ def execute(cmd,options)
     cmd.sub!(/-w "done\(.*\)"/,"")
     options[:first] = false
   end
+  cmd.gsub!(options[:job_number], options[:job_number_new])
   if options[:log_level] == "debug"
     puts cmd
   else
@@ -196,7 +197,7 @@ def check_if_success(cmd,options)
   return false if !File.exists?(log_file)
   k = `grep Subject #{log_file}`
   k.chomp!
-  options[:job_number] = k.scan(/<*_(\d*)>/).last[0].to_i
+  options[:job_number_new] = k.scan(/<*_(\d*)>/).last[0].to_i
   k =~ /Done$/
 end
 
@@ -224,6 +225,7 @@ def run(argv)
 
   # tmp files for output
   options[:job_number] = (rand*1000000).floor.to_s
+  options[:job_number_new] = options[:job_number]
   options[:sam_file] = "#{options[:sample_name]}_#{options[:job_number]}.sam"
   options[:step_one_bam_file] = "#{options[:sample_name]}_#{options[:job_number]}.bam"
   options[:log_file] = "log/#{options[:sample_name]}"
