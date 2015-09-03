@@ -223,7 +223,7 @@ def run(argv)
   #### Wait for running_jobs to finish
   wait(running_jobs)
   # ANNOTATE
-  unless File.exists?("output_#{id}.ann.gatk.vcf")
+  unless File.exists?("output_#{id}.ann.gatk.vcf") && !File.zero?("output_#{id}.ann.gatk.vcf")
     cmd = "bsub -n 5 -M 30000 -J #{id}_snpEff \\
       -o #{id}_snpEff_%J_o.log -e #{id}_snpEff_%J_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
     if options[:debug]
