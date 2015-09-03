@@ -62,7 +62,8 @@ def setup_options(args)
     :pre_num => 0,
     :lsf => false,
     :threads => 1,
-    :folder_name => "vcf_by_chromosome"
+    :folder_name => "vcf_by_chromosome",
+    :log_level => "info"
   }
   #:cluster => false,
   #:samtools => nil,
