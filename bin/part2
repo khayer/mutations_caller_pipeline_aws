@@ -203,6 +203,7 @@ def run(argv)
   if options[:pre_num] != 0
     id = options[:pre_num]
   end
+  $logger.info("The job id is #{id}. Use this number if the job failes and you want to continue with the -p option.")
   running_jobs = {}
   # MERGE!
   unless File.exists?("output_#{id}.vcf")
