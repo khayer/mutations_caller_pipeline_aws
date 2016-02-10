@@ -176,7 +176,13 @@ File.open(combined_vcf).each do |line|
     average = sliding_window.inject{ |sum, el| sum + el }.to_f / sliding_window.size
     sliding_window.delete_at(0)
     #puts "#{position}\t#{average}"
-    puts "#{position}\t#{tlf_read_dis.join(",")}\t#{wik_read_dis.join(",")}\t#{zv9_base}\t#{alt_base}\t#{target_read_dis[0]}\t#{target_read_dis[1]}\t#{average}"
+    larger = target_read_dis.max
+    smaller = target_read_dis.min
+    if >= .5
+      puts "#{position}\t#{tlf_read_dis.join(",")}\t#{wik_read_dis.join(",")}\t#{zv9_base}\t#{alt_base}\t#{larger}\t#{smaller}\t#{average}"
+    else
+      puts "#{position}\t#{tlf_read_dis.join(",")}\t#{wik_read_dis.join(",")}\t#{zv9_base}\t#{alt_base}\t#{smaller}\t#{larger}\t#{average}"
+    end
   end
 
 end
