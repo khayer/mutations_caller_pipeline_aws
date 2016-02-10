@@ -96,7 +96,7 @@ scores = []
 counter = 0
 snps = []
 chromosome = ''
-puts "position\ttlf_base\twik_base\tZv9_base\ttlf_reads\twik_reads\tscore"
+puts "position\tTLF\tWik\tZv9_base\talt_base\ttarget_tlf_reads\ttarget_wik_reads\tscore"
 File.open(combined_vcf).each do |line|
   if line =~ /ID=chr/
     leng = line.split("=")[-1].split(">")[0].to_i
