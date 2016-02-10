@@ -178,7 +178,7 @@ File.open(combined_vcf).each do |line|
     #puts "#{position}\t#{average}"
     larger = target_read_dis.max
     smaller = target_read_dis.min
-    if >= .5
+    if average >= .5
       puts "#{position}\t#{tlf_read_dis.join(",")}\t#{wik_read_dis.join(",")}\t#{zv9_base}\t#{alt_base}\t#{larger}\t#{smaller}\t#{average}"
     else
       puts "#{position}\t#{tlf_read_dis.join(",")}\t#{wik_read_dis.join(",")}\t#{zv9_base}\t#{alt_base}\t#{smaller}\t#{larger}\t#{average}"
