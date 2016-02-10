@@ -109,6 +109,7 @@ File.open(combined_vcf).each do |line|
   line = line.split("\t")
   zv9_base = line[3]
   alt_base = line[4]
+  next if alt_base.split(",").length != 1
   target_info = line[target_pos]
   next unless snp_exist?(target_info)
 
