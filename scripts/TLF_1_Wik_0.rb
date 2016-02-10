@@ -188,19 +188,19 @@ end
 #  puts "#{pos}\t#{score}"
 #end
 
-out = File.open("#{snps_file}_poly.txt","w")
-
-snps.each_with_index do |snp,i|
-  k = i
-  if snp
-    #out.puts("#{i*window_length}\t#{snp/counter.to_f}")
-    #out.puts("#{i*window_length+window_length-1}\t#{snp/counter.to_f}")
-    #puts snp
-    out.puts("#{k*window_length}\t#{snp}")
-    out.puts("#{k*window_length+window_length-1}\t#{snp}")
-  else
-    out.puts("#{k*window_length}\t0")
-    out.puts("#{k*window_length+window_length-1}\t0")
-  end
-end
+#out = File.open("#{snps_file}_poly.txt","w")
+#
+#snps.each_with_index do |snp,i|
+#  k = i
+#  if snp
+#    #out.puts("#{i*window_length}\t#{snp/counter.to_f}")
+#    #out.puts("#{i*window_length+window_length-1}\t#{snp/counter.to_f}")
+#    #puts snp
+#    out.puts("#{k*window_length}\t#{snp}")
+#    out.puts("#{k*window_length+window_length-1}\t#{snp}")
+#  else
+#    out.puts("#{k*window_length}\t0")
+#    out.puts("#{k*window_length+window_length-1}\t0")
+#  end
+#end
 
