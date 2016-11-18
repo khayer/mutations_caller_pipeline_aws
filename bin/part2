@@ -208,9 +208,9 @@ def run(argv)
   running_jobs = {}
   # MERGE!
   unless File.exists?("output_#{id}.vcf")
-    cmd = "bsub -M 30000 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
+    cmd = "bsub -M 50000 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
       -o #{id}_GenotypeGVCFs_%J_o.log -e #{id}_GenotypeGVCFs_%J_e.log \\
-      java -Xmx25g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
+      java -Xmx40g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
       --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt #{options[:threads]}"
     if options[:debug]
       puts cmd
@@ -224,8 +224,8 @@ def run(argv)
   wait(running_jobs)
   # ANNOTATE
   unless File.exists?("output_#{id}.ann.gatk.vcf") && !File.zero?("output_#{id}.ann.gatk.vcf")
-    cmd = "bsub -n 5 -M 30000 -J #{id}_snpEff \\
-      -o #{id}_snpEff_%J_o.log -e #{id}_snpEff_%J_e.log java -Xmx25g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
+    cmd = "bsub -n 5 -M 50000 -J #{id}_snpEff \\
+      -o #{id}_snpEff_%J_o.log -e #{id}_snpEff_%J_e.log java -Xmx40g -jar #{options[:snpeff]} #{options[:snpeff_ind]} -o gatk  output_#{id}.vcf \\> output_#{id}.ann.gatk.vcf"
     if options[:debug]
       puts cmd
     else
