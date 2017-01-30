@@ -28,3 +28,4 @@ To install the gem you will now need to type
 == Config File
 
 This file should be in the ruby .yml format. In this file you will need to include the directories to bwa, GATK2 and Picard.
+

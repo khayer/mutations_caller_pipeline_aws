@@ -6,10 +6,10 @@ require 'yaml'
 require 'csv'
 require 'logger'
 =begin
-  * Name: Mutations Caller Pipeline (AWS)
+  * Name: Mutations Caller Pipeline RNA
   * Pipeline combining bwa with GATK2
   * Author: Katharina Hayer
-  * Date: 8/8/2012
+  * Date: 1/29/2017
   * License: GNU General Public License (GPL-2.0)
 =end
 
@@ -224,10 +224,11 @@ def run(argv)
   Dir.mkdir("log") unless File.exists?("log")
 
   # tmp files for output
-  options[:rna_mode] = false
+  options[:rna_mode] = true
   options[:job_number] = (rand*1000000).floor.to_s
   options[:job_number_new] = options[:job_number]
-  options[:sam_file] = "#{options[:sample_name]}_#{options[:job_number]}.sam"
+  options[:star_prefix] = "#{options[:sample_name]}_#{options[:job_number]}"
+  options[:sam_file] = "#{options[:sample_name]}_#{options[:job_number]}Aligned.out.sam"
   options[:step_one_bam_file] = "#{options[:sample_name]}_#{options[:job_number]}.bam"
   options[:log_file] = "log/#{options[:sample_name]}"
   options[:target_intervals] = "GATK_files/target.intervals"
@@ -242,7 +243,16 @@ def run(argv)
   #options[:gatk] = "java -Xmx8g -jar #{options[:gatk]}"
 
   # BWA : MEM
-  cmd = BwaCaller.call_mem(options)
+  #cmd = BwaCaller.call_mem(options)
+  #if options[:resume]
+  #  if !check_if_success(cmd,options)
+  #    execute(cmd,options)
+  #  end
+  #else
+  #  execute(cmd,options)
+  #end
+  
+  cmd = Star.call_alignment(options)
   if options[:resume]
     if !check_if_success(cmd,options)
       execute(cmd,options)
@@ -280,6 +290,16 @@ def run(argv)
   end
 
   cmd = PicardCaller.build_index(options)
+  if options[:resume]
+    if !check_if_success(cmd,options)
+      execute(cmd,options)
+    end
+  else
+    execute(cmd,options)
+  end
+
+  # Split_n_cigar
+  cmd = GatkCaller.split_n_cigar(options)
   if options[:resume]
     if !check_if_success(cmd,options)
       execute(cmd,options)
