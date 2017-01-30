@@ -252,7 +252,7 @@ def run(argv)
   #  execute(cmd,options)
   #end
   
-  cmd = Star.call_alignment(options)
+  cmd = StarCaller.call_alignment(options)
   if options[:resume]
     if !check_if_success(cmd,options)
       execute(cmd,options)
