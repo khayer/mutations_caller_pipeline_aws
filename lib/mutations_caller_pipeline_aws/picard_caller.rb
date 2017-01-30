@@ -1,7 +1,7 @@
 class PicardCaller
   #converter = "java -jar ~/Downloads/picard-tools-1.56/picard-tools-1.56/SamFormatConverter.jar I=WT_aligned_sorted_rg.bam O=tmp.sam VALIDATION_STRINGENCY=LENIENT"
   def self.convert(options)
-    if options[:rna]
+    if options[:rna_mode]
       if options[:lsf]
         cmd = "bsub -w \"done(star_#{options[:job_number]})\" -o #{options[:log_file]}_convert_o.log -e #{options[:log_file]}_convert_e.log -M 10000 -J convert_#{options[:job_number]} java -Xmx5g -jar #{options[:picard_tools]}/SamFormatConverter.jar I=#{options[:sam_file]} O=#{options[:bam_file]} VALIDATION_STRINGENCY=LENIENT"
       else

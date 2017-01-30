@@ -11,7 +11,7 @@ class GatkCaller
 
   # Preparation realignement
   def self.prepare_realigne(options)
-    if options[:rna]  
+    if options[:rna_mode]  
       if options[:lsf]
         cmd = "bsub -n #{options[:threads]} -w \"done(split_n_cigar_#{options[:job_number]})\" -o #{options[:log_file]}_prep_real_o.log -e #{options[:log_file]}_prep_real_e.log -M 30000 -J prep_real_#{options[:job_number]} java -Xmx25g -jar #{options[:gatk]} -nt #{options[:threads]} -I #{options[:bam_file_sorted_duplicates]} -R #{options[:index_fa]} -T RealignerTargetCreator --known #{options[:dbsnp_file]} -o #{options[:target_intervals]}.intervals"
       else
