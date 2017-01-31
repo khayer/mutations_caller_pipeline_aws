@@ -2,9 +2,9 @@ class GatkCaller
   # Split_N_Cigar
   def self.split_n_cigar(options)
     if options[:lsf]
-      cmd = "bsub -n #{options[:threads]} -w \"done(index_#{options[:job_number]})\" -o #{options[:log_file]}_split_n_cigar_o.log -e #{options[:log_file]}_split_n_cigar_e.log -M 30000 -J split_n_cigar_#{options[:job_number]} java -Xmx25g -jar #{options[:gatk]} -I #{options[:bam_file_sorted_duplicates]} -R #{options[:index_fa]} -T SplitNCigarReads -o #{options[:split_bam]} -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS"
+      cmd = "bsub -n 4 -w \"done(index_#{options[:job_number]})\" -o #{options[:log_file]}_split_n_cigar_o.log -e #{options[:log_file]}_split_n_cigar_e.log -M 30000 -J split_n_cigar_#{options[:job_number]} java -Xmx25g -jar #{options[:gatk]} -I #{options[:bam_file_sorted_duplicates]} -R #{options[:index_fa]} -T SplitNCigarReads -o #{options[:split_bam]} -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS"
     else
-      cmd = "qsub -pe DJ #{options[:threads]} -o #{options[:log_file]}_split_n_cigar_o.log -e #{options[:log_file]}_split_n_cigar_e.log -V -cwd -b y -hold_jid index_#{options[:job_number]} -N split_n_cigar_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:gatk]} -I #{options[:bam_file_sorted_duplicates]} -R #{options[:index_fa]} -T SplitNCigarReads -o #{options[:split_bam]} -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS"
+      cmd = "qsub -pe DJ 4 -o #{options[:log_file]}_split_n_cigar_o.log -e #{options[:log_file]}_split_n_cigar_e.log -V -cwd -b y -hold_jid index_#{options[:job_number]} -N split_n_cigar_#{options[:job_number]} -l h_vmem=14G java -Xmx5g -jar #{options[:gatk]} -I #{options[:bam_file_sorted_duplicates]} -R #{options[:index_fa]} -T SplitNCigarReads -o #{options[:split_bam]} -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS"
     end
     cmd
   end
