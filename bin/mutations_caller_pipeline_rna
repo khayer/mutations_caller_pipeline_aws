@@ -44,7 +44,7 @@ ________________________________________________________________________________
   Also you should have the indices for bwa and GATK prepared.
   NOTE: Only paired end reads are supported!
 
-                      +++  C L U S T E R  V E R S I O N - 0.0.27 +++
+                      +++  C L U S T E R  V E R S I O N - 0.0.28 +++
 
   config.yml should look like this:
   # config.yml
@@ -232,6 +232,7 @@ def run(argv)
   options[:step_one_bam_file] = "#{options[:sample_name]}_#{options[:job_number]}.bam"
   options[:log_file] = "log/#{options[:sample_name]}"
   options[:target_intervals] = "GATK_files/target.intervals"
+  options[:split_bam] = "#{options[:job_number]}_split.bam"
   options[:realigned_bam] = "#{options[:job_number]}_realigned.bam"
   options[:recal_qual] = "GATK_files/recal.grp"
   options[:recal_bam] = "#{options[:sample_name]}.bam"

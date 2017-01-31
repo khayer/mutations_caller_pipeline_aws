@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "mutations_caller_pipeline_aws"
-  s.version     = "0.0.27"
+  s.version     = "0.0.28"
   s.date        = "2012-10-08"
   s.authors     = ["Kaharina Hayer"]
   s.email       = ["katharinaehayer@gmail.com"]
