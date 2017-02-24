@@ -17,5 +17,7 @@ Gem::Specification.new do |s|
   s.executables   << 'mutations_caller_pipeline_rna'
   s.executables   << 'gatk_pipe_only_aws'
   s.executables   << 'part2'
+  s.executables   << 'plots_and_spreadsheets'
+  s.executables   << 'plots_and_spreadsheets_rna'
   #s.require_paths =  ["lib"]
 end
