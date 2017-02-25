@@ -231,14 +231,16 @@ def run(argv)
   end
   #puts l
   remaining_numbers = []
+  sibling_numbers = []
   (9..fields.length-1).to_a.each do |i|
     #puts i
     case i-8
-    when tlf_number, wik_number, sibling_number, sample_number
+    when tlf_number, wik_number, sample_number
 
     else
-      next if fields[i] =~ /_sib$/
+      #next if fields[i] =~ /_sib$/
       remaining_numbers << i - 8
+      sibling_numbers << i-8 if fields[i] =~ /sib$/
     end
   end
   remaining_numbers = remaining_numbers.join(",")
@@ -263,7 +265,7 @@ def run(argv)
     #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
     next if File.size?("#{scoring_dir}/chr#{i}_#{sample_name}")
     #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
-    cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_sib #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} \\> #{scoring_dir}/chr#{i}_#{sample_name}"
+    cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_sib #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} #{sibling_numbers.join(",")} \\> #{scoring_dir}/chr#{i}_#{sample_name}"
     if options[:debug]
       puts cmd
     else

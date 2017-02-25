@@ -2,7 +2,7 @@
 
 usage =<<EOF
 
-      #{$0} comb target control chrom snps [num] [window]
+      #{$0} comb target control chrom snps num window sibs
 
       ------------------------------------------------------
       * comb     :: combined_vcf
@@ -12,9 +12,10 @@ usage =<<EOF
       * snps     :: outfile
       * num      :: min_number_of_reads
       * window   :: snp_window
+      * sibs     :: position in vcf file (seperated by ,)
       ------------------------------------------------------
 
-      - VERSION 2/22/2013 -----------------------------------
+      - VERSION 2/22/2017 -----------------------------------
 
       ------------------------------------------------------
       Homozygosity Score is definied as:
@@ -45,17 +46,18 @@ def snp_homo?(info)
   (info =~ /0\/0/) || (info =~ /1\/1/) || (info =~ /2\/2/) || (info =~ /3\/3/)
 end
 
-def getScore(target_read_dis,tlf_read_dis,wik_read_dis)
+def getScore(target_read_dis,sib_dist)
   score = 0.0
-
-  if tlf_read_dis[0].to_f > tlf_read_dis[1].to_f
-    score = target_read_dis[0].to_f / (target_read_dis[0].to_f + target_read_dis[1].to_f)
-  else
-    score = target_read_dis[1].to_f / (target_read_dis[0].to_f + target_read_dis[1].to_f)
+  #puts sib_dist.length
+  target_read_dis = target_read_dis.map { |e| e.to_f }
+  target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
+  sib_percents = 0
+  sib_dist.each do |sib_d|
+    sib_d  = sib_d.map { |e| e.to_f }
+    sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
   end
-  score = 0.5 if score.nan?()
-  #STDIN.gets
-  score
+  sib_percents = sib_percents / sib_dist.length
+  score = target_percent_zv9 - sib_percents
 end
 
 # _ Main _:
@@ -66,7 +68,8 @@ end
 
 combined_vcf = ARGV[0]
 target_pos = ARGV[1].to_i + 8
-control_positions = ARGV[2].split(",").map {|ele| ele.to_i + 8}
+control_positions_tlf_wik = ARGV[2].split(",").map {|ele| ele.to_i + 8}
+control_positions = ARGV[7].split(",").map {|ele| ele.to_i + 8}
 current_chromosome = ARGV[3]
 snps_file = ARGV[4]
 min_number_of_reads = ARGV[5].to_f if ARGV[5]
@@ -110,22 +113,18 @@ File.open(combined_vcf).each do |line|
   target_info = line[target_pos]
   next unless snp_exist?(target_info)
 
-  tlf_info = line[control_positions[0]]
-  wik_info = line[control_positions[1]]
+  #tlf_info = line[control_positions[0]]
+  #wik_info = line[control_positions[1]]
 
-  next unless snp_homo?(tlf_info) && snp_homo?(wik_info)
-  next unless tlf_info.split(":")[3].to_i >= 25 && wik_info.split(":")[3].to_i >= 25
-  next if tlf_info.split(":")[0] == wik_info.split(":")[0]
-
-
-  tlf_info = tlf_info.split(":")
-  wik_info = wik_info.split(":")
-  next unless tlf_info[2].to_f >= 15.0 && wik_info[2].to_f >= 15.0
-  next unless tlf_info[1].split(",")[0] == "0" || tlf_info[1].split(",")[1] == "0"
-  next unless wik_info[1].split(",")[0] == "0" || wik_info[1].split(",")[1] == "0"
-  #puts tlf_info
-  #puts wik_info
-  #STDIN.gets
+  next if control_positions.any? {|e| snp_homo?(line[e])}
+  
+  #next unless tlf_info.split(":")[3].to_i >= 25 && wik_info.split(":")[3].to_i >= 25
+  next if control_positions.any? {|e| line[e].split(":")[3].to_i < 25 }
+  
+  
+  next if control_positions.any? {|e| line[e].split(":")[2].to_i < 15 }
+  
+  
   target_info = target_info.split(":")
 
   next unless target_info[2].to_f >= min_number_of_reads
@@ -133,11 +132,20 @@ File.open(combined_vcf).each do |line|
   #puts target_info
   #STDIN.gets
   # TLF is closer to 1 / Wik closer to 0
+  
   target_read_dis = target_info[1].split(",")
-
-  tlf_read_dis = tlf_info[1].split(",")
-  wik_read_dis = wik_info[1].split(",")
-  current_score = getScore(target_read_dis,tlf_read_dis,wik_read_dis)
+  #puts line[control_positions[0]]
+  sib_dist = []
+  control_positions.each do  |e|
+    sib_dist << line[e].split(":")[1].split(",") 
+  end
+  #puts sib_dist
+  #wik_read_dis = wik_info[1].split(",")
+  current_score = getScore(target_read_dis,sib_dist)
+  #puts line[control_positions[0]]
+  #STDERR.puts line
+  #puts current_score
+  #STDIN.gets
   #if target_read_dis[0] == "0" || target_read_dis[1] == "0"
   #  puts current_score
   #  puts target_info
