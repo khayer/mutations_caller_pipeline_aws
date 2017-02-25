@@ -208,9 +208,9 @@ def run(argv)
   running_jobs = {}
   # MERGE!
   unless File.exists?("output_#{id}.vcf")
-    cmd = "bsub -M 50000 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
+    cmd = "bsub -M 90000 -n #{options[:threads]} -J #{id}_GenotypeGVCFs \\
       -o #{id}_GenotypeGVCFs_%J_o.log -e #{id}_GenotypeGVCFs_%J_e.log \\
-      java -Xmx40g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
+      java -Xmx80g -jar #{options[:gatk]} -R #{options[:index_fa]} -T GenotypeGVCFs \\
       --variant #{variants.join(" --variant ")} -o output_#{id}.vcf -nt #{options[:threads]}"
     if options[:debug]
       puts cmd
