@@ -213,8 +213,8 @@ def run(argv)
   fields = l.chomp.split("\t")
   #puts l
   #puts options[:parent_strain2]
-  #tlf_number = fields.index(options[:parent_strain2])-8
-  #wik_number = fields.index(options[:parent_strain1])-8
+  tlf_number = fields.index(options[:parent_strain2])-8
+  wik_number = fields.index(options[:parent_strain1])-8
   begin
       sample_number = fields.index(sample_name)-8
   rescue Exception => e
