@@ -10,7 +10,7 @@ require 'logger'
   * This script generates spreadsheets and homozygosity scores plots
   * from a given file of processed vcf files.
   * Author: Katharina Hayer
-  * Date: 3/1/2015
+  * Date: 1/1/2017
   * License: GNU General Public License (GPL-2.0)
 =end
 
