@@ -13,9 +13,9 @@ for (k in 1:25) {
     abline(h = 400, lty = 3, col = 'green')
     par(new=TRUE)
     Test <- read.table(paste(path,combo_sn,sep=as.character(k)))
-    for (i in 2) { plot(Test[,1],Test[,i],type="l",col='cornflowerblue', xlab = "", ylab = "",xaxt = 's', ylim = c(-1,1))
+    for (i in 2) { plot(Test[,1],Test[,i],type="l",col='cornflowerblue', xlab = "", ylab = "",xaxt = 's', ylim = c(-0.8,0.2))
                                 par(new=T)}
-    abline(h = 0.4, lty = 3, col = 'grey72')
+    abline(h = -0.2, lty = 3, col = 'grey72')
     par(new=TRUE)
     abline(h = -0.4, lty = 3, col = 'grey72')
     #abline(v = 1:13, lty = 3, col = 'purple')
