@@ -46,15 +46,37 @@ def snp_homo?(info)
   (info =~ /0\/0/) || (info =~ /1\/1/) || (info =~ /2\/2/) || (info =~ /3\/3/)
 end
 
+#def getScore(target_read_dis,sib_dist)
+#  score = 0.0
+#  #puts sib_dist.length
+#  target_read_dis = target_read_dis.map { |e| e.to_f }
+#  target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
+#  sib_percents = 0
+#  sib_dist.each do |sib_d|
+#    sib_d  = sib_d.map { |e| e.to_f }
+#    sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
+#  end
+#  sib_percents = sib_percents / sib_dist.length
+#  score = target_percent_zv9 - sib_percents
+#end
+
 def getScore(target_read_dis,sib_dist)
   score = 0.0
   #puts sib_dist.length
   target_read_dis = target_read_dis.map { |e| e.to_f }
-  target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
+  if target_read_dis[0] <= target_read_dis[1]
+    target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
+  else 
+    target_percent_zv9 = target_read_dis[1]/(target_read_dis[0]+target_read_dis[1])
+  end
   sib_percents = 0
   sib_dist.each do |sib_d|
     sib_d  = sib_d.map { |e| e.to_f }
-    sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
+    if sib_d[0] <= sib_d[1]
+      sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
+    else
+      sib_percents += sib_d[1]/(sib_d[0]+sib_d[1])
+    end
   end
   sib_percents = sib_percents / sib_dist.length
   score = target_percent_zv9 - sib_percents
