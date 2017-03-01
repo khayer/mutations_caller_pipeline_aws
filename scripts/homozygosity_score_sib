@@ -161,6 +161,19 @@ File.open(combined_vcf).each do |line|
   control_positions.each do  |e|
     sib_dist << line[e].split(":")[1].split(",") 
   end
+  sib_percents = 0.0
+  sib_dist.each do |sib_d|
+    sib_d  = sib_d.map { |e| e.to_f }
+    if sib_d[0] <= sib_d[1]
+      sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
+    else
+      sib_percents += sib_d[1]/(sib_d[0]+sib_d[1])
+    end
+  end
+  sib_percents = sib_percents / sib_dist.length
+  #puts "SIB percent"
+  #puts sib_percents
+  next unless sib_percents > 0.25
   #puts sib_dist
   #wik_read_dis = wik_info[1].split(",")
   current_score = getScore(target_read_dis,sib_dist)
