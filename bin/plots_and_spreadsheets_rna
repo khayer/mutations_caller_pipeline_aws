@@ -247,6 +247,7 @@ def run(argv)
   #puts remaining_numbers
   #exit
   sibling_number = "" if sibling_number == 0
+  sibling_numbers = sibling_number
   ### Start scoring
   scoring_dir = "scores_#{sample_name}_ws#{options[:window_size]}_q#{options[:quality]}_slider"
   id = rand(100000)+1
@@ -265,7 +266,7 @@ def run(argv)
     #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
     next if File.size?("#{scoring_dir}/chr#{i}_#{sample_name}")
     #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
-    cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_sib #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} #{sibling_numbers.join(",")} \\> #{scoring_dir}/chr#{i}_#{sample_name}"
+    cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_sib #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} #{sibling_number} \\> #{scoring_dir}/chr#{i}_#{sample_name}"
     if options[:debug]
       puts cmd
     else
