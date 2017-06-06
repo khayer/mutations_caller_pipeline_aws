@@ -236,7 +236,7 @@ def run(argv)
   (9..fields.length-1).to_a.each do |i|
     #puts i
     case i-8
-    when tlf_number, wik_number, sample_number
+    when tlf_number, wik_number, sample_number, sibling_number
 
     else
       #next if fields[i] =~ /_sib$/
