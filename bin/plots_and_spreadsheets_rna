@@ -213,6 +213,7 @@ def run(argv)
   fields = l.chomp.split("\t")
   #puts l
   #puts options[:parent_strain2]
+  $logger.info("HERE::::: #{fields.join("\t")}")
   tlf_number = fields.index(options[:parent_strain2])-8
   wik_number = fields.index(options[:parent_strain1])-8
   begin
