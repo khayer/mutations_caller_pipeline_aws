@@ -269,7 +269,7 @@ File.open(vcf_file).each do |line|
   mutant_index = target_fields[0].split("/")[1].to_i
   #puts mutant_index
   all_allele_frequency = get_allele_frequency(array_of_control_fields_with_strains,mutant_index)
-  next if all_allele_frequency > 0.1
+  next if all_allele_frequency > 0.2
 
   link = make_link(fields[1].to_i,fields[0])
   sheet1.row(i).push Spreadsheet::Link.new(link,fields[0]), fields[1].to_i, fields[3]
