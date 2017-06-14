@@ -267,7 +267,7 @@ def run(argv)
     #puts "#{scoring_dir}/chr#{i}_#{sample_name}"
     next if File.size?("#{scoring_dir}/chr#{i}_#{sample_name}")
     #cmd = "bsub -o #{id}_chr#{i}_%J_o.log -e #{id}_chr#{i}_%J_e.log grep -e ^# -w -e chr#{i} output_#{id}.ann.gatk.vcf \\> #{options[:folder_name]}/chr#{i}.vcf"
-    cmd = "bsub -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_sib #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} #{sibling_number} \\> #{scoring_dir}/chr#{i}_#{sample_name}"
+    cmd = "bsub -M 10000 -o #{scoring_dir}/#{id}_score_chr#{i}_%J_o.log -e #{scoring_dir}/#{id}_score_chr#{i}_%J_e.log #{home}/scripts/homozygosity_score_sib #{options[:folder_name]}/chr#{i}.vcf #{sample_number} #{tlf_number},#{wik_number} chr#{i} #{scoring_dir}/chr#{i} #{options[:quality]} #{options[:window_size]} #{sibling_number} \\> #{scoring_dir}/chr#{i}_#{sample_name}"
     if options[:debug]
       puts cmd
     else
