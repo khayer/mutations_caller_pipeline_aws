@@ -60,26 +60,46 @@ end
 #  score = target_percent_zv9 - sib_percents
 #end
 
+###OLD SCORE
+#def getScore(target_read_dis,sib_dist)
+#  score = 0.0
+#  #puts sib_dist.length
+#  target_read_dis = target_read_dis.map { |e| e.to_f }
+#  if target_read_dis[0] <= target_read_dis[1]
+#    target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
+#  else 
+#    target_percent_zv9 = target_read_dis[1]/(target_read_dis[0]+target_read_dis[1])
+#  end
+#  sib_percents = 0
+#  sib_dist.each do |sib_d|
+#    sib_d  = sib_d.map { |e| e.to_f }
+#    if sib_d[0] <= sib_d[1]
+#      sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
+#    else
+#      sib_percents += sib_d[1]/(sib_d[0]+sib_d[1])
+#    end
+#  end
+#  sib_percents = sib_percents / sib_dist.length
+#  score = target_percent_zv9 - sib_percents
+#end
+
 def getScore(target_read_dis,sib_dist)
   score = 0.0
   #puts sib_dist.length
   target_read_dis = target_read_dis.map { |e| e.to_f }
-  if target_read_dis[0] <= target_read_dis[1]
-    target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
-  else 
-    target_percent_zv9 = target_read_dis[1]/(target_read_dis[0]+target_read_dis[1])
-  end
+  target_percent_zv9 = target_read_dis[0]/(target_read_dis[0]+target_read_dis[1])
+  
   sib_percents = 0
   sib_dist.each do |sib_d|
     sib_d  = sib_d.map { |e| e.to_f }
-    if sib_d[0] <= sib_d[1]
-      sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
-    else
-      sib_percents += sib_d[1]/(sib_d[0]+sib_d[1])
-    end
+    #if sib_d[0] <= sib_d[1]
+    sib_percents += sib_d[0]/(sib_d[0]+sib_d[1])
+    #else
+      #sib_percents += sib_d[1]/(sib_d[0]+sib_d[1])
+    #end
   end
   sib_percents = sib_percents / sib_dist.length
-  score = target_percent_zv9 - sib_percents
+  score = (sib_percents - target_percent_zv9 ).abs
 end
 
 # _ Main _:
@@ -156,6 +176,7 @@ File.open(combined_vcf).each do |line|
   # TLF is closer to 1 / Wik closer to 0
   
   target_read_dis = target_info[1].split(",")
+  next unless target_read_dis.any? {|e| e.to_i > min_number_of_reads}
   #puts line[control_positions[0]]
   sib_dist = []
   control_positions.each do  |e|
@@ -176,7 +197,17 @@ File.open(combined_vcf).each do |line|
   next unless sib_percents > 0.25
   #puts sib_dist
   #wik_read_dis = wik_info[1].split(",")
+  #STDERR.puts line
+  #STDERR.puts "HERE1"
+  #STDERR.puts line[control_positions[0]]
+  #STDERR.puts line[target_pos]
+  #STDERR.puts "HERE"
+  #STDERR.puts sib_percents
   current_score = getScore(target_read_dis,sib_dist)
+  #STDERR.puts current_score
+  #STDIN.gets if current_score > 0.7
+
+  # 0.266 - 
   #puts line[control_positions[0]]
   #STDERR.puts line
   #puts current_score
@@ -215,6 +246,9 @@ File.open(combined_vcf).each do |line|
   if sliding_window.length == snp_window
     average = sliding_window.inject{ |sum, el| sum + el }.to_f / sliding_window.size
     sliding_window.delete_at(0)
+    #STDERR.puts sliding_window.join("\t")
+    #STDERR.puts average
+    #STDIN.gets
     puts "#{position}\t#{average}"
   end
 
